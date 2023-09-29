@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Play", sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin: 0;
+}
+
+/**::-webkit-scrollbar {*/
+/*    width: 7px;*/
+/*    height: 5px;*/
+/*}*/
+
+/**::-webkit-scrollbar-track {*/
+/*    background: #e0e0e0;*/
+/*    border-radius: 20px;*/
+/*}*/
+
+/**::-webkit-scrollbar-thumb {*/
+/*    cursor: pointer;*/
+/*    background: #361107;*/
+/*    border-radius: 20px;*/
+/*}*/
+
+p, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-family: inherit;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+    font-family: inherit;
+}
+
+a:hover, a:focus, a:active {
+    text-decoration: none;
+}
+
+button {
+    cursor: pointer;
+    user-select: none;
+    border: none;
+    outline: none;
+    font-family: inherit;
+}
+
+input, textarea, select {
+    outline: none;
+    font-family: inherit;
+}

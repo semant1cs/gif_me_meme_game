@@ -1,31 +1,16 @@
-import './App.css'
-import axios from "axios";
-import {useEffect, useState} from "react";
+import React from 'react';
+import "./App.css";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Lobby from "./Components/Lobby/Lobby";
 
-function App() {
-    const [users, setUsers] = useState();
-
-    useEffect(() => {
-        const jsonUrl = 'http://localhost:3000/users';
-        axios.get(jsonUrl).then((response) => {
-            const allUsers = response.data
-            setUsers(allUsers)
-        })
-    }, [])
-
-
+const App: React.FC = () => {
     return (
-        <div>
-            {users !== undefined
-                ? users.map((user) => (
-                    <div><img
-                        src={user.avatarImg}
-                        height="50px"
-                        alt={user.nickname}/> {user.id}.{user.nickname}</div>)
-                )
-                : "Пользователей нет"}
-        </div>
-    )
-}
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Lobby/>}/>
+            </Routes>
+        </BrowserRouter>
+    );
+};
 
-export default App
+export default App;

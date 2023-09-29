@@ -11,11 +11,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/react-router-dom": "^5.3.3",
     "axios": "^1.5.1",
     "gsap": "^3.12.2",
     "json-server": "^0.17.3",
+    "mobx": "^6.10.2",
+    "mobx-react-lite": "^4.0.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.16.0",
+    "sass": "^1.68.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
