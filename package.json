@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "json-server": "json-server --watch db.json",
     "build": "tsc && vite build",
     "lint": "eslint gif_me_meme_game --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
