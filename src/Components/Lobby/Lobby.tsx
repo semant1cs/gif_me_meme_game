@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import lobbyStore from "../../Store/LobbyStore";
 import {observer} from 'mobx-react-lite';
 import {IUserType} from "../../Types/UserType";
+import "../../Styles/LobbyStyle/Lobby.scss";
 
 const Lobby: React.FC = observer(() => {
 
@@ -10,7 +11,7 @@ const Lobby: React.FC = observer(() => {
     }, [])
 
     return (
-        <div>
+        <div className="home">
             {
                 lobbyStore.users
                     ? lobbyStore.users.map((user: IUserType, ind: number) =>
