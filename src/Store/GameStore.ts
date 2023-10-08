@@ -2,7 +2,7 @@ import {makeAutoObservable} from "mobx";
 import axios from "axios";
 import {IUserType} from "../Types/UserType";
 
-class LobbyStore {
+class GameStore {
     users: IUserType[] = []
     jsonUrl: string = 'http://localhost:3000/users';
 
@@ -17,4 +17,4 @@ class LobbyStore {
     }
 }
 
-export default new LobbyStore()
+export default new GameStore()
