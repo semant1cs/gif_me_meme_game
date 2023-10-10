@@ -1,5 +1,155 @@
-.lobby{
-  width: 100vw;
+$bgColor: #102031;
+$mainColor: #9B59B6;
+
+%flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lobby {
   height: 100vh;
-  background: violet;
+  background-color: $bgColor;
+  color: #102031;
+  font-weight: 700;
+}
+
+.lobby__container {
+  @extend %flex;
+  flex-direction: column;
+  align-items: start;
+  height: 100%;
+  max-width: 1560px;
+  padding: 30px 60px 30px 60px;
+  margin: 0 auto;
+}
+
+.lobby__header {
+  width: 100%;
+  padding: 10px 30px;
+  border-radius: 10px;
+  background-color: white;
+  @extend %flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  font-size: 18px;
+}
+
+.header__list {
+  @extend %flex;
+
+  li {
+    &:not(:last-child) {
+      margin-right: 15px;
+    }
+  }
+}
+
+.header__user {
+  @extend %flex;
+
+  span {
+    margin-right: 15px;
+  }
+}
+
+.lobby__main {
+  flex-grow: 1;
+  width: 100%;
+  @extend %flex;
+  justify-content: space-between;
+}
+
+.lobby__chats {
+  height: 100%;
+  flex: 1 0 30%;
+  background-color: white;
+  margin-right: 30px;
+  border-radius: 10px;
+  padding: 30px 30px 15px;
+  @extend %flex;
+  flex-direction: column;
+  align-items: start;
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 5px;
+    user-select: none;
+  }
+}
+
+.chats__head {
+  margin-bottom: 15px;
+}
+
+.chats__list {
+  @extend %flex;
+  user-select: none;
+  justify-content: start;
+}
+
+.chats__chat {
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.15s ease-in-out;
+  position: relative;
+
+  &:not(:last-child) {
+    margin-right: 15px;
+  }
+
+  &.active {
+    &::before{
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 3px;
+      background-color: $mainColor;
+      bottom: -3px;
+      border-radius: 10px;
+    }
+  }
+}
+
+.chats__main {
+  width: 100%;
+  flex-grow: 1;
+  border-radius: 10px;
+  box-shadow: 0 0 4px 0 rgba(16, 32, 49, 0.50);
+}
+
+.lobby__lobbies {
+  height: 100%;
+  flex: 2 0 65%;
+  padding: 30px;
+  border-radius: 10px;
+  background-color: white;
+  @extend %flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+}
+
+.lobbies__header {
+  width: 100%;
+  @extend %flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+
+  h2{
+    font-size: 24px;
+    margin-bottom: 15px;
+    user-select: none;
+  }
+}
+
+.lobbies__button{
+  padding: 12px 10px;
+  font-size: 18px;
+}
+
+.lobbies__main{
+  width: 100%;
+  flex-grow: 1;
+  overflow-y: auto;
 }
