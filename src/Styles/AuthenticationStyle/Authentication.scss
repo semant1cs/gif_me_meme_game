@@ -1,0 +1,98 @@
+$bgColor: #102031;
+$mainColor: #9B59B6;
+
+%flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container{
+  height: 100%;
+  max-width: 1560px;
+  margin: 0 auto;
+  @extend %flex;
+}
+
+.auth{
+  height: 100vh;
+  background-color: $bgColor;
+}
+
+.auth__main{
+  height: 50%;
+  width: 40%;
+  padding: 30px;
+  background-color: $mainColor;
+  border-radius: 10px;
+  @extend %flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  h2{
+    font-size: 20px;
+    margin-bottom: 30px;
+    width: 100%;
+    text-align: center;
+    color: #ffffff;
+    word-break: break-word;
+  }
+
+  input{
+    user-select: none;
+    font-size: 16px;
+    width: 80%;
+    padding: 12px 16px;
+
+    &:not(:last-child){
+      margin-bottom: 15px;
+    }
+  }
+
+  button{
+    user-select: none;
+    font-size: 16px;
+    background-color: white;
+    color: $bgColor;
+    padding: 12px 16px;
+
+    &:not(:last-child){
+      margin-right: 15px;
+    }
+  }
+}
+
+.auth__passwordBlock{
+  position: relative;
+  @extend %flex;
+  width: 80%;
+
+  input{
+    user-select: none;
+    width: 100%;
+  }
+
+  svg{
+    cursor: pointer;
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    top: 10px;
+    right: 16px;
+  }
+}
+
+.auth__inputs{
+  flex-grow: 1;
+  width: 100%;
+  @extend %flex;
+  flex-direction: column;
+}
+
+.auth__bottom{
+  flex-grow: 1;
+  width: 100%;
+  @extend %flex;
+  justify-content: end;
+  align-items: end;
+}
