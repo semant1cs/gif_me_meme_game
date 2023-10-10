@@ -4,6 +4,7 @@ import MyButton from "../../UI/MyButton";
 import "../../Styles/WelcomePageStyle/WelcomePage.scss"
 import Logo from "../../Imgs/SVG/Logo";
 import {useNavigate} from "react-router-dom";
+import GifTenor from "../GifTenorOutput/GifTenor.tsx";
 
 const WelcomePage: React.FC = observer(() => {
     const navigate = useNavigate()
@@ -21,6 +22,7 @@ const WelcomePage: React.FC = observer(() => {
                     </p>
                     <MyButton btnStyle="welcome__button" btnText={"Начать игру"}
                               handleOnClick={() => navigate("/lobby")}/>
+                    <GifTenor/>
                     <div className="welcome__logo">
                         <Logo/>
                     </div>
