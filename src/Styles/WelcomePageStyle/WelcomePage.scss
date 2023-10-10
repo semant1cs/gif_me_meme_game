@@ -1,0 +1,87 @@
+$bgColor: #102031;
+$mainColor: #9B59B6;
+
+%flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome{
+  height: 100vh;
+  background-color: $bgColor;
+}
+
+.welcome__container{
+  height: 100%;
+  max-width: 1560px;
+  padding: 60px 60px 30px 60px;
+  margin: 0 auto;
+}
+
+.welcome__main{
+  height: 100%;
+  background-color: $mainColor;
+  @extend %flex;
+  justify-content: start;
+  flex-direction: column;
+  padding: 60px 30px 0 30px;
+  color: white;
+  border-radius: 10px;
+  position: relative;
+}
+
+.welcome__title{
+  font-size: 30px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 45px;
+
+  @media (max-width: 768px) {
+    font-size: 24px;
+  }
+}
+
+.welcome__description{
+  font-size: 24px;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 45px;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
+}
+
+.welcome__button{
+  background-color: white;
+  color: $mainColor;
+  padding: 22px 18px;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+    padding: 18px 14px;
+  }
+}
+
+.welcome__logo{
+  position: absolute;
+  bottom: 0;
+  height: 230px;
+  width: 330px;
+  
+  @media (max-width: 768px) {
+    height: 175px;
+    width: 250px;
+  }
+
+  @media (min-height: 850px) {
+    height: 350px;
+    width: 500px;
+  }
+
+  svg{
+    height: inherit;
+    width: inherit;
+  }
+}

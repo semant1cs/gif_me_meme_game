@@ -1,14 +1,12 @@
 import React from 'react';
 import "./App.css";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Lobby from "./Components/Lobby/Lobby";
+import {BrowserRouter} from "react-router-dom";
+import AppRouter from "./Routes/AppRouter";
 
 const App: React.FC = () => {
     return (
         <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Lobby/>}/>
-            </Routes>
+            <AppRouter/>
         </BrowserRouter>
     );
 };

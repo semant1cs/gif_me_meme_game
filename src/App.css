@@ -57,9 +57,41 @@ button {
     border: none;
     outline: none;
     font-family: inherit;
+    background-color: #9B59B6;
+    border-radius: 5px;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    transition: all 0.15s ease-in-out;
+}
+
+button:hover{
+    transform: scale(0.98);
+}
+
+button:active{
+    transform: scale(0.96);
 }
 
 input, textarea, select {
     outline: none;
     font-family: inherit;
+    border: none;
+    background-color: white;
+    border-radius: 5px;
+    color: #102031;
+    font-size: 18px;
+    font-weight: 700;
+    transition: all 0.15s ease-in-out;
+    padding: 0;
+}
+
+input::placeholder, textarea::placeholder, select::placeholder{
+    color: #102031;
+    opacity: 0.5;
+}
+
+input::-ms-input-placeholder, textarea::-ms-input-placeholder, select::-ms-input-placeholder{
+    color: #102031;
+    opacity: 0.5;
 }
