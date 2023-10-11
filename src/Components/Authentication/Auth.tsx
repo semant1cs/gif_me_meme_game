@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {observer} from "mobx-react-lite";
 import "../../Styles/AuthenticationStyle/Authentication.scss"
 import MyInput from "../../UI/MyInput";
@@ -6,19 +6,24 @@ import gameStore from "../../Store/GameStore";
 import MyButton from "../../UI/MyButton";
 import {useNavigate} from "react-router-dom";
 import ShowPasswordIcon from "../../Imgs/SVG/ShowPasswordIcon";
+import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
 import authStore from "../../Store/AuthStore";
 
 const Auth: React.FC = observer(() => {
     const navigate = useNavigate()
 
-    useEffect(() => {
-        if (gameStore.userIsAuth && authStore.userInfo)
-            navigate("/lobby")
-    }, [gameStore.userIsAuth])
-
     const handleOnCreate = () => {
         if (gameStore.userAuthEmail && gameStore.userAuthPassword) {
-            authStore.authUser()
+            const auth = getAuth();
+
+            signInWithEmailAndPassword(auth, gameStore.userAuthEmail, gameStore.userAuthPassword)
+                .then((userCredential) => authStore.setUser(userCredential.user))
+                .then(() => navigate("/lobby"))
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    alert(errorCode + " " + errorMessage)
+                })
         }
     }
 

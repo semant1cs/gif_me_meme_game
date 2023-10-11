@@ -5,7 +5,6 @@ import {IUserType} from "../Types/UserType";
 class GameStore {
     users: IUserType[] = [];
     jsonUrl: string = 'http://localhost:3000/users';
-    userIsAuth: boolean = false;
     userAuthNickName: string = "";
     userAuthEmail: string = "";
     userAuthPassword: string = "";
@@ -19,10 +18,6 @@ class GameStore {
         axios.get(this.jsonUrl).then((response) => {
             this.users = response.data
         })
-    }
-
-    changeUserIsAuth(isAuth: boolean) {
-        this.userIsAuth = isAuth;
     }
 
     changeUserAuthNickname(nickname: string) {

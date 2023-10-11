@@ -5,7 +5,7 @@ import Register from "../Components/Authentication/Register";
 import Lobby from "../Components/Lobby/Lobby";
 import WelcomePage from "../Components/WelcomePage/WelcomePage";
 import {RouteType} from "../Types/RouteType";
-import gameStore from "../Store/GameStore";
+import authStore from "../Store/AuthStore";
 
 const AppRouter: React.FC = () => {
     const publicRoutes: RouteType[] = [
@@ -37,7 +37,7 @@ const AppRouter: React.FC = () => {
     const location = useLocation()
 
     return (
-        gameStore.userIsAuth ?
+        authStore.userInfo?.id ?
             (
                 privateRoutes.findIndex(comp => comp.path === location.pathname) !== -1
                     ?
