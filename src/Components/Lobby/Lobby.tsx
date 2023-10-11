@@ -5,10 +5,13 @@ import {observer} from 'mobx-react-lite';
 import "../../Styles/LobbyStyle/Lobby.scss";
 import MyButton from "../../UI/MyButton";
 import UserIcon from "../../Imgs/SVG/UserIcon";
+import authStore from "../../Store/AuthStore";
+import gameStore from "../../Store/GameStore";
 
 const Lobby: React.FC = observer(() => {
 
     useEffect(() => {
+        authStore.getCurrentUser()
     }, [])
 
     return (
@@ -22,7 +25,7 @@ const Lobby: React.FC = observer(() => {
                     </ul>
                     <div className="header__user">
                         <span>
-                            username
+                            {authStore.userInfo?.displayName || gameStore.userAuthNickName || "userNickName"}
                         </span>
                         <UserIcon/>
                     </div>

@@ -6,9 +6,9 @@ class GameStore {
     users: IUserType[] = [];
     jsonUrl: string = 'http://localhost:3000/users';
     userIsAuth: boolean = false;
-    userAuthNickName: string | number = "";
-    userAuthEmail: string | number = "";
-    userAuthPassword: string | number = "";
+    userAuthNickName: string = "";
+    userAuthEmail: string = "";
+    userAuthPassword: string = "";
     userAuthShowPassword: boolean = false;
 
     constructor() {
@@ -25,15 +25,15 @@ class GameStore {
         this.userIsAuth = isAuth;
     }
 
-    changeUserAuthNickname(nickname: string | number) {
+    changeUserAuthNickname(nickname: string) {
         this.userAuthNickName = nickname
     }
 
-    changeUserAuthEmail(email: string | number) {
+    changeUserAuthEmail(email: string) {
         this.userAuthEmail = email
     }
 
-    changeUserAuthPassword(password: string | number) {
+    changeUserAuthPassword(password: string) {
         this.userAuthPassword = password
     }
 

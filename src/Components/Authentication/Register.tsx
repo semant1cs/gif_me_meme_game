@@ -6,14 +6,15 @@ import gameStore from "../../Store/GameStore";
 import MyButton from "../../UI/MyButton";
 import {useNavigate} from "react-router-dom";
 import ShowPasswordIcon from "../../Imgs/SVG/ShowPasswordIcon";
+import authStore from "../../Store/AuthStore";
 
 const Register: React.FC = observer(() => {
     const navigate = useNavigate()
 
     const handleOnCreate = () => {
         if (gameStore.userAuthNickName && gameStore.userAuthEmail && gameStore.userAuthPassword) {
-            gameStore.changeUserIsAuth(true)
-            navigate("/lobby")
+            authStore.createUser()
+            navigate("/login")
         }
     }
 
