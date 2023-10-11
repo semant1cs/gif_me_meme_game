@@ -6,7 +6,6 @@ import Lobby from "../Components/Lobby/Lobby";
 import WelcomePage from "../Components/WelcomePage/WelcomePage";
 import {RouteType} from "../Types/RouteType";
 import gameStore from "../Store/GameStore";
-import GifTenor from "../Components/GifTenorOutput/GifTenor.tsx";
 
 const AppRouter: React.FC = () => {
     const publicRoutes: RouteType[] = [
@@ -21,10 +20,6 @@ const AppRouter: React.FC = () => {
         {
             path: "/register",
             element: <Register/>,
-        },
-        {
-            path: "/",
-            element: <GifTenor/>
         }
     ]
 
