@@ -23,11 +23,7 @@ const LobbyChats: React.FC = observer(() => {
             </div>
             <div className="chats__main">
                 <LobbyChat/>
-                <form className="chats__form" onSubmit={(e) => {
-                    e.preventDefault()
-                    sendMessage()
-                }
-                }>
+                <form className="chats__form" onSubmit={(e) => e.preventDefault()}>
                     <MyInput handleOnChange={(e) => userStore.changeUserChatText(e.target.value)}
                              value={userStore.userChatText}
                              type="text"
