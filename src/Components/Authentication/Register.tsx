@@ -2,7 +2,7 @@ import React from 'react';
 import {observer} from "mobx-react-lite";
 import "../../Styles/AuthenticationStyle/Authentication.scss"
 import MyInput from "../../UI/MyInput";
-import gameStore from "../../Store/GameStore";
+import userStore from "../../Store/UserStore";
 import MyButton from "../../UI/MyButton";
 import {useNavigate} from "react-router-dom";
 import ShowPasswordIcon from "../../Imgs/SVG/ShowPasswordIcon";
@@ -13,15 +13,15 @@ const Register: React.FC = observer(() => {
     const navigate = useNavigate()
 
     const handleOnCreate = () => {
-        if (gameStore.userAuthNickName && gameStore.userAuthEmail && gameStore.userAuthPassword) {
+        if (userStore.userAuthNickName && userStore.userAuthEmail && userStore.userAuthPassword) {
             const auth = getAuth();
 
-            createUserWithEmailAndPassword(auth, gameStore.userAuthEmail, gameStore.userAuthPassword)
+            createUserWithEmailAndPassword(auth, userStore.userAuthEmail, userStore.userAuthPassword)
                 .then((userCredential) => authStore.setUser(userCredential.user))
                 .then(() => {
                     const user = auth.currentUser
                     if (user)
-                        updateProfile(user, {displayName: gameStore.userAuthNickName})
+                        updateProfile(user, {displayName: userStore.userAuthNickName})
                 })
                 .then(() => navigate("/lobby"))
                 .catch((error) => {
@@ -41,17 +41,17 @@ const Register: React.FC = observer(() => {
                     </h2>
                     <div className="auth__inputs">
                         <MyInput style="auth__nickname" placeholder="имя пользователя" type="text"
-                                 handleOnChange={e => gameStore.changeUserAuthNickname(e.target.value)}
-                                 value={gameStore.userAuthNickName}/>
+                                 handleOnChange={e => userStore.changeUserAuthNickname(e.target.value)}
+                                 value={userStore.userAuthNickName}/>
                         <MyInput style="auth__email" placeholder="email" type="email"
-                                 handleOnChange={e => gameStore.changeUserAuthEmail(e.target.value)}
-                                 value={gameStore.userAuthEmail}/>
+                                 handleOnChange={e => userStore.changeUserAuthEmail(e.target.value)}
+                                 value={userStore.userAuthEmail}/>
                         <div className="auth__passwordBlock">
                             <MyInput style="auth__password" placeholder="пароль"
-                                     type={gameStore.userAuthShowPassword ? "text" : "password"}
-                                     handleOnChange={e => gameStore.changeUserAuthPassword(e.target.value)}
-                                     value={gameStore.userAuthPassword}/>
-                            <span onClick={() => gameStore.changeUserAuthShowPassword()}>
+                                     type={userStore.userAuthShowPassword ? "text" : "password"}
+                                     handleOnChange={e => userStore.changeUserAuthPassword(e.target.value)}
+                                     value={userStore.userAuthPassword}/>
+                            <span onClick={() => userStore.changeUserAuthShowPassword()}>
                                 <ShowPasswordIcon/>
                             </span>
                         </div>

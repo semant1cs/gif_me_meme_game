@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import userStore from "./Store/UserStore";
 
 const app = initializeApp({
     apiKey: "AIzaSyCHcsIf-88YIT1NVKzcmdnjuNGIqPDofe8",
@@ -15,7 +16,7 @@ const app = initializeApp({
 });
 
 const db = getFirestore(app);
-console.log(db)
+userStore.setDataBase(db)
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>

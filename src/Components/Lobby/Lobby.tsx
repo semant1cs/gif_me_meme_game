@@ -3,7 +3,7 @@ import {observer} from 'mobx-react-lite';
 import "../../Styles/LobbyStyle/Lobby.scss";
 import UserIcon from "../../Imgs/SVG/UserIcon";
 import authStore from "../../Store/AuthStore";
-import gameStore from "../../Store/GameStore";
+import userStore from "../../Store/UserStore";
 import LobbyChats from "./LobbyChats";
 import LobbyLobbies from "./LobbyLobbies";
 
@@ -24,7 +24,7 @@ const Lobby: React.FC = observer(() => {
                     </ul>
                     <div className="header__user">
                         <span>
-                            {authStore.userInfo?.nickname || gameStore.userAuthNickName || "userNickName"}
+                            {authStore.userInfo?.nickname || userStore.userAuthNickName || "userNickName"}
                         </span>
                         <UserIcon/>
                     </div>

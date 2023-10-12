@@ -7,7 +7,7 @@ import {
 } from "firebase/auth";
 import {IUserType} from "../Types/UserType";
 
-class GameStore {
+class UserStore {
     userInfo: IUserType | null = null;
 
     constructor() {
@@ -59,4 +59,4 @@ class GameStore {
     }
 }
 
-export default new GameStore()
+export default new UserStore()
