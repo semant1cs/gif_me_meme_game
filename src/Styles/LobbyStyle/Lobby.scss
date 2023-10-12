@@ -227,6 +227,7 @@ $mainColor: #9B59B6;
   height: 50px;
   background: white url("../../Imgs/PNG/send.svg") no-repeat center;
   border: 2px solid $mainColor;
+  border-left: none;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   transition: all 0.3s ease-in-out;

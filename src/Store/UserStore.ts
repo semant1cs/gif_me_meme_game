@@ -49,14 +49,14 @@ class UserStore {
         if (this.userChatText && this.dataBase) {
             await addDoc(collection(this.dataBase, "usersChat"), {
                 uid: authStore.userInfo?.id,
-                displayName: authStore.userInfo?.nickname,
+                displayName: authStore.userInfo?.nickname || this.userAuthNickName,
                 photoURL: authStore.userInfo?.photoURL,
                 text: this.userChatText,
                 createdAt: serverTimestamp()
             })
                 .then(() => this.currentChatData.push({
                     id: authStore.userInfo?.id,
-                    displayName: authStore.userInfo?.nickname,
+                    displayName: authStore.userInfo?.nickname || this.userAuthNickName,
                     photoURL: authStore.userInfo?.photoURL,
                     text: this.userChatText,
                     createdAt: new Date()
