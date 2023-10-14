@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {Dispatch, SetStateAction} from 'react';
 import './StylesUI/ModalWindow.css'
 import MyButton from "./MyButton.tsx";
 import {PropsWithChildren} from "react";
@@ -8,14 +8,17 @@ interface ModalWindowProps {
     title: string,
     body?: string
     onSubmit?: () => void,
-    onClose?: () => void,
+    onClose: Dispatch<SetStateAction<boolean>>,
 }
 
 const ModalWindow: React.FC<ModalWindowProps> =
-    ({isActive, title, body, onSubmit, onClose}: PropsWithChildren<ModalWindowProps>) => {
-        const [isModalOpen, setIsModalOpen] = useState(false)
+    ({isActive, title, body, onClose}: PropsWithChildren<ModalWindowProps>) => {
+        if (!isActive) return ""
 
-        const useModal = () => setIsModalOpen(!isModalOpen)
+        const useModal = () => {
+            onClose(!isActive)
+        }
+
 
         return (
             <div className={"modal-window"}>
@@ -25,7 +28,7 @@ const ModalWindow: React.FC<ModalWindowProps> =
                     <MyButton
                         btnText={"Закрыть"}
                         btnStyle={"styles-close-brn"}
-                        handleOnClick={onClose}></MyButton>
+                        handleOnClick={useModal}></MyButton>
                 </div>
             </div>
         );

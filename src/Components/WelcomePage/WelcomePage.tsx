@@ -4,12 +4,9 @@ import MyButton from "../../UI/MyButton";
 import "../../Styles/WelcomePageStyle/WelcomePage.scss"
 import Logo from "../../Imgs/SVG/Logo";
 import {useNavigate} from "react-router-dom";
-import GifTenor from "../GifTenorOutput/GifTenor.tsx";
-import ModalWindow from "../../UI/ModalWindow.tsx";
 
 const WelcomePage: React.FC = observer(() => {
     const navigate = useNavigate()
-
     return (
         <main className="welcome">
             <div className="welcome__container">
@@ -23,8 +20,6 @@ const WelcomePage: React.FC = observer(() => {
                     </p>
                     <MyButton btnStyle="welcome__button" btnText={"Начать игру"}
                               handleOnClick={() => navigate("/lobby")}/>
-                    <ModalWindow title={"Привет"} isActive={false}/>
-                    <GifTenor/>
                     <div className="welcome__logo">
                         <Logo/>
                     </div>
