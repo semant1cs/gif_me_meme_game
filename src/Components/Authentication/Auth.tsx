@@ -2,18 +2,28 @@ import React from 'react';
 import {observer} from "mobx-react-lite";
 import "../../Styles/AuthenticationStyle/Authentication.scss"
 import MyInput from "../../UI/MyInput";
-import gameStore from "../../Store/GameStore";
+import userStore from "../../Store/UserStore";
 import MyButton from "../../UI/MyButton";
 import {useNavigate} from "react-router-dom";
 import ShowPasswordIcon from "../../Imgs/SVG/ShowPasswordIcon";
+import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
+import authStore from "../../Store/AuthStore";
 
 const Auth: React.FC = observer(() => {
     const navigate = useNavigate()
 
     const handleOnCreate = () => {
-        if (gameStore.userAuthNickName && gameStore.userAuthEmail && gameStore.userAuthPassword) {
-            gameStore.changeUserIsAuth(true)
-            navigate("/lobby")
+        if (userStore.userAuthEmail && userStore.userAuthPassword) {
+            const auth = getAuth();
+
+            signInWithEmailAndPassword(auth, userStore.userAuthEmail, userStore.userAuthPassword)
+                .then((userCredential) => authStore.setUser(userCredential.user))
+                .then(() => navigate("/lobby"))
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    alert(errorCode + " " + errorMessage)
+                })
         }
     }
 
@@ -26,14 +36,14 @@ const Auth: React.FC = observer(() => {
                     </h2>
                     <div className="auth__inputs">
                         <MyInput style="auth__email" placeholder="email" type="email"
-                                 handleOnChange={e => gameStore.changeUserAuthEmail(e.target.value)}
-                                 value={gameStore.userAuthEmail}/>
+                                 handleOnChange={e => userStore.changeUserAuthEmail(e.target.value)}
+                                 value={userStore.userAuthEmail}/>
                         <div className="auth__passwordBlock">
                             <MyInput style="auth__password" placeholder="пароль"
-                                     type={gameStore.userAuthShowPassword ? "text" : "password"}
-                                     handleOnChange={e => gameStore.changeUserAuthPassword(e.target.value)}
-                                     value={gameStore.userAuthPassword}/>
-                            <span onClick={() => gameStore.changeUserAuthShowPassword()}>
+                                     type={userStore.userAuthShowPassword ? "text" : "password"}
+                                     handleOnChange={e => userStore.changeUserAuthPassword(e.target.value)}
+                                     value={userStore.userAuthPassword}/>
+                            <span onClick={() => userStore.changeUserAuthShowPassword()}>
                                 <ShowPasswordIcon/>
                             </span>
                         </div>

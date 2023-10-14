@@ -1,5 +1,7 @@
 export interface IUserType {
-    id: number,
-    nickname: string,
-    avatarImg: string,
+    id: string,
+    nickname: string | null,
+    photoURL: string | null,
+    email: string | null,
+    token: string,
 }
