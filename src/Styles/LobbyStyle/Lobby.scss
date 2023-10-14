@@ -250,6 +250,12 @@ $mainColor: #9B59B6;
   justify-content: start;
 }
 
+.lobbies__modal{
+  width: 40%;
+  height: 50%;
+  padding: 15px;
+}
+
 .lobbies__header {
   width: 100%;
   @extend %flex;

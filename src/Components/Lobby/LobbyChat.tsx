@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import userStore from "../../Store/UserStore";
 import UserIcon from "../../Imgs/SVG/UserIcon";
 import {observer} from "mobx-react-lite";
+import {DocumentData, QueryDocumentSnapshot} from "firebase/firestore";
 
 const LobbyChat: React.FC = observer(() => {
 
@@ -10,6 +11,11 @@ const LobbyChat: React.FC = observer(() => {
             .then(() => document.getElementById("chat")?.scrollTo(0, 9999999))
     }, [])
 
+    const checkDiffTime = (doc: QueryDocumentSnapshot<DocumentData, DocumentData>): boolean  => {
+        console.log(doc)
+        // return Math.abs(new Date().getHours() - new Date(doc.data().createdAt.seconds * 1000).getHours()) < 2
+        return true
+    }
 
     return (
         <div className="chats__block" id="chat">
@@ -17,7 +23,7 @@ const LobbyChat: React.FC = observer(() => {
                 userStore.chatData
                     ?
                     userStore.chatData.map(doc => {
-                            if (new Date().getHours() - new Date(doc.data().createdAt.seconds * 1000).getHours() < 2) {
+                            if (checkDiffTime(doc)) {
                                 return (
                                     <div className="chats__message" key={doc.id}>
                                         <p className="message__text">{doc.data().text}</p>

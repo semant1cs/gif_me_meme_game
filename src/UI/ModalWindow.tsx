@@ -1,34 +1,26 @@
-import React, {Dispatch, SetStateAction} from 'react';
+import React from 'react';
 import './StylesUI/ModalWindow.scss'
 import MyButton from "./MyButton.tsx";
 import {PropsWithChildren} from "react";
 
 interface ModalWindowProps {
-    isActive: boolean,
-    title: string,
-    body?: string
+    body: React.ReactNode,
+    windowContentStyles: string,
     onSubmit?: () => void,
-    onClose: Dispatch<SetStateAction<boolean>>,
+    onClose: () => void,
 }
 
 const ModalWindow: React.FC<ModalWindowProps> =
-    ({isActive, title, body, onClose}: PropsWithChildren<ModalWindowProps>) => {
-        if (!isActive) return ""
-
-        const useModal = () => {
-            onClose(!isActive)
-        }
-
+    ({body, onClose, windowContentStyles}: PropsWithChildren<ModalWindowProps>) => {
 
         return (
-            <div className={"modal-window"}>
-                <div className={"modal-window__content"}>
-                    <h2>{title}</h2>
-                    <p>{body}</p>
+            <div className={"modal-window"} onClick={onClose}>
+                <div className={`modal-window__content ${windowContentStyles}`} onClick={(e) => e.stopPropagation()}>
+                    <div className="modal-window__body" children={body}></div>
                     <MyButton
                         btnText={"Закрыть"}
-                        btnStyle={"styles-close-brn"}
-                        handleOnClick={useModal}></MyButton>
+                        btnStyle={"styles-close-btn"}
+                        handleOnClick={() => onClose()}/>
                 </div>
             </div>
         );
