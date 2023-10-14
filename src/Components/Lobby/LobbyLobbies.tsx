@@ -3,13 +3,22 @@ import {observer} from "mobx-react-lite";
 import MyButton from "../../UI/MyButton";
 import lobbyStore from "../../Store/LobbyStore";
 import ModalWindow from "../../UI/ModalWindow";
+import MyInput from "../../UI/MyInput.tsx";
 
 
 const LobbyModalBody: React.FC = () => {
     return (
         <div>
             <h1 className="title-modal">СОЗДАНИЕ ЛОББИ</h1>
-            <p>Название лобби <input type="text"/></p>
+            <p>Название лобби
+                <MyInput
+                    style="lobby-name__input"
+                    placeholder="Название лобби"
+                    type="text"
+                    value={lobbyStore.paramsLobbyName}
+                    handleOnChange={e => lobbyStore.setParamsLobbyName(e.target.value)}
+                />
+            </p>
             <p>Количество игроков 2 3 4 5</p>
             <p>Видимость Общедоступное / Закрытое</p>
             <p>Автостарт вкл/выкл</p>

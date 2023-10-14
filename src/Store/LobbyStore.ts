@@ -17,6 +17,10 @@ class LobbyStore {
         this.showCreateModal = !this.showCreateModal
     }
 
+    setParamsLobbyName(lobbyName: string) {
+        this.paramsLobbyName = lobbyName;
+    }
+
     createNewLobby() {
 
     }

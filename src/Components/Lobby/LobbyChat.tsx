@@ -11,9 +11,9 @@ const LobbyChat: React.FC = observer(() => {
             .then(() => document.getElementById("chat")?.scrollTo(0, 9999999))
     }, [])
 
-    const checkDiffTime = (doc: QueryDocumentSnapshot<DocumentData, DocumentData>): boolean  => {
-        // return Math.abs(new Date().getHours() - new Date(doc.data().createdAt.seconds * 1000).getHours()) < 2
-        return true
+    const checkDiffTime = (doc: QueryDocumentSnapshot<DocumentData, DocumentData>): boolean => {
+        const diffTime = Math.ceil((new Date().getTime() - new Date(doc.data().createdAt.seconds * 1000).getTime()) / (1000 * 3600))
+        return diffTime <= 2
     }
 
     return (
