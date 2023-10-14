@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction} from 'react';
-import './StylesUI/ModalWindow.css'
+import './StylesUI/ModalWindow.scss'
 import MyButton from "./MyButton.tsx";
 import {PropsWithChildren} from "react";
 
