@@ -16,6 +16,10 @@ class LobbyStore {
     changeShowCreateModal() {
         this.showCreateModal = !this.showCreateModal
     }
+
+    createNewLobby() {
+
+    }
 }
 
 export default new LobbyStore()

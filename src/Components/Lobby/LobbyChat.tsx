@@ -12,7 +12,6 @@ const LobbyChat: React.FC = observer(() => {
     }, [])
 
     const checkDiffTime = (doc: QueryDocumentSnapshot<DocumentData, DocumentData>): boolean  => {
-        console.log(doc)
         // return Math.abs(new Date().getHours() - new Date(doc.data().createdAt.seconds * 1000).getHours()) < 2
         return true
     }

@@ -8,8 +8,11 @@ import ModalWindow from "../../UI/ModalWindow";
 const LobbyModalBody: React.FC = () => {
     return (
         <div>
-            <h1>Что-то с чем-то</h1>
-            <p>Что-то с чем-то</p>
+            <h1 className="title-modal">СОЗДАНИЕ ЛОББИ</h1>
+            <p>Название лобби <input type="text"/></p>
+            <p>Количество игроков 2 3 4 5</p>
+            <p>Видимость Общедоступное / Закрытое</p>
+            <p>Автостарт вкл/выкл</p>
         </div>
     )
 };
@@ -20,6 +23,7 @@ const LobbyLobbies: React.FC = observer(() => {
             {
                 lobbyStore.showCreateModal
                     ? <ModalWindow onClose={() => lobbyStore.changeShowCreateModal()}
+                                   onSubmit={() => lobbyStore.createNewLobby()}
                                    body={<LobbyModalBody/>}
                                    windowContentStyles="lobbies__modal"/> : ""
             }
@@ -32,7 +36,6 @@ const LobbyLobbies: React.FC = observer(() => {
                           handleOnClick={() => lobbyStore.changeShowCreateModal()}/>
             </div>
             <div className="lobbies__main">
-
             </div>
         </section>
     );
