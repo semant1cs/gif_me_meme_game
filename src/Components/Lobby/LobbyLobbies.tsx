@@ -10,7 +10,7 @@ const LobbyModalBody: React.FC = observer(() => {
     return (
         <div>
             <h1 className="title-modal">СОЗДАНИЕ ЛОББИ</h1>
-            <ul>
+            <ul className="params-list">
                 <li className="lobby_name">Название лобби
                     <MyInput
                         style="lobby-name__input"
@@ -49,7 +49,7 @@ const LobbyModalBody: React.FC = observer(() => {
                     /
                     <MyButton
                         btnText="Выкл"
-                        btnStyle=""
+                        btnStyle="modal-window__btn checked"
                         handleOnClick={lobbyStore.setParamsIsLobbyPrivate}
                     ></MyButton>
                 </li>

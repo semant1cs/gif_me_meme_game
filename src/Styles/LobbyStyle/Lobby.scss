@@ -291,17 +291,40 @@ $mainColor: #9B59B6;
   padding: 0;
   box-sizing: border-box;
   justify-content: space-between;
-  max-width: 100px;
+  max-width: 400px;
 }
 
-.max-lobby-players__field {
+.lobby_name {
   display: inline;
-  ul {
-    display: flex;
-  }
+  width: 740px;
 }
 
 .lobby-name__input {
   float: right;
+  font-size: 35px;
+  margin-left: 10px;
+}
+
+.modal-window__btn {
+  background: none;
+  color: black;
+}
+
+.is-autostart-game button {
+  display: inline;
+  align-items: center;
+  border-radius: 3px;
+  background: black;
+  color: white
+}
+
+.is-autostart-game button .checked {
+  color: red;
+}
+
+.params-list {
+  display: grid;
+  gap: 50px;
+  font-size: 35px;
 }
 
