@@ -6,25 +6,57 @@ import ModalWindow from "../../UI/ModalWindow";
 import MyInput from "../../UI/MyInput.tsx";
 
 
-const LobbyModalBody: React.FC = () => {
+const LobbyModalBody: React.FC = observer(() => {
     return (
         <div>
             <h1 className="title-modal">СОЗДАНИЕ ЛОББИ</h1>
-            <p>Название лобби
-                <MyInput
-                    style="lobby-name__input"
-                    placeholder="Название лобби"
-                    type="text"
-                    value={lobbyStore.paramsLobbyName}
-                    handleOnChange={e => lobbyStore.setParamsLobbyName(e.target.value)}
-                />
-            </p>
-            <p>Количество игроков 2 3 4 5</p>
-            <p>Видимость Общедоступное / Закрытое</p>
-            <p>Автостарт вкл/выкл</p>
+            <ul>
+                <li className="lobby_name">Название лобби
+                    <MyInput
+                        style="lobby-name__input"
+                        placeholder="Название лобби"
+                        type="text"
+                        value={lobbyStore.paramsLobbyName}
+                        handleOnChange={e => lobbyStore.setParamsLobbyName(e.target.value)}
+                    />
+                </li>
+                <li className="max-lobby-players__field">Количество игроков
+                    <ul className="max-lobby-players">
+                        <li className="param-count-player">2</li>
+                        <li className="param-count-player">3</li>
+                        <li className="param-count-player">4</li>
+                        <li className="param-count-player">5</li>
+                    </ul>
+                </li>
+                <li className="is-visible-lobby">Видимость
+                    <MyButton
+                        btnText="Общедоступное"
+                        btnStyle=""
+                        handleOnClick={lobbyStore.setParamsIsLobbyPrivate}
+                    ></MyButton>
+                    /
+                    <MyButton
+                        btnText="Приватное"
+                        btnStyle=""
+                        handleOnClick={lobbyStore.setParamsIsLobbyPrivate}
+                    ></MyButton>
+                </li>
+                <li className="is-autostart-game">Автостарт <MyButton
+                    btnText="Вкл"
+                    btnStyle=""
+                    handleOnClick={lobbyStore.setParamsIsAutoStart}
+                ></MyButton>
+                    /
+                    <MyButton
+                        btnText="Выкл"
+                        btnStyle=""
+                        handleOnClick={lobbyStore.setParamsIsLobbyPrivate}
+                    ></MyButton>
+                </li>
+            </ul>
         </div>
     )
-};
+});
 
 const LobbyLobbies: React.FC = observer(() => {
     return (
