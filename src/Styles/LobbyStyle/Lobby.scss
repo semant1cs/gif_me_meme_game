@@ -328,3 +328,26 @@ $mainColor: #9B59B6;
   font-size: 35px;
 }
 
+.party_game {
+  width: 50rem;
+  height: 10rem;
+  flex-shrink: 0;
+  display: flex;
+}
+
+.player_party {
+  margin-left: 3.5rem;
+  margin-top: 1.9rem;
+}
+
+.line {
+  width: 55rem;
+  height: 0.0625rem;
+  background: #ACACAC;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.username {
+  text-align: center;
+}

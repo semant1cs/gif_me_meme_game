@@ -18,7 +18,7 @@ const ModalWindow: React.FC<ModalWindowProps> =
         const onKeypress = (e: KeyboardEvent) => e?.key === "Esc" || e.key === "Escape" ? onClose() : null;
         useEffect(() => {
             document.addEventListener('keyup', onKeypress);
-            gsap.fromTo('.modal-window', {opacity: 0}, {opacity: 1, duration: 1})
+            gsap.fromTo('.modal-window', {opacity: 0}, {opacity: 1, duration: 0.2})
 
             return () => {
                 document.removeEventListener('keyup', onKeypress);

@@ -4,6 +4,9 @@ import MyButton from "../../UI/MyButton";
 import lobbyStore from "../../Store/LobbyStore";
 import ModalWindow from "../../UI/ModalWindow";
 import MyInput from "../../UI/MyInput.tsx";
+import PlayerIcon from "../../Imgs/SVG/PlayerIcon.tsx";
+import AddPlayerLogo from "../../Imgs/SVG/AddPlayerLogo.tsx";
+import Line from "../../Imgs/SVG/Line.tsx";
 
 
 const LobbyModalBody: React.FC = observer(() => {
@@ -77,6 +80,23 @@ const LobbyLobbies: React.FC = observer(() => {
                           handleOnClick={() => lobbyStore.changeShowCreateModal()}/>
             </div>
             <div className="lobbies__main">
+                <div className="line"></div>
+                <div className="party_game party_game-1">
+                    <div className="player_party player-party__1">
+                        <PlayerIcon/>
+                        <div className="username user-1">Привет</div>
+                    </div>
+                    <div className="player_party player-party__2">
+                        <PlayerIcon/>
+                        <div className="username user-1">Это я</div>
+                    </div>
+                    <div className="player_party player-party__2">
+                        <AddPlayerLogo/>
+                        <div className="username user-1">твой текст</div>
+                    </div>
+                </div>
+                <div className="line"></div>
+                <div className="party_game party_game-2">asd</div>
             </div>
         </section>
     );
