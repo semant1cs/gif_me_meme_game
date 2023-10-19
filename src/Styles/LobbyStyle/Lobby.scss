@@ -1,5 +1,6 @@
 $bgColor: #102031;
 $mainColor: #9B59B6;
+$borderGrey: #dedede;
 
 %flex {
   display: flex;
@@ -250,12 +251,6 @@ $mainColor: #9B59B6;
   justify-content: start;
 }
 
-.lobbies__modal {
-  width: 40%;
-  height: 50%;
-  padding: 15px;
-}
-
 .lobbies__header {
   width: 100%;
   @extend %flex;
@@ -280,54 +275,91 @@ $mainColor: #9B59B6;
   overflow-y: auto;
 }
 
-.title-modal {
-  color: $mainColor;
-  text-align: center;
+.lobbies__modal {
+  width: 400px;
+  height: fit-content;
+  padding: 15px;
 }
 
-.max-lobby-players {
-  display: flex;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.lobbies-modal__body {
+  color: $bgColor;
+  font-size: 16px;
+  width: 100%;
+  @extend %flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+}
+
+.lobbies-modal__title {
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+
+.lobbies-modal__input {
+  border: 1px solid $borderGrey;
+  padding: 4px 8px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  width: 100%;
+
+  &::placeholder {
+    color: #595959
+  }
+
+  &:hover, &:active{
+    border: 1px solid $mainColor;
+  }
+}
+
+.lobbies-modal__players {
+  @extend %flex;
+  width: 100%;
   justify-content: space-between;
-  max-width: 400px;
+  margin-bottom: 15px;
+
+  p {
+
+  }
 }
 
-.lobby_name {
-  display: inline;
-  width: 740px;
+.lobbies-modal__list {
+  @extend %flex;
+  background-color: $borderGrey;
+  border-radius: 5px;
+
+  li {
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: white;
+    transition: background-color 0.2s ease-in-out;
+
+  }
 }
 
-.lobby-name__input {
-  float: right;
-  font-size: 35px;
-  margin-left: 10px;
+.li-selected {
+  background-color: $mainColor;
 }
 
-.modal-window__btn {
-  background: none;
-  color: black;
+.lobbies-modal__private{
+  @extend %flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 15px;
+
+  p{
+
+  }
 }
 
-.is-autostart-game button {
-  display: inline;
-  align-items: center;
-  border-radius: 3px;
-  background: black;
-  color: white
-}
+.lobbies-modal__autoplay{
+  @extend %flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 30px;
 
-.is-autostart-game button .checked {
-  color: red;
-}
-
-.params-list {
-  display: grid;
-  gap: 50px;
-  font-size: 35px;
-}
-
+  p{
 .party_game {
   width: 50rem;
   height: 10rem;
@@ -360,4 +392,13 @@ $mainColor: #9B59B6;
   width: 5rem;
   height: 5rem;
   border-radius: 100px;
+}
+
+  }
+}
+
+.lobbies-modal__create{
+  align-self: end;
+  font-size: 16px;
+  padding: 8px 16px;
 }

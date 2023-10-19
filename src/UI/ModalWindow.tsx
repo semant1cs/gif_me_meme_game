@@ -1,6 +1,5 @@
 import React, {MutableRefObject, useEffect, useRef} from 'react';
-import './StylesUI/ModalWindow.scss'
-import MyButton from "./MyButton.tsx";
+import '../Styles/UIStyle/UIStyle.scss'
 import {PropsWithChildren} from "react";
 import gsap from 'gsap';
 
@@ -27,12 +26,10 @@ const ModalWindow: React.FC<ModalWindowProps> =
 
         return (
             <div className="modal-window" onClick={onClose} ref={el}>
-                <div className={`modal-window__content ${windowContentStyles}`} onClick={(e) => e.stopPropagation()}>
+                <div className={`modal-window__content ${windowContentStyles}`}
+                     onClick={(e) => e.stopPropagation()}>
                     <div className="modal-window__body" children={body}></div>
-                    <MyButton
-                        btnText="X"
-                        btnStyle="close-modal__btn"
-                        handleOnClick={() => onClose()}/>
+                    <div className="modal-window__btn" onClick={() => onClose()}></div>
                 </div>
             </div>
         );
