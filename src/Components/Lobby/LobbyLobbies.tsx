@@ -1,15 +1,28 @@
 import React, {useEffect, useState} from 'react';
 import {observer} from "mobx-react-lite";
+import axios from "axios";
 import MyButton from "../../UI/MyButton";
 import lobbyStore from "../../Store/LobbyStore";
 import ModalWindow from "../../UI/ModalWindow";
 import MyInput from "../../UI/MyInput.tsx";
 import LobbyParty from "./LobbyParty.tsx";
-import axios from "axios";
 import MySwiper from "../../UI/MySwiper";
 
 
 const LobbyModalBody: React.FC = observer(() => {
+    const playersPartyValues = [2, 3, 4, 5, 6]
+
+    const setPlayersCount = (playersCount: number) => {
+        return (
+            <li onClick={() => lobbyStore.setParamsPlayerCount(playersCount)}
+                className={lobbyStore.paramsPlayerCount === playersCount ? "li-selected" : ""}>
+                        <span>
+                            {playersCount}
+                        </span>
+            </li>
+        )
+    }
+
     return (
         <div className="lobbies-modal__body">
             <h3 className="lobbies-modal__title">
@@ -22,36 +35,8 @@ const LobbyModalBody: React.FC = observer(() => {
             <div className="lobbies-modal__players">
                 <p>Игроки</p>
                 <ul className="lobbies-modal__list">
-                    <li onClick={() => lobbyStore.setParamsPlayerCount(2)}
-                        className={lobbyStore.paramsPlayerCount === 2 ? "li-selected" : ""}>
-                        <span>
-                            2
-                        </span>
-                    </li>
-                    <li onClick={() => lobbyStore.setParamsPlayerCount(3)}
-                        className={lobbyStore.paramsPlayerCount === 3 ? "li-selected" : ""}>
-                        <span>
-                            3
-                        </span>
-                    </li>
-                    <li onClick={() => lobbyStore.setParamsPlayerCount(4)}
-                        className={lobbyStore.paramsPlayerCount === 4 ? "li-selected" : ""}>
-                        <span>
-                            4
-                        </span>
-                    </li>
-                    <li onClick={() => lobbyStore.setParamsPlayerCount(5)}
-                        className={lobbyStore.paramsPlayerCount === 5 ? "li-selected" : ""}>
-                        <span>
-                            5
-                        </span>
-                    </li>
-                    <li onClick={() => lobbyStore.setParamsPlayerCount(6)}
-                        className={lobbyStore.paramsPlayerCount === 6 ? "li-selected" : ""}>
-                        <span>
-                            6
-                        </span>
-                    </li>
+                    {playersPartyValues.map(value => setPlayersCount(value))}
+
                 </ul>
             </div>
             <div className="lobbies-modal__private">
