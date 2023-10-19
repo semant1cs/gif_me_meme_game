@@ -149,7 +149,7 @@ $mainColor: #9B59B6;
   }
 }
 
-.chats__message{
+.chats__message {
   width: fit-content;
   font-size: 16px;
   border: 1px solid #afafaf;
@@ -159,33 +159,33 @@ $mainColor: #9B59B6;
   flex-direction: column;
   align-items: start;
 
-  &:not(:last-child){
+  &:not(:last-child) {
     margin-bottom: 5px;
   }
 }
 
-.message__text{
+.message__text {
   margin-bottom: 10px;
   word-break: break-word;
 }
 
-.message__info{
+.message__info {
   width: 100%;
   font-weight: 400;
   @extend %flex;
   justify-content: end;
 
-  img{
+  img {
 
   }
 
-  svg{
+  svg {
     height: 30px;
     width: 30px;
   }
 }
 
-.info__text{
+.info__text {
   @extend %flex;
   flex-direction: column;
   height: 30px;
@@ -193,12 +193,12 @@ $mainColor: #9B59B6;
   margin-right: 10px;
 }
 
-.message__time{
+.message__time {
   font-size: 12px;
   align-self: end;
 }
 
-.message__name{
+.message__name {
   font-size: 14px;
   align-self: start;
 }
@@ -250,7 +250,7 @@ $mainColor: #9B59B6;
   justify-content: start;
 }
 
-.lobbies__modal{
+.lobbies__modal {
   width: 40%;
   height: 50%;
   padding: 15px;
@@ -284,3 +284,47 @@ $mainColor: #9B59B6;
   color: $mainColor;
   text-align: center;
 }
+
+.max-lobby-players {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  justify-content: space-between;
+  max-width: 400px;
+}
+
+.lobby_name {
+  display: inline;
+  width: 740px;
+}
+
+.lobby-name__input {
+  float: right;
+  font-size: 35px;
+  margin-left: 10px;
+}
+
+.modal-window__btn {
+  background: none;
+  color: black;
+}
+
+.is-autostart-game button {
+  display: inline;
+  align-items: center;
+  border-radius: 3px;
+  background: black;
+  color: white
+}
+
+.is-autostart-game button .checked {
+  color: red;
+}
+
+.params-list {
+  display: grid;
+  gap: 50px;
+  font-size: 35px;
+}
+

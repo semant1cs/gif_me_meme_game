@@ -6,7 +6,7 @@ class LobbyStore {
 
     paramsLobbyName: string = "";
     paramsPlayerCount: number = 0;
-    paramsLobbyIsPrivate: boolean = false;
+    paramsIsLobbyPrivate: boolean = false;
     paramsIsAutoStart: boolean = false;
 
     constructor() {
@@ -15,6 +15,22 @@ class LobbyStore {
 
     changeShowCreateModal() {
         this.showCreateModal = !this.showCreateModal
+    }
+
+    setParamsLobbyName(lobbyName: string) {
+        this.paramsLobbyName = lobbyName;
+    }
+
+    setParamsPlayerCount(playersCount: number) {
+        this.paramsPlayerCount = playersCount
+    }
+
+    setParamsIsLobbyPrivate() {
+        this.paramsIsLobbyPrivate = !this.paramsIsLobbyPrivate
+    }
+
+    setParamsIsAutoStart() {
+        this.paramsIsAutoStart = !this.paramsIsAutoStart
     }
 
     createNewLobby() {
