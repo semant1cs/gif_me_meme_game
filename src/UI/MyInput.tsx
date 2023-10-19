@@ -4,7 +4,7 @@ import "../App.css"
 
 type MyInputProps = {
     style: string,
-    placeholder: string,
+    placeholder?: string,
     type: string,
     handleOnChange: (e: ChangeEvent<HTMLInputElement>) => void,
     min?: number,

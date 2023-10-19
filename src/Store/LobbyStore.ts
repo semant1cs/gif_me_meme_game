@@ -25,16 +25,32 @@ class LobbyStore {
         this.paramsPlayerCount = playersCount
     }
 
-    setParamsIsLobbyPrivate() {
-        this.paramsIsLobbyPrivate = !this.paramsIsLobbyPrivate
+    setParamsIsLobbyPrivate(data?: boolean | undefined) {
+        if (typeof(data) === "boolean")
+            this.paramsIsLobbyPrivate = data
+        else
+            this.paramsIsLobbyPrivate = !this.paramsIsLobbyPrivate
     }
 
-    setParamsIsAutoStart() {
-        this.paramsIsAutoStart = !this.paramsIsAutoStart
+    setParamsIsAutoStart(data?: boolean | undefined) {
+        if (typeof(data) === "boolean")
+            this.paramsIsAutoStart = data
+        else
+            this.paramsIsAutoStart = !this.paramsIsAutoStart
+    }
+
+    makeParamsNull() {
+        this.setParamsLobbyName("")
+        this.setParamsPlayerCount(0)
+        this.setParamsIsLobbyPrivate(false)
+        this.setParamsIsAutoStart(false)
     }
 
     createNewLobby() {
-
+        if (this.paramsLobbyName && this.paramsPlayerCount) {
+            this.changeShowCreateModal()
+            this.makeParamsNull()
+        }
     }
 }
 
