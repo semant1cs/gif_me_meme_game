@@ -1,12 +1,11 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {observer} from "mobx-react-lite";
 import MyButton from "../../UI/MyButton";
 import lobbyStore from "../../Store/LobbyStore";
 import ModalWindow from "../../UI/ModalWindow";
 import MyInput from "../../UI/MyInput.tsx";
-import PlayerIcon from "../../Imgs/SVG/PlayerIcon.tsx";
-import AddPlayerLogo from "../../Imgs/SVG/AddPlayerLogo.tsx";
-import Line from "../../Imgs/SVG/Line.tsx";
+import LobbyParty from "./LobbyParty.tsx";
+import axios from "axios";
 
 
 const LobbyModalBody: React.FC = observer(() => {
@@ -62,6 +61,17 @@ const LobbyModalBody: React.FC = observer(() => {
 });
 
 const LobbyLobbies: React.FC = observer(() => {
+    const [parties, setParties] = useState();
+
+    useEffect(() => {
+        const URL = "http://localhost:3000/parties"
+        axios.get(URL).then(response => {
+            const parties = response.data
+            setParties(parties)
+        });
+
+    }, [setParties])
+
     return (
         <section className="lobby__lobbies">
             {
@@ -80,23 +90,8 @@ const LobbyLobbies: React.FC = observer(() => {
                           handleOnClick={() => lobbyStore.changeShowCreateModal()}/>
             </div>
             <div className="lobbies__main">
+                {parties !== undefined ? <LobbyParty users={parties}/> : ""}
                 <div className="line"></div>
-                <div className="party_game party_game-1">
-                    <div className="player_party player-party__1">
-                        <PlayerIcon/>
-                        <div className="username user-1">Привет</div>
-                    </div>
-                    <div className="player_party player-party__2">
-                        <PlayerIcon/>
-                        <div className="username user-1">Это я</div>
-                    </div>
-                    <div className="player_party player-party__2">
-                        <AddPlayerLogo/>
-                        <div className="username user-1">твой текст</div>
-                    </div>
-                </div>
-                <div className="line"></div>
-                <div className="party_game party_game-2">asd</div>
             </div>
         </section>
     );

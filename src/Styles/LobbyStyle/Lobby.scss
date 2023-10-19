@@ -342,7 +342,7 @@ $mainColor: #9B59B6;
 
 .line {
   width: 55rem;
-  height: 0.0625rem;
+  height: 1px;
   background: #ACACAC;
   margin-left: auto;
   margin-right: auto;
@@ -350,4 +350,14 @@ $mainColor: #9B59B6;
 
 .username {
   text-align: center;
+}
+
+.add_player:hover {
+  cursor: pointer;
+}
+
+.player_avatar {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 100px;
 }

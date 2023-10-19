@@ -20,5 +20,19 @@
       "avatarImg": "http://placekitten.com/g/200/200",
       "id": 4
     }
+  ],
+  "parties": [
+    {
+      "nickname": "player1",
+      "photoURL": "http://placekitten.com/g/200/200"
+    },
+    {
+      "nickname": "player2",
+      "photoURL": "http://placekitten.com/g/200/200"
+    },
+    {
+      "nickname": "player3",
+      "photoURL": "http://placekitten.com/g/200/200"
+    }
   ]
 }
