@@ -1,9 +1,8 @@
 import {makeAutoObservable} from "mobx";
+import {getAuth} from "firebase/auth";
 
 class LobbyStore {
-
     showCreateModal: boolean = false;
-
     paramsLobbyName: string = "";
     paramsPlayerCount: number = 0;
     paramsIsLobbyPrivate: boolean = false;
