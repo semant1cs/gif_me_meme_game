@@ -69,3 +69,26 @@ $borderGrey: #dedede;
   border-radius: 5px;
   background-color: white;
 }
+
+// joinGame
+
+.joinGame{
+  @extend %flex;
+  flex-grow: 1;
+  flex-direction: column;
+  font-size: 14px;
+  color: $bgColor;
+  user-select: none;
+  padding: 0 15px;
+
+  div{
+    cursor: pointer;
+    margin-bottom: 10px;
+    height: 75px;
+  }
+
+  p{
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+}

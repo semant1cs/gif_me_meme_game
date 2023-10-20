@@ -21,6 +21,7 @@ class UserStore {
             nickname: user.displayName,
             photoURL: user.photoURL,
             // На самом деле он существует, просто странные челики в библиотеки не сделали для него типизацию
+            // @ts-ignore
             token: user.accessToken,
         }
     }
