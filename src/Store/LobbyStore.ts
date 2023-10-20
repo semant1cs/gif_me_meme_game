@@ -2,8 +2,8 @@ import {makeAutoObservable} from "mobx";
 import {addDoc, collection, getDocs, serverTimestamp} from "firebase/firestore";
 // @ts-ignore
 import {v4 as uuidv4} from "uuid";
-import userStore from "./UserStore";
 import {ILobbyType} from "../Types/LobbyType";
+import authStore from "./AuthStore";
 
 class LobbyStore {
     showCreateModal: boolean = false;
@@ -51,8 +51,8 @@ class LobbyStore {
     }
 
     async createNewLobby() {
-        if (this.paramsLobbyName && this.paramsPlayerCount && userStore.dataBase) {
-            await addDoc(collection(userStore.dataBase, "lobbies"), {
+        if (this.paramsLobbyName && this.paramsPlayerCount && authStore.dataBase) {
+            await addDoc(collection(authStore.dataBase, "lobbies"), {
                 uid: uuidv4(),
                 lobbyName: this.paramsLobbyName,
                 playerCount: this.paramsPlayerCount,
@@ -68,8 +68,8 @@ class LobbyStore {
     }
 
     async getLobbiesData() {
-        if (userStore.dataBase) {
-            await getDocs(collection(userStore.dataBase, "lobbies"))
+        if (authStore.dataBase) {
+            await getDocs(collection(authStore.dataBase, "lobbies"))
                 .then(snap => {
                     this.currentAvailableParties = []
                     snap.docs.forEach(item => {

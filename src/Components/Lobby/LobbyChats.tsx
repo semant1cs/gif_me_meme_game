@@ -2,12 +2,12 @@ import React from 'react';
 import {observer} from "mobx-react-lite";
 import MyInput from "../../UI/MyInput";
 import MyButton from "../../UI/MyButton";
-import userStore from "../../Store/UserStore";
 import LobbyChat from "./LobbyChat";
+import chatStore from "../../Store/ChatStore";
 
 const LobbyChats: React.FC = observer(() => {
     const sendMessage = () => {
-        userStore.sendChatMessage().then()
+        chatStore.sendChatMessage().then()
     }
 
     return (
@@ -24,8 +24,8 @@ const LobbyChats: React.FC = observer(() => {
             <div className="chats__main">
                 <LobbyChat/>
                 <form className="chats__form" onSubmit={(e) => e.preventDefault()}>
-                    <MyInput handleOnChange={(e) => userStore.changeUserChatText(e.target.value)}
-                             value={userStore.userChatText}
+                    <MyInput handleOnChange={(e) => chatStore.changeUserChatText(e.target.value)}
+                             value={chatStore.userChatText}
                              type="text"
                              placeholder="Введите сообщение"
                              style="chats__input"/>

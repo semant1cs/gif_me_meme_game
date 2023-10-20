@@ -1,62 +1,48 @@
 import {makeAutoObservable} from "mobx";
-import {
-    getAuth,
-    onAuthStateChanged,
-    updateProfile,
-    User,
-} from "firebase/auth";
-import {IUserType} from "../Types/UserType";
+import {Firestore} from "firebase/firestore";
+import {getAuth, signOut} from "firebase/auth";
 
 class UserStore {
-    userInfo: IUserType | null = null;
+    userAuthNickName: string = "";
+    userAuthEmail: string = "";
+    userAuthPassword: string = "";
+    userAuthShowPassword: boolean = false;
+    dataBase: Firestore | null = null;
 
     constructor() {
         makeAutoObservable(this)
     }
 
-    setUser(user: User) {
-        this.userInfo = {
-            email: user.email,
-            id: user.uid,
-            nickname: user.displayName,
-            photoURL: user.photoURL,
-            // На самом деле он существует, просто странные челики в библиотеки не сделали для него типизацию
-            // @ts-ignore
-            token: user.accessToken,
-        }
+    setDataBase(db: Firestore) {
+        this.dataBase = db;
     }
 
-    removeUser() {
-        this.userInfo = null
-    }
-
-    getCurrentUser() {
+    async logOutUser() {
         const auth = getAuth();
-        const user = auth.currentUser;
 
-        if (user)
-            this.setUser(user)
-        else
-            this.removeUser()
-    }
-
-    updateUserProfile(nickname?: string, avatarImg?: string) {
-        const auth = getAuth();
-        if (auth.currentUser) {
-            updateProfile(auth.currentUser, {
-                displayName: nickname, photoURL: avatarImg
-            }).then(() => this.getCurrentUser())
-        }
-    }
-
-    checkUserStatus() {
-        const auth = getAuth();
-        onAuthStateChanged(auth, (user) => {
-            if (user)
-                this.setUser(user)
-            else
-                this.removeUser()
+        await signOut(auth).then(() => {
+            // Sign-out successful.
+        }).catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            alert(errorCode + " " + errorMessage)
         });
+    }
+
+    changeUserAuthNickname(nickname: string) {
+        this.userAuthNickName = nickname
+    }
+
+    changeUserAuthEmail(email: string) {
+        this.userAuthEmail = email
+    }
+
+    changeUserAuthPassword(password: string) {
+        this.userAuthPassword = password
+    }
+
+    changeUserAuthShowPassword() {
+        this.userAuthShowPassword = !this.userAuthShowPassword
     }
 }
 

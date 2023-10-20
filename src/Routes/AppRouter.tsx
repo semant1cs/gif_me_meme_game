@@ -5,7 +5,7 @@ import Register from "../Components/Authentication/Register";
 import Lobby from "../Components/Lobby/Lobby";
 import WelcomePage from "../Components/WelcomePage/WelcomePage";
 import {RouteType} from "../Types/RouteType";
-import authStore from "../Store/AuthStore";
+import {getAuth} from "firebase/auth";
 
 const AppRouter: React.FC = () => {
     const publicRoutes: RouteType[] = [
@@ -35,9 +35,10 @@ const AppRouter: React.FC = () => {
     ]
 
     const location = useLocation()
+    const auth = getAuth()
 
     return (
-        authStore.userInfo?.id ?
+        auth.currentUser ?
             (
                 privateRoutes.findIndex(comp => comp.path === location.pathname) !== -1
                     ?

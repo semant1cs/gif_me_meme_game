@@ -2,27 +2,42 @@ import React from 'react';
 import {observer} from "mobx-react-lite";
 import "../../Styles/AuthenticationStyle/Authentication.scss"
 import MyInput from "../../UI/MyInput";
-import userStore from "../../Store/UserStore";
 import MyButton from "../../UI/MyButton";
 import {useNavigate} from "react-router-dom";
 import ShowPasswordIcon from "../../Imgs/SVG/ShowPasswordIcon";
-import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    browserSessionPersistence,
+    setPersistence, onAuthStateChanged,
+} from "firebase/auth";
 import authStore from "../../Store/AuthStore";
 
 const Auth: React.FC = observer(() => {
     const navigate = useNavigate()
+    const auth = getAuth()
+
+    // Автовход в сессию
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            navigate("/lobby")
+        }
+    })
+
 
     const handleOnCreate = () => {
-        if (userStore.userAuthEmail && userStore.userAuthPassword) {
+        if (authStore.userAuthEmail && authStore.userAuthPassword) {
             const auth = getAuth();
 
-            signInWithEmailAndPassword(auth, userStore.userAuthEmail, userStore.userAuthPassword)
-                .then((userCredential) => authStore.setUser(userCredential.user))
-                .then(() => navigate("/lobby"))
-                .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    alert(errorCode + " " + errorMessage)
+            setPersistence(auth, browserSessionPersistence)
+                .then(() => {
+                    return signInWithEmailAndPassword(auth, authStore.userAuthEmail, authStore.userAuthPassword)
+                        .then(() => navigate("/lobby"))
+                        .catch((error) => {
+                            const errorCode = error.code;
+                            const errorMessage = error.message;
+                            alert(errorCode + " " + errorMessage)
+                        })
                 })
         }
     }
@@ -36,14 +51,14 @@ const Auth: React.FC = observer(() => {
                     </h2>
                     <div className="auth__inputs">
                         <MyInput style="auth__email" placeholder="email" type="email"
-                                 handleOnChange={e => userStore.changeUserAuthEmail(e.target.value)}
-                                 value={userStore.userAuthEmail}/>
+                                 handleOnChange={e => authStore.changeUserAuthEmail(e.target.value)}
+                                 value={authStore.userAuthEmail}/>
                         <div className="auth__passwordBlock">
                             <MyInput style="auth__password" placeholder="пароль"
-                                     type={userStore.userAuthShowPassword ? "text" : "password"}
-                                     handleOnChange={e => userStore.changeUserAuthPassword(e.target.value)}
-                                     value={userStore.userAuthPassword}/>
-                            <span onClick={() => userStore.changeUserAuthShowPassword()}>
+                                     type={authStore.userAuthShowPassword ? "text" : "password"}
+                                     handleOnChange={e => authStore.changeUserAuthPassword(e.target.value)}
+                                     value={authStore.userAuthPassword}/>
+                            <span onClick={() => authStore.changeUserAuthShowPassword()}>
                                 <ShowPasswordIcon/>
                             </span>
                         </div>

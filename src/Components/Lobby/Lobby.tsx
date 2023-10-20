@@ -1,17 +1,17 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {observer} from 'mobx-react-lite';
 import "../../Styles/LobbyStyle/Lobby.scss";
 import UserIcon from "../../Imgs/SVG/UserIcon";
 import authStore from "../../Store/AuthStore";
-import userStore from "../../Store/UserStore";
 import LobbyChats from "./LobbyChats";
 import LobbyLobbies from "./LobbyLobbies";
+import {getAuth} from "firebase/auth";
+import MyButton from "../../UI/MyButton";
+import {useNavigate} from "react-router-dom";
 
 const Lobby: React.FC = observer(() => {
-
-    useEffect(() => {
-        authStore.getCurrentUser()
-    }, [])
+    const auth = getAuth()
+    const navigate = useNavigate()
 
     return (
         <main className="lobby">
@@ -22,9 +22,11 @@ const Lobby: React.FC = observer(() => {
                             Друзья
                         </li>
                     </ul>
+                    <MyButton btnText="Выйти" btnStyle="ad" handleOnClick={() =>
+                        authStore.logOutUser().then(() => navigate("/"))}/>
                     <div className="header__user">
                         <span>
-                            {authStore.userInfo?.nickname || userStore.userAuthNickName || "userNickName"}
+                            {auth.currentUser?.displayName || authStore.userAuthNickName || "userNickName"}
                         </span>
                         <UserIcon/>
                     </div>
