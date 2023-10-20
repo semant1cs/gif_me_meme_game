@@ -1,5 +1,5 @@
 import {makeAutoObservable} from "mobx";
-import {addDoc, collection, DocumentData, getDocs, serverTimestamp} from "firebase/firestore";
+import {addDoc, collection, getDocs, QueryDocumentSnapshot, serverTimestamp} from "firebase/firestore";
 import {v4 as uuidv4} from 'uuid';
 import userStore from "./UserStore";
 
@@ -9,7 +9,7 @@ class LobbyStore {
     paramsPlayerCount: number = 0;
     paramsIsLobbyPrivate: boolean = false;
     paramsIsAutoStart: boolean = false;
-    currentAvailableParties: DocumentData[];
+    currentAvailableParties:  QueryDocumentSnapshot[];
 
     constructor() {
         makeAutoObservable(this)
@@ -41,7 +41,7 @@ class LobbyStore {
             this.paramsIsAutoStart = !this.paramsIsAutoStart
     }
 
-    setCurrentAvailableParties(data: DocumentData) {
+    setCurrentAvailableParties(data:  QueryDocumentSnapshot[]) {
         this.currentAvailableParties = data
     }
 
@@ -73,13 +73,6 @@ class LobbyStore {
             await getDocs(collection(userStore.dataBase, "lobbies"))
                 .then(snap => {
                     this.setCurrentAvailableParties(snap.docs)
-                    snap.forEach((doc) => {
-                        // this.setCurrentAvailableParties(prevData => {
-                        //     return {
-                        //         ...prevData.push(doc.data())
-                        //     }
-                        // })
-                    })
                 })
         }
     }
