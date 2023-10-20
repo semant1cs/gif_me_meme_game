@@ -54,9 +54,11 @@ const LobbyModalBody: React.FC = observer(() => {
 });
 
 const LobbyLobbies: React.FC = observer(() => {
+
     useEffect(() => {
         lobbyStore.getLobbiesData().then()
     }, [])
+
     return (
         <section className="lobby__lobbies">
             {
@@ -75,11 +77,12 @@ const LobbyLobbies: React.FC = observer(() => {
                           handleOnClick={() => lobbyStore.changeShowCreateModal()}/>
             </div>
             <div className="lobbies__main">
-
-                {lobbyStore.currentAvailableParties !== undefined
-                    ? lobbyStore.currentAvailableParties.map((party, index) => <LobbyParty players={party.data().players} key={index}/>)
-                    : ""}
-                <div className="line"></div>
+                {
+                    lobbyStore.currentAvailableParties
+                        ? lobbyStore.currentAvailableParties.map((lobby, index) =>
+                            <LobbyParty lobbyInfo={lobby} key={index}/>)
+                        : ""
+                }
             </div>
         </section>
     );

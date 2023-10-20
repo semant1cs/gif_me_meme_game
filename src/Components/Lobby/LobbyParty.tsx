@@ -1,20 +1,30 @@
 import LobbyPartyPlayer from "./LobbyPartyPlayer.tsx";
-import LobbyAddPlayer from "./LobbyAddPlayer.tsx";
-import {IPartyType} from "../../Types/PartyType.ts";
+import {observer} from "mobx-react-lite";
+import React from "react";
+import MyAddPlayer from "../../UI/MyAddPlayer";
+import {ILobbyType} from "../../Types/LobbyType";
 
+type LobbyProps = {
+    lobbyInfo: ILobbyType,
+}
 
-const LobbyParty = ({players}: IPartyType) => {
+const LobbyParty: React.FC<LobbyProps> = observer(({lobbyInfo}: LobbyProps) => {
+
+    const placesToPlayerJoin = Array.from({length: lobbyInfo.playerCount - lobbyInfo.players.length},
+        (_, index) => <MyAddPlayer handleOnClick={() => {
+        }} key={index}/>
+    );
+
     return (
-        <div>
-            <div className="line"></div>
-            <div className="party_game party_game-1">
-                {players.map((player, index) =>
-                    <LobbyPartyPlayer nickname={player.nickname} photoURL={player.photoURL} key={index}
-                    />)}
-                <LobbyAddPlayer/>
-            </div>
+        <div className="lobbies-main__party">
+            {placesToPlayerJoin}
+            {
+                lobbyInfo.players.map((player, index) =>
+                    <LobbyPartyPlayer nickname={player.nickname} photoURL={player.photoURL} key={index}/>
+                )
+            }
         </div>
     );
-};
+})
 
 export default LobbyParty;

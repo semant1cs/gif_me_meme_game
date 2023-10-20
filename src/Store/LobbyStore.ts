@@ -1,7 +1,9 @@
 import {makeAutoObservable} from "mobx";
-import {addDoc, collection, getDocs, QueryDocumentSnapshot, serverTimestamp} from "firebase/firestore";
-import {v4 as uuidv4} from 'uuid';
+import {addDoc, collection, getDocs, serverTimestamp} from "firebase/firestore";
+// @ts-ignore
+import {v4 as uuidv4} from "uuid";
 import userStore from "./UserStore";
+import {ILobbyType} from "../Types/LobbyType";
 
 class LobbyStore {
     showCreateModal: boolean = false;
@@ -9,7 +11,7 @@ class LobbyStore {
     paramsPlayerCount: number = 0;
     paramsIsLobbyPrivate: boolean = false;
     paramsIsAutoStart: boolean = false;
-    currentAvailableParties:  QueryDocumentSnapshot[];
+    currentAvailableParties: ILobbyType[] = [];
 
     constructor() {
         makeAutoObservable(this)
@@ -41,10 +43,6 @@ class LobbyStore {
             this.paramsIsAutoStart = !this.paramsIsAutoStart
     }
 
-    setCurrentAvailableParties(data:  QueryDocumentSnapshot[]) {
-        this.currentAvailableParties = data
-    }
-
     makeParamsNull() {
         this.setParamsLobbyName("")
         this.setParamsPlayerCount(0)
@@ -65,6 +63,7 @@ class LobbyStore {
             })
                 .then(() => this.changeShowCreateModal())
                 .then(() => this.makeParamsNull())
+                .then(() => this.getLobbiesData())
         }
     }
 
@@ -72,7 +71,18 @@ class LobbyStore {
         if (userStore.dataBase) {
             await getDocs(collection(userStore.dataBase, "lobbies"))
                 .then(snap => {
-                    this.setCurrentAvailableParties(snap.docs)
+                    this.currentAvailableParties = []
+                    snap.docs.forEach(item => {
+                        this.currentAvailableParties.push({
+                            uid: item.data().uid,
+                            lobbyName: item.data().lobbyName,
+                            isLobbyPrivate: item.data().isLobbyPrivate,
+                            isAutoStart: item.data().isAutoStart,
+                            players: item.data().players,
+                            playerCount: item.data().playerCount,
+                            createdAt: item.data().createdAt,
+                        })
+                    })
                 })
         }
     }

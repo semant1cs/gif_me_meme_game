@@ -255,7 +255,7 @@ $borderGrey: #dedede;
   width: 100%;
   @extend %flex;
   justify-content: space-between;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
 
   h2 {
     font-size: 24px;
@@ -274,6 +274,8 @@ $borderGrey: #dedede;
   flex-grow: 1;
   overflow-y: auto;
 }
+
+// lobby__modal
 
 .lobbies__modal {
   width: 400px;
@@ -360,43 +362,46 @@ $borderGrey: #dedede;
   margin-bottom: 30px;
 }
 
-.party_game {
-  width: 50rem;
-  height: 10rem;
-  flex-shrink: 0;
-  display: flex;
-}
-
-.player_party {
-  margin-left: 3.5rem;
-  margin-top: 1.9rem;
-}
-
-.line {
-  width: 55rem;
-  height: 1px;
-  background: #ACACAC;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.username {
-  text-align: center;
-}
-
-.add_player:hover {
-  cursor: pointer;
-}
-
-.player_avatar {
-  width: 5rem;
-  height: 5rem;
-  border-radius: 100px;
-}
-
-
 .lobbies-modal__create {
   align-self: end;
   font-size: 16px;
   padding: 8px 16px;
 }
+
+// lobby__party
+
+.lobbies-main__party {
+  @extend %flex;
+  align-items: center;
+  justify-content: start;
+  width: 100%;
+  padding: 15px 0;
+  border-bottom: 2px solid $borderGrey;
+
+  &:first-child{
+    border-top: 2px solid $borderGrey;
+  }
+}
+
+.party__player {
+  flex-grow: 1;
+  font-size: 14px;
+  color: $bgColor;
+  @extend %flex;
+  flex-direction: column;
+  padding: 0 15px;
+}
+
+.player_avatar{
+  border-radius: 50%;
+  width: 75px;
+  height: 75px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.player__name{
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
