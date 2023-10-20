@@ -334,6 +334,7 @@ $borderGrey: #dedede;
     padding: 5px 10px;
     color: white;
     transition: background-color 0.2s ease-in-out;
+
   }
 }
 
@@ -346,6 +347,10 @@ $borderGrey: #dedede;
   width: 100%;
   justify-content: space-between;
   margin-bottom: 15px;
+
+  p {
+
+  }
 }
 
 .lobbies-modal__autoplay {
@@ -388,6 +393,7 @@ $borderGrey: #dedede;
   height: 5rem;
   border-radius: 100px;
 }
+
 
 .lobbies-modal__create {
   align-self: end;

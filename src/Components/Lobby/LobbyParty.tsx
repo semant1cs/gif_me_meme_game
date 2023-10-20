@@ -1,17 +1,15 @@
 import LobbyPartyPlayer from "./LobbyPartyPlayer.tsx";
 import LobbyAddPlayer from "./LobbyAddPlayer.tsx";
+import {IPartyType} from "../../Types/PartyType.ts";
 
-interface ILobbyUsers {
-    users: { nickname: string, photoURL: string }[]
-}
 
-const LobbyParty = ({users}: ILobbyUsers) => {
+const LobbyParty = ({players}: IPartyType) => {
     return (
         <div>
             <div className="line"></div>
             <div className="party_game party_game-1">
-                {users.map((user, index) =>
-                    <LobbyPartyPlayer nickname={user.nickname} photoURL={user.photoURL} key={index}
+                {players.map((player, index) =>
+                    <LobbyPartyPlayer nickname={player.nickname} photoURL={player.photoURL} key={index}
                     />)}
                 <LobbyAddPlayer/>
             </div>

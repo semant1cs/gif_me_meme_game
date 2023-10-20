@@ -1,6 +1,6 @@
 import {makeAutoObservable} from "mobx";
-import {addDoc, collection, serverTimestamp} from "firebase/firestore";
-import { v4 as uuidv4 } from 'uuid';
+import {addDoc, collection, DocumentData, getDocs, serverTimestamp} from "firebase/firestore";
+import {v4 as uuidv4} from 'uuid';
 import userStore from "./UserStore";
 
 class LobbyStore {
@@ -9,6 +9,7 @@ class LobbyStore {
     paramsPlayerCount: number = 0;
     paramsIsLobbyPrivate: boolean = false;
     paramsIsAutoStart: boolean = false;
+    currentAvailableParties: DocumentData;
 
     constructor() {
         makeAutoObservable(this)
@@ -40,6 +41,10 @@ class LobbyStore {
             this.paramsIsAutoStart = !this.paramsIsAutoStart
     }
 
+    setCurrentAvailableParties(data: DocumentData) {
+        this.currentAvailableParties = data
+    }
+
     makeParamsNull() {
         this.setParamsLobbyName("")
         this.setParamsPlayerCount(0)
@@ -60,6 +65,18 @@ class LobbyStore {
             })
                 .then(() => this.changeShowCreateModal())
                 .then(() => this.makeParamsNull())
+        }
+    }
+
+    async getLobbiesData() {
+        let data: any[] = [];
+        if (userStore.dataBase) {
+            await getDocs(collection(userStore.dataBase, "lobbies"))
+                .then(snap => {
+                    snap.forEach((doc) => {
+                        this.setCurrentAvailableParties(doc.data())
+                    })
+                })
         }
     }
 
