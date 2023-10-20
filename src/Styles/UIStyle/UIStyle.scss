@@ -74,17 +74,35 @@ $borderGrey: #dedede;
 
 .joinGame{
   @extend %flex;
-  flex-grow: 1;
   flex-direction: column;
   font-size: 14px;
   color: $bgColor;
   user-select: none;
+  width: 150px;
   padding: 0 15px;
 
   div{
     cursor: pointer;
     margin-bottom: 10px;
     height: 75px;
+  }
+
+  svg{
+    circle{
+      transition: all 0.2s ease-in-out;
+    }
+
+    &:hover circle{
+      fill: $mainColor;
+    }
+
+    rect{
+      transition: all 0.15s ease-in-out;
+    }
+
+    &:hover rect{
+      stroke: white;
+    }
   }
 
   p{

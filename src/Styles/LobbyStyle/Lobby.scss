@@ -273,6 +273,22 @@ $borderGrey: #dedede;
   width: 100%;
   flex-grow: 1;
   overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 7px;
+    height: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    margin-top: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    background: $mainColor;
+    border-radius: 20px;
+  }
 }
 
 // lobby__modal
@@ -375,7 +391,7 @@ $borderGrey: #dedede;
   align-items: center;
   justify-content: start;
   width: 100%;
-  padding: 15px 0;
+  padding: 20px 0;
   border-bottom: 2px solid $borderGrey;
 
   &:first-child{
@@ -384,11 +400,11 @@ $borderGrey: #dedede;
 }
 
 .party__player {
-  flex-grow: 1;
   font-size: 14px;
   color: $bgColor;
   @extend %flex;
   flex-direction: column;
+  width: 150px;
   padding: 0 15px;
 }
 

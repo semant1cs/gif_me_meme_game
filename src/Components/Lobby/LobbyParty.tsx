@@ -17,12 +17,12 @@ const LobbyParty: React.FC<LobbyProps> = observer(({lobbyInfo}: LobbyProps) => {
 
     return (
         <div className="lobbies-main__party">
-            {placesToPlayerJoin}
             {
                 lobbyInfo.players.map((player, index) =>
                     <LobbyPartyPlayer nickname={player.nickname} photoURL={player.photoURL} key={index}/>
                 )
             }
+            {placesToPlayerJoin}
         </div>
     );
 })

@@ -8,7 +8,6 @@ import {
     getDocs,
     serverTimestamp,
     QueryDocumentSnapshot,
-    DocumentData
 } from "firebase/firestore";
 import authStore from "./AuthStore";
 import {MessageType} from "../Types/MessageType";
@@ -22,7 +21,7 @@ class UserStore {
     userAuthShowPassword: boolean = false;
     userChatText: string = "";
     dataBase: Firestore | null = null;
-    chatData: Array<QueryDocumentSnapshot<DocumentData, DocumentData>> | null = null;
+    chatData: Array<QueryDocumentSnapshot> | null = null;
     currentChatData: MessageType[] = [];
 
 
