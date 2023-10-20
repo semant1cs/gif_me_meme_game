@@ -77,7 +77,7 @@ const LobbyLobbies: React.FC = observer(() => {
             <div className="lobbies__main">
 
                 {lobbyStore.currentAvailableParties !== undefined
-                    ? lobbyStore.currentAvailableParties.map((party) => <LobbyParty players={party.data().players}/>)
+                    ? lobbyStore.currentAvailableParties.map((party, index) => <LobbyParty players={party.data().players} key={index}/>)
                     : ""}
                 <div className="line"></div>
             </div>
