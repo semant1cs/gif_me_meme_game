@@ -1,6 +1,6 @@
-import PlayerIcon from "../../Imgs/SVG/PlayerIcon.tsx";
 import React from "react";
 import {observer} from "mobx-react-lite";
+import UserIcon from "../../Imgs/SVG/UserIcon";
 
 type LobbyUserProps =
     {
@@ -14,7 +14,7 @@ const LobbyPartyPlayer: React.FC<LobbyUserProps> = observer((user: LobbyUserProp
             {
                 user.photoURL
                     ? <img className="player_avatar" src={user.photoURL} alt="playerAvatar"/>
-                    : <PlayerIcon/>
+                    : <UserIcon/>
             }
             <p className="player__name">
                 {user.nickname}

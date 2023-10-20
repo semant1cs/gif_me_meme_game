@@ -406,6 +406,13 @@ $borderGrey: #dedede;
   flex-direction: column;
   width: 150px;
   padding: 0 15px;
+
+  svg{
+    border-radius: 50%;
+    width: 75px;
+    height: 75px;
+    margin-bottom: 10px;
+  }
 }
 
 .player_avatar{
