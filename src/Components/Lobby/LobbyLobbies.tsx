@@ -1,12 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {observer} from "mobx-react-lite";
 import MyButton from "../../UI/MyButton";
 import lobbyStore from "../../Store/LobbyStore";
 import ModalWindow from "../../UI/ModalWindow";
 import MyInput from "../../UI/MyInput.tsx";
-import LobbyParty from "./LobbyParty.tsx";
-import axios from "axios";
 import MySwiper from "../../UI/MySwiper";
+import LobbyParty from "./LobbyParty.tsx";
 
 
 const LobbyModalBody: React.FC = observer(() => {
@@ -71,16 +70,9 @@ const LobbyModalBody: React.FC = observer(() => {
 });
 
 const LobbyLobbies: React.FC = observer(() => {
-    const [parties, setParties] = useState();
-
     useEffect(() => {
-        const URL = "http://localhost:3000/parties"
-        axios.get(URL).then(response => {
-            const parties = response.data
-            setParties(parties)
-        });
-
-    }, [setParties])
+        lobbyStore.getLobbiesData().then()
+    }, [lobbyStore.currentAvailableParties])
 
     return (
         <section className="lobby__lobbies">
@@ -100,7 +92,10 @@ const LobbyLobbies: React.FC = observer(() => {
                           handleOnClick={() => lobbyStore.changeShowCreateModal()}/>
             </div>
             <div className="lobbies__main">
-                {parties !== undefined ? <LobbyParty users={parties}/> : ""}
+
+                {lobbyStore.currentAvailableParties !== undefined
+                    ? <LobbyParty players={lobbyStore.currentAvailableParties.players}/>
+                    : ""}
                 <div className="line"></div>
             </div>
         </section>

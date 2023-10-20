@@ -307,7 +307,7 @@ $borderGrey: #dedede;
     color: #595959
   }
 
-  &:hover, &:active{
+  &:hover, &:active {
     border: 1px solid $mainColor;
   }
 }
@@ -342,24 +342,24 @@ $borderGrey: #dedede;
   background-color: $mainColor;
 }
 
-.lobbies-modal__private{
+.lobbies-modal__private {
   @extend %flex;
   width: 100%;
   justify-content: space-between;
   margin-bottom: 15px;
 
-  p{
+  p {
 
   }
 }
 
-.lobbies-modal__autoplay{
+.lobbies-modal__autoplay {
   @extend %flex;
   width: 100%;
   justify-content: space-between;
   margin-bottom: 30px;
+}
 
-  p{
 .party_game {
   width: 50rem;
   height: 10rem;
@@ -394,10 +394,8 @@ $borderGrey: #dedede;
   border-radius: 100px;
 }
 
-  }
-}
 
-.lobbies-modal__create{
+.lobbies-modal__create {
   align-self: end;
   font-size: 16px;
   padding: 8px 16px;
