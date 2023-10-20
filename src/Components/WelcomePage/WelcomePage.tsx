@@ -7,6 +7,7 @@ import {useNavigate} from "react-router-dom";
 
 const WelcomePage: React.FC = observer(() => {
     const navigate = useNavigate()
+
     return (
         <main className="welcome">
             <div className="welcome__container">

@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
-import userStore from "../../Store/UserStore";
 import UserIcon from "../../Imgs/SVG/UserIcon";
 import {observer} from "mobx-react-lite";
 import {DocumentData, QueryDocumentSnapshot} from "firebase/firestore";
+import chatStore from "../../Store/ChatStore";
 
 const LobbyChat: React.FC = observer(() => {
 
     useEffect(() => {
-        userStore.getChatData()
+        chatStore.getChatData()
             .then(() => document.getElementById("chat")?.scrollTo(0, 9999999))
     }, [])
 
@@ -19,9 +19,9 @@ const LobbyChat: React.FC = observer(() => {
     return (
         <div className="chats__block" id="chat">
             {
-                userStore.chatData
+                chatStore.chatData
                     ?
-                    userStore.chatData.map(doc => {
+                    chatStore.chatData.map(doc => {
                             if (checkDiffTime(doc)) {
                                 return (
                                     <div className="chats__message" key={doc.id}>
@@ -55,9 +55,9 @@ const LobbyChat: React.FC = observer(() => {
                     : ""
             }
             {
-                userStore.currentChatData
+                chatStore.currentChatData
                     ?
-                    userStore.currentChatData.map(msg =>
+                    chatStore.currentChatData.map(msg =>
                         <div key={msg.id} className="chats__message">
                             <p className="message__text">{msg.text}</p>
                             <div className="message__info">

@@ -2,7 +2,6 @@ import React from 'react';
 import {observer} from "mobx-react-lite";
 import "../../Styles/AuthenticationStyle/Authentication.scss"
 import MyInput from "../../UI/MyInput";
-import userStore from "../../Store/UserStore";
 import MyButton from "../../UI/MyButton";
 import {useNavigate} from "react-router-dom";
 import ShowPasswordIcon from "../../Imgs/SVG/ShowPasswordIcon";
@@ -13,15 +12,14 @@ const Register: React.FC = observer(() => {
     const navigate = useNavigate()
 
     const handleOnCreate = () => {
-        if (userStore.userAuthNickName && userStore.userAuthEmail && userStore.userAuthPassword) {
+        if (authStore.userAuthNickName && authStore.userAuthEmail && authStore.userAuthPassword) {
             const auth = getAuth();
 
-            createUserWithEmailAndPassword(auth, userStore.userAuthEmail, userStore.userAuthPassword)
-                .then((userCredential) => authStore.setUser(userCredential.user))
+            createUserWithEmailAndPassword(auth, authStore.userAuthEmail, authStore.userAuthPassword)
                 .then(() => {
                     const user = auth.currentUser
                     if (user)
-                        updateProfile(user, {displayName: userStore.userAuthNickName})
+                        updateProfile(user, {displayName: authStore.userAuthNickName}).then()
                 })
                 .then(() => navigate("/lobby"))
                 .catch((error) => {
@@ -41,17 +39,17 @@ const Register: React.FC = observer(() => {
                     </h2>
                     <div className="auth__inputs">
                         <MyInput style="auth__nickname" placeholder="имя пользователя" type="text"
-                                 handleOnChange={e => userStore.changeUserAuthNickname(e.target.value)}
-                                 value={userStore.userAuthNickName}/>
+                                 handleOnChange={e => authStore.changeUserAuthNickname(e.target.value)}
+                                 value={authStore.userAuthNickName}/>
                         <MyInput style="auth__email" placeholder="email" type="email"
-                                 handleOnChange={e => userStore.changeUserAuthEmail(e.target.value)}
-                                 value={userStore.userAuthEmail}/>
+                                 handleOnChange={e => authStore.changeUserAuthEmail(e.target.value)}
+                                 value={authStore.userAuthEmail}/>
                         <div className="auth__passwordBlock">
                             <MyInput style="auth__password" placeholder="пароль"
-                                     type={userStore.userAuthShowPassword ? "text" : "password"}
-                                     handleOnChange={e => userStore.changeUserAuthPassword(e.target.value)}
-                                     value={userStore.userAuthPassword}/>
-                            <span onClick={() => userStore.changeUserAuthShowPassword()}>
+                                     type={authStore.userAuthShowPassword ? "text" : "password"}
+                                     handleOnChange={e => authStore.changeUserAuthPassword(e.target.value)}
+                                     value={authStore.userAuthPassword}/>
+                            <span onClick={() => authStore.changeUserAuthShowPassword()}>
                                 <ShowPasswordIcon/>
                             </span>
                         </div>
