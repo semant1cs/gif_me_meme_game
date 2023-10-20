@@ -9,7 +9,7 @@ class LobbyStore {
     paramsPlayerCount: number = 0;
     paramsIsLobbyPrivate: boolean = false;
     paramsIsAutoStart: boolean = false;
-    currentAvailableParties: DocumentData;
+    currentAvailableParties: DocumentData[];
 
     constructor() {
         makeAutoObservable(this)
@@ -69,12 +69,16 @@ class LobbyStore {
     }
 
     async getLobbiesData() {
-        let data: any[] = [];
         if (userStore.dataBase) {
             await getDocs(collection(userStore.dataBase, "lobbies"))
                 .then(snap => {
+                    this.setCurrentAvailableParties(snap.docs)
                     snap.forEach((doc) => {
-                        this.setCurrentAvailableParties(doc.data())
+                        // this.setCurrentAvailableParties(prevData => {
+                        //     return {
+                        //         ...prevData.push(doc.data())
+                        //     }
+                        // })
                     })
                 })
         }

@@ -35,7 +35,6 @@ const LobbyModalBody: React.FC = observer(() => {
                 <p>Игроки</p>
                 <ul className="lobbies-modal__list">
                     {playersPartyValues.map(value => setPlayersCount(value))}
-
                 </ul>
             </div>
             <div className="lobbies-modal__private">
@@ -57,8 +56,7 @@ const LobbyModalBody: React.FC = observer(() => {
 const LobbyLobbies: React.FC = observer(() => {
     useEffect(() => {
         lobbyStore.getLobbiesData().then()
-    }, [lobbyStore.currentAvailableParties])
-
+    }, [])
     return (
         <section className="lobby__lobbies">
             {
@@ -79,7 +77,7 @@ const LobbyLobbies: React.FC = observer(() => {
             <div className="lobbies__main">
 
                 {lobbyStore.currentAvailableParties !== undefined
-                    ? <LobbyParty players={lobbyStore.currentAvailableParties.players}/>
+                    ? lobbyStore.currentAvailableParties.map((party) => <LobbyParty players={party.data().players}/>)
                     : ""}
                 <div className="line"></div>
             </div>
