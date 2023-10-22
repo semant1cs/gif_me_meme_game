@@ -242,6 +242,7 @@ $borderGrey: #dedede;
 .lobby__lobbies {
   height: 100%;
   flex: 2 0 65%;
+  max-width: 65%;
   padding: 30px;
   border-radius: 10px;
   background-color: white;
@@ -404,8 +405,9 @@ $borderGrey: #dedede;
   color: $bgColor;
   @extend %flex;
   flex-direction: column;
-  width: 150px;
-  padding: 0 15px;
+  width: 130px;
+  min-width: 130px;
+  padding: 0 5px;
 
   svg{
     border-radius: 50%;

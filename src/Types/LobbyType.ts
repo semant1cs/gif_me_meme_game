@@ -1,12 +1,14 @@
+import {IUserType} from "./UserType";
+import {
+    FieldValue
+} from "firebase/firestore";
+
 export interface ILobbyType {
     uid: string,
     lobbyName: string,
     isLobbyPrivate: boolean,
     isAutoStart: boolean,
-    players: {
-        nickname: string;
-        photoURL: string;
-    }[];
+    players: IUserType[];
     playerCount: number;
-    createdAt: Date;
+    createdAt: FieldValue;
 }

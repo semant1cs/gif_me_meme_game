@@ -1,9 +1,13 @@
 import {makeAutoObservable} from "mobx";
-import {addDoc, collection, getDocs, serverTimestamp} from "firebase/firestore";
-// @ts-ignore
+import {
+    collection, DocumentData, getDocs, serverTimestamp,
+    QuerySnapshot, getDoc, doc, setDoc
+} from "firebase/firestore";
 import {v4 as uuidv4} from "uuid";
 import {ILobbyType} from "../Types/LobbyType";
 import authStore from "./AuthStore";
+import {getAuth} from "firebase/auth";
+import {IUserType} from "../Types/UserType";
 
 class LobbyStore {
     showCreateModal: boolean = false;
@@ -52,17 +56,20 @@ class LobbyStore {
 
     async createNewLobby() {
         if (this.paramsLobbyName && this.paramsPlayerCount && authStore.dataBase) {
-            await addDoc(collection(authStore.dataBase, "lobbies"), {
-                uid: uuidv4(),
+            const uid = uuidv4()
+            const newLobby: ILobbyType = {
+                uid: uid,
                 lobbyName: this.paramsLobbyName,
                 playerCount: this.paramsPlayerCount,
                 isLobbyPrivate: this.paramsIsLobbyPrivate,
                 isAutoStart: this.paramsIsAutoStart,
                 players: [],
-                createdAt: serverTimestamp()
-            })
+                createdAt: serverTimestamp(),
+            }
+            await setDoc(doc(authStore.dataBase, "lobbies", uid), {...newLobby})
                 .then(() => this.changeShowCreateModal())
                 .then(() => this.makeParamsNull())
+                .then(() => this.addPlayer(newLobby))
                 .then(() => this.getLobbiesData())
         }
     }
@@ -70,20 +77,57 @@ class LobbyStore {
     async getLobbiesData() {
         if (authStore.dataBase) {
             await getDocs(collection(authStore.dataBase, "lobbies"))
-                .then(snap => {
-                    this.currentAvailableParties = []
-                    snap.docs.forEach(item => {
-                        this.currentAvailableParties.push({
-                            uid: item.data().uid,
-                            lobbyName: item.data().lobbyName,
-                            isLobbyPrivate: item.data().isLobbyPrivate,
-                            isAutoStart: item.data().isAutoStart,
-                            players: item.data().players,
-                            playerCount: item.data().playerCount,
-                            createdAt: item.data().createdAt,
+                .then(snap => this.setCurrentAvailableParties(snap))
+        }
+    }
+
+    setCurrentAvailableParties(snap: QuerySnapshot<DocumentData, DocumentData>) {
+        this.currentAvailableParties = []
+        snap.docs.forEach(item => {
+            this.currentAvailableParties.push({
+                uid: item.data().uid,
+                lobbyName: item.data().lobbyName,
+                isLobbyPrivate: item.data().isLobbyPrivate,
+                isAutoStart: item.data().isAutoStart,
+                players: item.data().players,
+                playerCount: item.data().playerCount,
+                createdAt: item.data().createdAt,
+            })
+        })
+    }
+
+    async addPlayer(lobbyInfo: ILobbyType) {
+        const auth = getAuth()
+
+        if (authStore.dataBase && auth.currentUser) {
+            const user: IUserType = {
+                email: auth.currentUser?.email,
+                id: auth.currentUser?.uid,
+                nickname: auth.currentUser?.displayName,
+                photoURL: auth.currentUser?.photoURL,
+                token: auth.currentUser?.refreshToken,
+            }
+            let resultLobby: ILobbyType | undefined
+
+            await getDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid))
+                .then(async (snap) => {
+                    resultLobby = {
+                        uid: snap.data()?.uid,
+                        players: snap.data()?.players,
+                        createdAt: snap.data()?.createdAt,
+                        lobbyName: snap.data()?.lobbyName,
+                        playerCount: snap.data()?.playerCount,
+                        isLobbyPrivate: snap.data()?.isLobbyPrivate,
+                        isAutoStart: snap.data()?.isAutoStart,
+                    }
+
+                    if (resultLobby.players.findIndex(p => p.id === user.id) === -1 && authStore.dataBase)
+                        await setDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid), {
+                            ...resultLobby,
+                            players: [...resultLobby.players, user]
                         })
-                    })
                 })
+                .then(() => this.getLobbiesData())
         }
     }
 

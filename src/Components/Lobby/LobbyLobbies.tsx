@@ -11,9 +11,10 @@ import MySwiper from "../../UI/MySwiper";
 const LobbyModalBody: React.FC = observer(() => {
     const playersPartyValues = [2, 3, 4, 5, 6]
 
-    const setPlayersCount = (playersCount: number) => {
+    const setPlayersCount = (playersCount: number, ind: number) => {
         return (
             <li onClick={() => lobbyStore.setParamsPlayerCount(playersCount)}
+                key={ind}
                 className={lobbyStore.paramsPlayerCount === playersCount ? "li-selected" : ""}>
                         <span>
                             {playersCount}
@@ -34,7 +35,7 @@ const LobbyModalBody: React.FC = observer(() => {
             <div className="lobbies-modal__players">
                 <p>Игроки</p>
                 <ul className="lobbies-modal__list">
-                    {playersPartyValues.map(value => setPlayersCount(value))}
+                    {playersPartyValues.map((value, ind) => setPlayersCount(value, ind))}
                 </ul>
             </div>
             <div className="lobbies-modal__private">

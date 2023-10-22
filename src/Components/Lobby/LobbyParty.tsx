@@ -3,6 +3,7 @@ import {observer} from "mobx-react-lite";
 import React from "react";
 import MyAddPlayer from "../../UI/MyAddPlayer";
 import {ILobbyType} from "../../Types/LobbyType";
+import lobbyStore from "../../Store/LobbyStore";
 
 type LobbyProps = {
     lobbyInfo: ILobbyType,
@@ -11,15 +12,14 @@ type LobbyProps = {
 const LobbyParty: React.FC<LobbyProps> = observer(({lobbyInfo}: LobbyProps) => {
 
     const placesToPlayerJoin = Array.from({length: lobbyInfo.playerCount - lobbyInfo.players.length},
-        (_, index) => <MyAddPlayer handleOnClick={() => {
-        }} key={index}/>
+        (_, index) => <MyAddPlayer handleOnClick={() => lobbyStore.addPlayer(lobbyInfo)} key={index}/>
     );
 
     return (
         <div className="lobbies-main__party">
             {
                 lobbyInfo.players.map((player, index) =>
-                    <LobbyPartyPlayer nickname={player.nickname} photoURL={player.photoURL} key={index}/>
+                    <LobbyPartyPlayer player={player} key={index}/>
                 )
             }
             {placesToPlayerJoin}

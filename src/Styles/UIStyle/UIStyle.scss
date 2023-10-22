@@ -78,8 +78,9 @@ $borderGrey: #dedede;
   font-size: 14px;
   color: $bgColor;
   user-select: none;
-  width: 150px;
-  padding: 0 15px;
+  width: 130px;
+  min-width: 130px;
+  padding: 0 5px;
 
   div{
     cursor: pointer;

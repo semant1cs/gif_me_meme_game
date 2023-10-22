@@ -1,8 +1,7 @@
 export interface IUserType {
-    id: string,
-    nickname: string | null,
-    photoURL: string | null,
-    email: string | null,
-    token: string,
-    lobbyId: string | null,
+    id: string | undefined,
+    nickname: string | null | undefined,
+    photoURL: string | null | undefined,
+    email: string | null | undefined,
+    token: string | undefined,
 }

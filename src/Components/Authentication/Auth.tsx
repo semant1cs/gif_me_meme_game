@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {observer} from "mobx-react-lite";
 import "../../Styles/AuthenticationStyle/Authentication.scss"
 import MyInput from "../../UI/MyInput";
@@ -17,12 +17,14 @@ const Auth: React.FC = observer(() => {
     const navigate = useNavigate()
     const auth = getAuth()
 
-    // Автовход в сессию
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            navigate("/lobby")
-        }
-    })
+    useEffect(() => {
+        // Автовход в сессию
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                navigate("/lobby")
+            }
+        })
+    }, [])
 
 
     const handleOnCreate = () => {
