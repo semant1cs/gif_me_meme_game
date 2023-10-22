@@ -108,6 +108,7 @@ class LobbyStore {
                 token: auth.currentUser?.refreshToken,
             }
             let resultLobby: ILobbyType | undefined
+            let isPlayerInAnotherParty: boolean = false;
 
             await getDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid))
                 .then(async (snap) => {
@@ -121,14 +122,18 @@ class LobbyStore {
                         isAutoStart: snap.data()?.isAutoStart,
                     }
 
-                    let isPlayerInAnotherParty = false;
-                    if (!isPlayerInAnotherParty) {
-                        this.currentAvailableParties.map((party) =>
-                            party.players.map((player) =>
-                                isPlayerInAnotherParty = auth.currentUser?.uid === player.id))
-                    }
+                    this.currentAvailableParties.forEach(party => {
+                        if (party.players.findIndex(player => auth.currentUser?.uid === player.id) !== -1)
+                            isPlayerInAnotherParty = true
+                    })
 
-                    if (!isPlayerInAnotherParty && resultLobby.players.findIndex(p => p.id === user.id) === -1 && authStore.dataBase)
+                    return {resultLobby, isPlayerInAnotherParty}
+
+                })
+                .then(async ({resultLobby, isPlayerInAnotherParty}) => {
+                    const isUserNotInThisParty = resultLobby.players.findIndex(p => p.id === user.id) === -1
+
+                    if (!isPlayerInAnotherParty && isUserNotInThisParty && authStore.dataBase)
                         await setDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid), {
                             ...resultLobby,
                             players: [...resultLobby.players, user]
@@ -140,24 +145,21 @@ class LobbyStore {
 
     async removePlayerFromParty(lobbyInfo: ILobbyType, player: IUserType) {
         const auth = getAuth()
+        const isUser = auth.currentUser?.uid === player.id
 
-        if (authStore.dataBase && auth.currentUser?.uid === player.id)
+        if (authStore.dataBase && isUser)
             await getDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid))
                 .then(async () => {
-                    const newLobbyInfo = lobbyInfo.players.filter((playerLobby) => playerLobby.id !== player.id)
+                    const newPlayers = lobbyInfo.players.filter((playerLobby) => playerLobby.id !== player.id)
 
                     if (authStore.dataBase)
                         await setDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid), {
                             ...lobbyInfo,
-                            players: [...newLobbyInfo]
+                            players: [...newPlayers]
                         })
                 })
                 .then(() => this.getLobbiesData())
     }
-
-//     Получение элемента коллекции по id
-//     const ref = doc(db, "cities", "LA").withConverter(cityConverter);
-// await setDoc(ref, new City("Los Angeles", "CA", "USA"));
 }
 
 export default new LobbyStore()
