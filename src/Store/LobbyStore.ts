@@ -120,8 +120,8 @@ class LobbyStore {
                         isLobbyPrivate: snap.data()?.isLobbyPrivate,
                         isAutoStart: snap.data()?.isAutoStart,
                     }
-                    let isPlayersInAnotherParty = false;
 
+                    let isPlayersInAnotherParty = false;
                     if (!isPlayersInAnotherParty) {
                         this.currentAvailableParties.map((party) =>
                             party.players.map((player) =>
