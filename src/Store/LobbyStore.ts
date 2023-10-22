@@ -120,8 +120,15 @@ class LobbyStore {
                         isLobbyPrivate: snap.data()?.isLobbyPrivate,
                         isAutoStart: snap.data()?.isAutoStart,
                     }
+                    let isPlayersInAnotherParty = false;
 
-                    if (resultLobby.players.findIndex(p => p.id === user.id) === -1 && authStore.dataBase)
+                    if (!isPlayersInAnotherParty) {
+                        this.currentAvailableParties.map((party) =>
+                            party.players.map((player) =>
+                                isPlayersInAnotherParty = auth.currentUser?.uid === player.id))
+                    }
+
+                    if (!isPlayersInAnotherParty && resultLobby.players.findIndex(p => p.id === user.id) === -1 && authStore.dataBase)
                         await setDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid), {
                             ...resultLobby,
                             players: [...resultLobby.players, user]
