@@ -20,8 +20,9 @@ const LobbyParty: React.FC<LobbyProps> = observer(({lobbyInfo}: LobbyProps) => {
             {
                 lobbyInfo.players.map((player, index) =>
                     <LobbyPartyPlayer
-                        handleOnClick={() => lobbyStore.removePlayerFromParty(lobbyInfo, player)}
-                        player={player} key={index}/>
+                        lobbyInfo={lobbyInfo}
+                        player={player}
+                        key={index}/>
                 )
             }
             {placesToPlayerJoin}

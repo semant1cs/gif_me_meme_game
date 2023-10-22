@@ -8,7 +8,6 @@ import {ILobbyType} from "../Types/LobbyType";
 import authStore from "./AuthStore";
 import {getAuth} from "firebase/auth";
 import {IUserType} from "../Types/UserType";
-import AuthStore from "./AuthStore";
 
 class LobbyStore {
     showCreateModal: boolean = false;

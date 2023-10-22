@@ -429,7 +429,23 @@ $borderGrey: #dedede;
   }
 }
 
-.remove_player__btn {
+.leave_lobby__btn {
+  position: absolute;
+  border-radius: 100px;
+  background: none;
+  margin-right: 0;
+  margin-bottom: 27px;
+  padding: 0 5px 0;
+  opacity: 0;
+  height: 75px;
+  width: 75px;
+  rotate: 45deg;
+
+  &:hover {
+    padding: 0;
+    transition: opacity 0.3s;
+    opacity: 0.9;
+  }
 }
 
 .player__name {
