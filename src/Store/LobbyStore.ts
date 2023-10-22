@@ -131,6 +131,23 @@ class LobbyStore {
         }
     }
 
+    async removePlayerFromParty(lobbyInfo: ILobbyType, player: IUserType) {
+        const auth = getAuth()
+
+        if (authStore.dataBase && auth.currentUser?.uid === player.id)
+            await getDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid))
+                .then(async () => {
+                    const newLobbyInfo = lobbyInfo.players.filter((playerLobby) => playerLobby.id !== player.id)
+
+                    if (authStore.dataBase)
+                        await setDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid), {
+                            ...lobbyInfo,
+                            players: [...newLobbyInfo]
+                        })
+                })
+                .then(() => this.getLobbiesData())
+    }
+
 //     Получение элемента коллекции по id
 //     const ref = doc(db, "cities", "LA").withConverter(cityConverter);
 // await setDoc(ref, new City("Los Angeles", "CA", "USA"));
