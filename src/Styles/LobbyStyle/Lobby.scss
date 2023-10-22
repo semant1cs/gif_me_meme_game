@@ -409,12 +409,54 @@ $borderGrey: #dedede;
   width: 130px;
   min-width: 130px;
   padding: 0 5px;
+  transition: all 0.2s ease-in-out;
+}
 
+.party__playerLeave {
   svg {
-    border-radius: 50%;
-    width: 75px;
-    height: 75px;
-    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      opacity: 0.1;
+    }
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 50px;
+    top: 14.75px;
+    left: 63.25px;
+    background-color: $mainColor;
+    rotate: -45deg;
+    border-radius: 5px;
+    z-index: 1000000;
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 50px;
+    top: 14.75px;
+    left: 63.25px;
+    background-color: $mainColor;
+    rotate: 45deg;
+    border-radius: 5px;
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+
+  &:hover::after {
+    opacity: 1;
   }
 }
 
@@ -425,23 +467,9 @@ $borderGrey: #dedede;
   object-fit: cover;
   margin-bottom: 10px;
 
-  &:hover {
-    opacity: 0;
-  }
-}
-
-.leave_lobby__btn {
-  position: absolute;
-  left: 24px;
-  bottom: 16px;
-  background: none;
-  opacity: 0;
-  rotate: 45deg;
-
-  &:hover {
-    padding: 0;
-    transition: opacity 0.3s;
-    opacity: 0.9;
+  svg{
+    width: 75px;
+    height: 75px;
   }
 }
 
