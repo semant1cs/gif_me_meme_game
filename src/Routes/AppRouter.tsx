@@ -6,6 +6,7 @@ import Lobby from "../Components/Lobby/Lobby";
 import WelcomePage from "../Components/WelcomePage/WelcomePage";
 import {RouteType} from "../Types/RouteType";
 import {getAuth} from "firebase/auth";
+import Game from "../Components/Game/Game.tsx";
 
 const AppRouter: React.FC = () => {
     const publicRoutes: RouteType[] = [
@@ -31,6 +32,10 @@ const AppRouter: React.FC = () => {
         {
             path: "/lobby",
             element: <Lobby/>
+        },
+        {
+            path: "/play",
+            element: <Game/>
         }
     ]
 
