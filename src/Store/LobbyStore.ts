@@ -8,6 +8,7 @@ import {ILobbyType} from "../Types/LobbyType";
 import authStore from "./AuthStore";
 import {getAuth} from "firebase/auth";
 import {IUserType} from "../Types/UserType";
+import AuthStore from "./AuthStore";
 
 class LobbyStore {
     showCreateModal: boolean = false;
@@ -132,7 +133,9 @@ class LobbyStore {
     }
 
     async removePlayerFromParty(lobbyInfo: ILobbyType, player: IUserType) {
-        if (authStore.dataBase)
+        const auth = getAuth()
+
+        if (authStore.dataBase && auth.currentUser?.uid === player.id)
             await getDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid))
                 .then(async () => {
                     const newLobbyInfo = lobbyInfo.players.filter((playerLobby) => playerLobby.id !== player.id)

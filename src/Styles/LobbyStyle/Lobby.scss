@@ -395,7 +395,7 @@ $borderGrey: #dedede;
   padding: 20px 0;
   border-bottom: 2px solid $borderGrey;
 
-  &:first-child{
+  &:first-child {
     border-top: 2px solid $borderGrey;
   }
 }
@@ -409,7 +409,7 @@ $borderGrey: #dedede;
   min-width: 130px;
   padding: 0 5px;
 
-  svg{
+  svg {
     border-radius: 50%;
     width: 75px;
     height: 75px;
@@ -417,15 +417,22 @@ $borderGrey: #dedede;
   }
 }
 
-.player_avatar{
+.player_avatar {
   border-radius: 50%;
   width: 75px;
   height: 75px;
   object-fit: cover;
   margin-bottom: 10px;
+
+  &:hover {
+    opacity: 0;
+  }
 }
 
-.player__name{
+.remove_player__btn {
+}
+
+.player__name {
   overflow-x: hidden;
   max-width: 100%;
 }
