@@ -6,11 +6,12 @@ import {IUserType} from "../../Types/UserType";
 type LobbyUserProps =
     {
         player: IUserType,
+        handleOnClick: (player: IUserType) => void
     }
 
-const LobbyPartyPlayer: React.FC<LobbyUserProps> = observer(({player}: LobbyUserProps) => {
+const LobbyPartyPlayer: React.FC<LobbyUserProps> = observer(({player, handleOnClick}: LobbyUserProps) => {
     return (
-        <div className="party__player">
+        <div onClick={() => handleOnClick(player)} className="party__player">
             {
                 player.photoURL
                     ? <img className="player_avatar" src={player.photoURL} alt="playerAvatar"/>
