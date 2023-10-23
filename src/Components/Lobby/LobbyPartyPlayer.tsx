@@ -17,7 +17,10 @@ const LobbyPartyPlayer: React.FC<LobbyUserProps> = observer(({player, lobbyInfo}
 
     const handleOnRemove = (lobbyInfo: ILobbyType, player: IUserType) => {
         if (isUser)
-            lobbyStore.removePlayerFromParty(lobbyInfo, player).then()
+            if (lobbyStore.userIsLobbyLeader)
+                lobbyStore.deleteLobbyWithPlayers(lobbyInfo).then()
+            else
+                lobbyStore.removePlayerFromParty(lobbyInfo, player).then()
     }
 
     return (

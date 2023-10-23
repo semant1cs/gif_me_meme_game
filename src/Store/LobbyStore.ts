@@ -126,6 +126,29 @@ class LobbyStore {
     async deleteLobby(lobbyInfo: ILobbyType) {
         if (authStore.dataBase)
             await deleteDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid))
+                .then(() => this.getLobbiesData())
+    }
+
+    async deleteLobbyWithPlayers(lobbyInfo: ILobbyType) {
+        console.log(lobbyInfo)
+
+        lobbyInfo.players.map(async player => {
+            if (authStore.dataBase && player.id)
+                await setDoc(doc(authStore.dataBase, "users", player.id), {
+                    email: player.email,
+                    id: player.id,
+                    nickname: player.nickname,
+                    photoURL: player.photoURL,
+                    token: player.token,
+                    lobby: null,
+                    isLobbyLeader: false,
+                })
+                    .then(() => {
+                        this.setUserLobby(null)
+                        this.setUserIsLobbyLeader(false)
+                    })
+                    .then(() => this.deleteLobby(lobbyInfo))
+        })
     }
 
     checkLobbyStart(lobbyInfo: ILobbyType) {
