@@ -5,29 +5,14 @@ import MyInput from "../../UI/MyInput";
 import MyButton from "../../UI/MyButton";
 import {useNavigate} from "react-router-dom";
 import ShowPasswordIcon from "../../Imgs/SVG/ShowPasswordIcon";
-import {getAuth, createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
 import authStore from "../../Store/AuthStore";
 
 const Register: React.FC = observer(() => {
     const navigate = useNavigate()
 
     const handleOnCreate = () => {
-        if (authStore.userAuthNickName && authStore.userAuthEmail && authStore.userAuthPassword) {
-            const auth = getAuth();
-
-            createUserWithEmailAndPassword(auth, authStore.userAuthEmail, authStore.userAuthPassword)
-                .then(() => {
-                    const user = auth.currentUser
-                    if (user)
-                        updateProfile(user, {displayName: authStore.userAuthNickName}).then()
-                })
-                .then(() => navigate("/lobby"))
-                .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    alert(errorCode + " " + errorMessage)
-                });
-        }
+        if (authStore.userAuthNickName && authStore.userAuthEmail && authStore.userAuthPassword)
+            authStore.register().then(() => navigate("/lobby"))
     }
 
     return (

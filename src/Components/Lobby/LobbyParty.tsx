@@ -12,7 +12,8 @@ type LobbyProps = {
 const LobbyParty: React.FC<LobbyProps> = observer(({lobbyInfo}: LobbyProps) => {
 
     const placesToPlayerJoin = Array.from({length: lobbyInfo.playerCount - lobbyInfo.players.length},
-        (_, index) => <MyAddPlayer handleOnClick={() => lobbyStore.addPlayer(lobbyInfo)} key={index}/>
+        (_, index) =>
+            <MyAddPlayer handleOnClick={() => lobbyStore.addPlayer(lobbyInfo).then()} key={index}/>
     );
 
     return (
