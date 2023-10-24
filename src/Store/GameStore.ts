@@ -2,6 +2,7 @@ import {makeAutoObservable} from "mobx";
 
 class GameStore {
     testGifs: string[] = [];
+    selectedGifs: number = 0;
 
     constructor() {
         makeAutoObservable(this)
@@ -9,6 +10,10 @@ class GameStore {
 
     setTestGifs(gifs: string[]) {
         this.testGifs = gifs
+    }
+
+    setSelectedGifs(value: number) {
+        this.selectedGifs = value
     }
 }
 
