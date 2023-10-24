@@ -1,7 +1,6 @@
 import React from 'react';
 import {useNavigate} from "react-router-dom";
 import "../../Styles/GameStyle/Game.scss"
-import {observer} from "mobx-react-lite";
 import WindowChooseGif from "../WindowChooseGif/WindowChooseGif.tsx";
 
 const Game: React.FC = () => {
