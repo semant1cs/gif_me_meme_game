@@ -1,18 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, {useDeferredValue, useEffect, useState} from 'react';
 import GameStore from "../../Store/GameStore.ts";
 import WindowGifItem from "./WindowGifItem.tsx";
 import {getNanoGifs} from "../../tenorAPI/tenorAPI.ts";
-import {useDebounce} from "usehooks-ts";
+import {observer} from "mobx-react-lite";
 
-const WindowChooseGif: React.FC = () => {
+const WindowChooseGif: React.FC = observer(() => {
     const [textSearcher, setTextSearcher] = useState("")
-    const [isSearching, setIsSearching] = useState(false);
+    const debounceSearcher = useDeferredValue(textSearcher)
 
-    const debounceSearcher = useDebounce(textSearcher, 500)
+    const countGifsCanSelect = 1;
 
     useEffect(() => {
         if (debounceSearcher) {
-            setIsSearching(true);
             getNanoGifs(debounceSearcher, 10)
         }
     }, [debounceSearcher])
@@ -22,13 +21,12 @@ const WindowChooseGif: React.FC = () => {
             <form className="window-choose-gif">
                 <input className="gif-searcher" type="text" value={textSearcher}
                        onChange={(e) => setTextSearcher(e.target.value)}/>
-                {isSearching ? GameStore.testGifs.map((testImg, index) =>
-                        <WindowGifItem key={index} testImg={testImg}/>)
-                    : ""}
+                {GameStore.testGifs.map((testImg, index) =>
+                    <WindowGifItem countGifsCanSelect={countGifsCanSelect} key={index} testImg={testImg}/>)}
                 <button onClick={(e) => e.preventDefault()} className="choose-gif__btn">Отправить</button>
             </form>
         </div>
     );
-};
+});
 
 export default WindowChooseGif;

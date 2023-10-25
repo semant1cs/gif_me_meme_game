@@ -101,11 +101,14 @@ class LobbyStore {
 
         if (authStore.dataBase && auth.currentUser) {
             const user: IUserType = {
-                email: auth.currentUser?.email,
                 id: auth.currentUser?.uid,
                 nickname: auth.currentUser?.displayName,
+                email: auth.currentUser?.email,
+                isLobbyLeader: false,
+                lobby: null,
                 photoURL: auth.currentUser?.photoURL,
                 token: auth.currentUser?.refreshToken,
+
             }
             let resultLobby: ILobbyType | undefined
 
@@ -120,6 +123,7 @@ class LobbyStore {
                         isLobbyPrivate: snap.data()?.isLobbyPrivate,
                         isAutoStart: snap.data()?.isAutoStart,
                     }
+                    user.lobby = resultLobby
 
                     let isPlayerInAnotherParty = false;
                     if (!isPlayerInAnotherParty) {

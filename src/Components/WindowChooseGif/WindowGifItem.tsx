@@ -4,15 +4,16 @@ import {observer} from "mobx-react-lite";
 
 interface IPictureItemProps {
     testImg: string,
+    countGifsCanSelect: number;
 }
 
-const WindowGifItem: React.FC<IPictureItemProps> = observer(({testImg}: IPictureItemProps) => {
+const WindowGifItem: React.FC<IPictureItemProps> = observer(({testImg, countGifsCanSelect}: IPictureItemProps) => {
     const [isImgSelected, setIsImgSelected] = useState(false)
 
     function SelectGif() {
         if (isImgSelected) {
             gameStore.setSelectedGifs(gameStore.selectedGifs - 1)
-        } else if (gameStore.selectedGifs < 1) {
+        } else if (gameStore.selectedGifs < countGifsCanSelect) {
             gameStore.setSelectedGifs(gameStore.selectedGifs + 1)
         } else return
         setIsImgSelected(!isImgSelected)
