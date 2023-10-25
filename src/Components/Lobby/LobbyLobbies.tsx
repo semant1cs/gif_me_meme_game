@@ -60,6 +60,7 @@ const LobbyLobbies: React.FC = observer(() => {
         lobbyStore.getLobbiesData().then()
     }, [])
 
+
     return (
         <section className="lobby__lobbies">
             {
