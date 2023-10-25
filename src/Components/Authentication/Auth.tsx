@@ -6,10 +6,7 @@ import MyButton from "../../UI/MyButton";
 import {useNavigate} from "react-router-dom";
 import ShowPasswordIcon from "../../Imgs/SVG/ShowPasswordIcon";
 import {
-    getAuth,
-    signInWithEmailAndPassword,
-    browserSessionPersistence,
-    setPersistence, onAuthStateChanged,
+    getAuth, onAuthStateChanged,
 } from "firebase/auth";
 import authStore from "../../Store/AuthStore";
 
@@ -28,20 +25,8 @@ const Auth: React.FC = observer(() => {
 
 
     const handleOnCreate = () => {
-        if (authStore.userAuthEmail && authStore.userAuthPassword) {
-            const auth = getAuth();
-
-            setPersistence(auth, browserSessionPersistence)
-                .then(() => {
-                    return signInWithEmailAndPassword(auth, authStore.userAuthEmail, authStore.userAuthPassword)
-                        .then(() => navigate("/lobby"))
-                        .catch((error) => {
-                            const errorCode = error.code;
-                            const errorMessage = error.message;
-                            alert(errorCode + " " + errorMessage)
-                        })
-                })
-        }
+        if (authStore.userAuthEmail && authStore.userAuthPassword)
+            authStore.signIn().then(() => navigate("/lobby"))
     }
 
     return (

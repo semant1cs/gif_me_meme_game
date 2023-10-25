@@ -58,6 +58,7 @@ const LobbyLobbies: React.FC = observer(() => {
 
     useEffect(() => {
         lobbyStore.getLobbiesData().then()
+        lobbyStore.getUserLobbyInfo().then()
     }, [])
 
     return (
@@ -73,9 +74,24 @@ const LobbyLobbies: React.FC = observer(() => {
                 <h2>
                     Ожидают игры
                 </h2>
-                <MyButton btnText="Создать игру"
-                          btnStyle="lobbies__button"
-                          handleOnClick={() => lobbyStore.changeShowCreateModal()}/>
+                <div>
+                    {
+                        lobbyStore.userIsLobbyLeader
+                            ?
+                            <MyButton btnText="Начать игру"
+                                      btnStyle="lobbies__button"
+                                      handleOnClick={() => lobbyStore.startLobby()}/>
+                            : ""
+                    }
+                    {
+                        lobbyStore.userLobby
+                            ? ""
+                            : <MyButton btnText="Создать игру"
+                                        btnStyle="lobbies__button"
+                                        handleOnClick={() => lobbyStore.changeShowCreateModal()}/>
+                    }
+
+                </div>
             </div>
             <div className="lobbies__main">
                 {

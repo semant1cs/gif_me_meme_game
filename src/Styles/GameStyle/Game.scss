@@ -1,0 +1,58 @@
+body {
+  background: #102031;
+}
+
+.game {
+  position: absolute;
+  width: 80%;
+  height: 90%;
+  border: 2px solid white;
+  top: 50%;
+  left: 50%;
+  background: none;
+  transform: translate(-50%, -50%);
+}
+
+
+.leave_from_game__btn {
+  position: fixed;
+  right: 0;
+  top: 0;
+}
+
+.window-choose-gif {
+  display: flex;
+  overflow-x: auto;
+  width: 350px;
+  height: 500px;
+  flex-wrap: wrap;
+  padding: 15px;
+  gap: 20px;
+  background: gray;
+}
+
+.choose-gif__btn {
+  margin: auto;
+}
+
+.gif-searcher {
+  margin: auto;
+}
+
+.window-choose-gif-item {
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;
+
+  &:hover {
+    border: white 5px solid;
+  }
+}
+
+.selected-gif {
+  border: blue 5px solid;
+
+  &:hover {
+    border: blue 5px solid;
+  }
+}

@@ -1,4 +1,6 @@
+import {ReactNode} from "react";
+
 export interface RouteType {
     path: string,
-    element: JSX.Element,
+    element: ReactNode,
 }
