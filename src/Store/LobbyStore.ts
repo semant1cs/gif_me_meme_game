@@ -1,7 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import {
     collection, DocumentData, getDocs, serverTimestamp,
-    QuerySnapshot, getDoc, doc, setDoc
+    QuerySnapshot, getDoc, doc, setDoc, deleteDoc,
 } from "firebase/firestore";
 import {v4 as uuidv4} from "uuid";
 import {ILobbyType} from "../Types/LobbyType";
@@ -16,6 +16,8 @@ class LobbyStore {
     paramsIsLobbyPrivate: boolean = false;
     paramsIsAutoStart: boolean = false;
     currentAvailableParties: ILobbyType[] = [];
+    userLobby: ILobbyType | null = null;
+    userIsLobbyLeader: boolean = false;
 
     constructor() {
         makeAutoObservable(this)
@@ -47,6 +49,14 @@ class LobbyStore {
             this.paramsIsAutoStart = !this.paramsIsAutoStart
     }
 
+    setUserLobby(lobby: ILobbyType | null) {
+        this.userLobby = lobby
+    }
+
+    setUserIsLobbyLeader(isLobbyLeader: boolean) {
+        this.userIsLobbyLeader = isLobbyLeader
+    }
+
     makeParamsNull() {
         this.setParamsLobbyName("")
         this.setParamsPlayerCount(0)
@@ -54,6 +64,43 @@ class LobbyStore {
         this.setParamsIsAutoStart(false)
     }
 
+    // Вызывается один раз при первой подгрузке страницы
+    async getUserLobbyInfo() {
+        const auth = getAuth()
+
+        if (authStore.dataBase && auth.currentUser)
+            await getDoc(doc(authStore.dataBase, "users", auth.currentUser.uid))
+                .then((snap) => {
+                    // console.log(snap.data()?.lobby)
+                    // console.log(snap.data()?.isLobbyLeader)
+                    this.setUserLobby(snap.data()?.lobby)
+                    this.setUserIsLobbyLeader(snap.data()?.isLobbyLeader)
+                })
+    }
+
+    // Изменяет значения пользователя, связанные с лобби, изменяет локальные переменные, которые нужны
+    // чтобы не делать постоянно запросы в бд
+    async changeUserDataInDB(lobby: ILobbyType | null, isLobbyLeader: boolean) {
+        const auth = getAuth()
+
+        if (authStore.dataBase && auth.currentUser)
+            await setDoc(doc(authStore.dataBase, "users", auth.currentUser.uid), {
+                email: auth.currentUser?.email,
+                id: auth.currentUser?.uid,
+                nickname: auth.currentUser?.displayName,
+                photoURL: auth.currentUser?.photoURL,
+                token: auth.currentUser?.refreshToken,
+                isLobbyLeader: isLobbyLeader,
+            })
+                .then(() => {
+                    // console.log(lobby)
+                    // console.log(isLobbyLeader)
+                    this.setUserLobby(lobby)
+                    this.setUserIsLobbyLeader(isLobbyLeader)
+                })
+    }
+
+    // Создаёт новое лобби
     async createNewLobby() {
         if (this.paramsLobbyName && this.paramsPlayerCount && authStore.dataBase) {
             const uid = uuidv4()
@@ -74,6 +121,47 @@ class LobbyStore {
         }
     }
 
+    // Удаляет существующее лобби
+    async deleteLobby(lobbyInfo: ILobbyType) {
+        if (authStore.dataBase)
+            await deleteDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid))
+    }
+
+    async deleteLobbyWithPlayers(lobbyInfo: ILobbyType) {
+        console.log(lobbyInfo)
+
+        lobbyInfo.players.map(async player => {
+            if (authStore.dataBase && player.id)
+                await setDoc(doc(authStore.dataBase, "users", player.id), {
+                    email: player.email,
+                    id: player.id,
+                    nickname: player.nickname,
+                    photoURL: player.photoURL,
+                    token: player.token,
+                    lobby: lobbyInfo,
+                    isLobbyLeader: false,
+                })
+                    .then(() => {
+                        this.setUserLobby(null)
+                        this.setUserIsLobbyLeader(false)
+                    })
+                    .then(() => this.deleteLobby(lobbyInfo))
+        })
+    }
+
+    checkLobbyStart(lobbyInfo: ILobbyType) {
+        if (lobbyInfo.players.length + 1 === lobbyInfo.playerCount) {
+            if (lobbyInfo.isAutoStart)
+                alert("AutoStart")
+            else
+                alert("Start button")
+        }
+    }
+
+    startLobby() {
+
+    }
+
     async getLobbiesData() {
         if (authStore.dataBase) {
             await getDocs(collection(authStore.dataBase, "lobbies"))
@@ -84,22 +172,31 @@ class LobbyStore {
     setCurrentAvailableParties(snap: QuerySnapshot<DocumentData, DocumentData>) {
         this.currentAvailableParties = []
         snap.docs.forEach(item => {
-            this.currentAvailableParties.push({
+            const newLobby = {
                 uid: item.data().uid,
                 lobbyName: item.data().lobbyName,
+                playerCount: item.data().playerCount,
                 isLobbyPrivate: item.data().isLobbyPrivate,
                 isAutoStart: item.data().isAutoStart,
                 players: item.data().players,
-                playerCount: item.data().playerCount,
                 createdAt: item.data().createdAt,
-            })
+            }
+
+            if (newLobby.players.length !== 0)
+                this.currentAvailableParties.push(newLobby)
+            else
+                this.deleteLobby(newLobby).then()
         })
     }
 
+    // Добавляет игрока в лобби, делается проверка на наличие игрока в других лобби с помощью this.userLobby
+    // Если всё нормально, то игрок добавляется, изменяются локальные переменные игрока, связанные с лобби
+    // Происходит проверка на начало игры
     async addPlayer(lobbyInfo: ILobbyType) {
         const auth = getAuth()
 
         if (authStore.dataBase && auth.currentUser) {
+            console.log(lobbyInfo)
             const user: IUserType = {
                 id: auth.currentUser?.uid,
                 nickname: auth.currentUser?.displayName,
@@ -108,60 +205,44 @@ class LobbyStore {
                 lobby: null,
                 photoURL: auth.currentUser?.photoURL,
                 token: auth.currentUser?.refreshToken,
-
             }
-            let resultLobby: ILobbyType | undefined
 
-            await getDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid))
-                .then(async (snap) => {
-                    resultLobby = {
-                        uid: snap.data()?.uid,
-                        players: snap.data()?.players,
-                        createdAt: snap.data()?.createdAt,
-                        lobbyName: snap.data()?.lobbyName,
-                        playerCount: snap.data()?.playerCount,
-                        isLobbyPrivate: snap.data()?.isLobbyPrivate,
-                        isAutoStart: snap.data()?.isAutoStart,
-                    }
-                    user.lobby = resultLobby
+            const isUserNotInThisParty = lobbyInfo.players.findIndex(p => p.id === user.id) === -1
 
-                    let isPlayerInAnotherParty = false;
-                    if (!isPlayerInAnotherParty) {
-                        this.currentAvailableParties.map((party) =>
-                            party.players.map((player) =>
-                                isPlayerInAnotherParty = auth.currentUser?.uid === player.id))
-                    }
-
-                    if (!isPlayerInAnotherParty && resultLobby.players.findIndex(p => p.id === user.id) === -1 && authStore.dataBase)
-                        await setDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid), {
-                            ...resultLobby,
-                            players: [...resultLobby.players, user]
-                        })
+            if (!this.userLobby && isUserNotInThisParty)
+                await setDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid), {
+                    ...lobbyInfo,
+                    players: [...lobbyInfo.players, user],
                 })
-                .then(() => this.getLobbiesData())
+                    .then(() => {
+                        if (lobbyInfo.players.length === 0) {
+                            this.changeUserDataInDB(lobbyInfo, true)
+                        } else
+                            this.changeUserDataInDB(lobbyInfo, false)
+                    })
+                    .then(() => this.getLobbiesData())
+                    .then(() => this.checkLobbyStart(lobbyInfo))
         }
     }
 
     async removePlayerFromParty(lobbyInfo: ILobbyType, player: IUserType) {
         const auth = getAuth()
+        const isUser = auth.currentUser?.uid === player.id
 
-        if (authStore.dataBase && auth.currentUser?.uid === player.id)
+        if (authStore.dataBase && isUser)
             await getDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid))
                 .then(async () => {
-                    const newLobbyInfo = lobbyInfo.players.filter((playerLobby) => playerLobby.id !== player.id)
+                    const newPlayers = lobbyInfo.players.filter((playerLobby) => playerLobby.id !== player.id)
 
                     if (authStore.dataBase)
                         await setDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid), {
                             ...lobbyInfo,
-                            players: [...newLobbyInfo]
+                            players: [...newPlayers]
                         })
+                            .then(() => this.changeUserDataInDB(null, false))
                 })
                 .then(() => this.getLobbiesData())
     }
-
-//     Получение элемента коллекции по id
-//     const ref = doc(db, "cities", "LA").withConverter(cityConverter);
-// await setDoc(ref, new City("Los Angeles", "CA", "USA"));
 }
 
 export default new LobbyStore()

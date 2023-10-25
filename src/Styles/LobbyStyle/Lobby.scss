@@ -379,6 +379,10 @@ $borderGrey: #dedede;
   margin-bottom: 30px;
 }
 
+.lobbies__buttonDelete {
+  margin-right: 15px;
+}
+
 .lobbies-modal__create {
   align-self: end;
   font-size: 16px;
@@ -424,10 +428,6 @@ $borderGrey: #dedede;
   height: 75px;
   object-fit: cover;
   margin-bottom: 10px;
-
-  &:hover {
-    opacity: 0;
-  }
 }
 
 .leave_lobby__btn {
