@@ -9,7 +9,6 @@ import {
     signOut, updateProfile
 } from "firebase/auth";
 import {IUserWithLobbyType} from "../Types/UserWithLobbyType";
-import {IUserType} from "../Types/UserType.ts";
 
 class UserStore {
     userAuthNickName: string = "";

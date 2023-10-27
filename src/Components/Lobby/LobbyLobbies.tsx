@@ -6,6 +6,7 @@ import ModalWindow from "../../UI/ModalWindow";
 import MyInput from "../../UI/MyInput.tsx";
 import LobbyParty from "./LobbyParty.tsx";
 import MySwiper from "../../UI/MySwiper";
+import {useNavigate} from "react-router-dom";
 
 
 const LobbyModalBody: React.FC = observer(() => {
@@ -61,6 +62,11 @@ const LobbyLobbies: React.FC = observer(() => {
         lobbyStore.getUserLobbyInfo().then()
     }, [])
 
+    const navigate = useNavigate()
+    const handleOnStart = () => {
+        navigate("/play")
+    }
+
     return (
         <section className="lobby__lobbies">
             {
@@ -80,7 +86,7 @@ const LobbyLobbies: React.FC = observer(() => {
                             ?
                             <MyButton btnText="Начать игру"
                                       btnStyle="lobbies__button"
-                                      handleOnClick={() => lobbyStore.startLobby()}/>
+                                      handleOnClick={() => handleOnStart()}/>
                             : ""
                     }
                     {
