@@ -8,10 +8,10 @@ import LobbyLobbies from "./LobbyLobbies";
 import {getAuth} from "firebase/auth";
 import MyButton from "../../UI/MyButton";
 import {useNavigate} from "react-router-dom";
+import lobbyStore from "../../Store/LobbyStore";
 
 const Lobby: React.FC = observer(() => {
     const auth = getAuth()
-    const navigate = useNavigate()
 
     return (
         <main className="lobby">
@@ -22,14 +22,19 @@ const Lobby: React.FC = observer(() => {
                             Друзья
                         </li>
                     </ul>
-                    <MyButton btnText="Выйти" btnStyle="ad" handleOnClick={() =>
-                        authStore.logOutUser().then(() => navigate("/"))}/>
                     <div className="header__user">
                         <span>
                             {auth.currentUser?.displayName || authStore.userAuthNickName || "userNickName"}
                         </span>
-                        <UserIcon/>
+                        <div onClick={() => lobbyStore.changeSignOutModal()}>
+                            <UserIcon/>
+                        </div>
                     </div>
+                    {
+                        lobbyStore.signOutModal
+                            ? <LobbySignOutModal/>
+                            : ""
+                    }
                 </header>
                 <div className="lobby__main">
                     <LobbyChats/>
@@ -38,6 +43,17 @@ const Lobby: React.FC = observer(() => {
             </div>
         </main>
     );
+})
+
+const LobbySignOutModal = observer(() => {
+    const navigate = useNavigate()
+
+    return (
+        <div className="lobby-header__modal">
+            <MyButton btnText="Выйти" btnStyle="lobby-headerModal__button" handleOnClick={() =>
+                authStore.logOutUser().then(() => navigate("/"))}/>
+        </div>
+    )
 })
 
 export default Lobby;

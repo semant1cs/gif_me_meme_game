@@ -18,9 +18,14 @@ class LobbyStore {
     currentAvailableParties: ILobbyType[] = [];
     userLobby: ILobbyType | null = null;
     userIsLobbyLeader: boolean = false;
+    signOutModal: boolean = false;
 
     constructor() {
         makeAutoObservable(this)
+    }
+
+    changeSignOutModal() {
+        this.signOutModal = !this.signOutModal
     }
 
     changeShowCreateModal() {

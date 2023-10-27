@@ -34,6 +34,26 @@ $borderGrey: #dedede;
   justify-content: space-between;
   margin-bottom: 30px;
   font-size: 18px;
+  position: relative;
+}
+
+.lobby-header__modal{
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  padding: 15px;
+  background-color: $mainColor;
+  right: 30px;
+  top: 70px;
+  border-radius: 10px;
+  box-shadow: 0 0 4px 0 rgba(16, 32, 49, 0.50);
+}
+
+.lobby-headerModal__button{
+  font-size: 16px;
+  padding: 8px 10px;
+  background-color: white;
+  color: $bgColor
 }
 
 .header__list {
@@ -51,6 +71,10 @@ $borderGrey: #dedede;
 
   span {
     margin-right: 15px;
+  }
+
+  svg{
+    cursor: pointer;
   }
 }
 
