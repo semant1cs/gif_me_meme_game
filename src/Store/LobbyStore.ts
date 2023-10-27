@@ -177,10 +177,10 @@ class LobbyStore {
             const newLobby = {
                 uid: item.data().uid,
                 lobbyName: item.data().lobbyName,
+                playerCount: item.data().playerCount,
                 isLobbyPrivate: item.data().isLobbyPrivate,
                 isAutoStart: item.data().isAutoStart,
                 players: item.data().players,
-                playerCount: item.data().playerCount,
                 createdAt: item.data().createdAt,
             }
 
@@ -199,9 +199,11 @@ class LobbyStore {
 
         if (authStore.dataBase && auth.currentUser) {
             const user: IUserType = {
-                email: auth.currentUser?.email,
                 id: auth.currentUser?.uid,
                 nickname: auth.currentUser?.displayName,
+                email: auth.currentUser?.email,
+                isLobbyLeader: false,
+                lobby: null,
                 photoURL: auth.currentUser?.photoURL,
                 token: auth.currentUser?.refreshToken,
             }
