@@ -3,18 +3,19 @@ import gameStore from "../../Store/GameStore.ts";
 import {observer} from "mobx-react-lite";
 
 interface IPictureItemProps {
-    testImg: string,
+    gif: string,
     countGifsCanSelect: number;
 }
 
-const WindowGifItem: React.FC<IPictureItemProps> = observer(({testImg, countGifsCanSelect}: IPictureItemProps) => {
+const WindowGifItem: React.FC<IPictureItemProps> = observer(({gif, countGifsCanSelect}: IPictureItemProps) => {
     const [isImgSelected, setIsImgSelected] = useState(false)
 
-    function SelectGif() {
+    function SelectGif(gif: string) {
         if (isImgSelected) {
             gameStore.setSelectedGifs(gameStore.selectedGifs - 1)
         } else if (gameStore.selectedGifs < countGifsCanSelect) {
             gameStore.setSelectedGifs(gameStore.selectedGifs + 1)
+            gameStore.appendGifOnDb(gif)
         } else return
         setIsImgSelected(!isImgSelected)
     }
@@ -22,7 +23,7 @@ const WindowGifItem: React.FC<IPictureItemProps> = observer(({testImg, countGifs
     return (
         <img
             className={isImgSelected ? "window-choose-gif-item selected-gif" : "window-choose-gif-item"}
-            src={testImg} alt="text" onClick={SelectGif}/>
+            src={gif} alt="text" onClick={() => SelectGif(gif)}/>
     )
 })
 
