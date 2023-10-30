@@ -6,9 +6,14 @@ const clientKey: string = "gife_me_meme";
 
 function getNanoGifs(searchString: string, limit_gifs: number): void {
     const respURL = "https://tenor.googleapis.com/v2/search?q="
-        + searchString + "&key=" + apikey + "&client_key=" + clientKey
-        + "&limit=" + limit_gifs + "&country=RU"
-    axios.get(respURL).then((resp) => {
+    axios.get(respURL, {
+        params: {
+            q: searchString,
+            key: apikey,
+            client_key: clientKey,
+            limit: limit_gifs
+        }
+    }).then((resp) => {
         const gifs = resp.data.results.map((result: any) => result.media_formats.nanogif.url);
         GameStore.setTestGifs(gifs)
     })

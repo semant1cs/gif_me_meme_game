@@ -1,5 +1,9 @@
+$mainColor: #102031;
+$bgWindowGifColor: #0a1420;
+$choosedGifColor: #5959ff;
+
 body {
-  background: #102031;
+  background: $mainColor;
 }
 
 .game {
@@ -20,39 +24,55 @@ body {
   top: 0;
 }
 
-.window-choose-gif {
+.form-choose-gif {
+  position: relative;
   display: flex;
   overflow-x: auto;
   width: 350px;
+  border-radius: 10px;
   height: 500px;
   flex-wrap: wrap;
   padding: 15px;
   gap: 20px;
-  background: gray;
+  background: $bgWindowGifColor;
+  margin: auto
 }
 
-.choose-gif__btn {
-  margin: auto;
-}
 
 .gif-searcher {
   margin: auto;
+  height: 32px;
+  background: none;
+  width: 80%;
+}
+
+.searcher__field {
+  position: relative;
+  display: flex;
+  margin: auto;
+  background: white;
+  border-radius: 10px;
+  width: 100%;
 }
 
 .window-choose-gif-item {
+  position: relative;
   width: 150px;
   height: 150px;
   border-radius: 10px;
 
   &:hover {
-    border: white 5px solid;
+    border: $choosedGifColor 3px solid;
   }
 }
 
 .selected-gif {
-  border: blue 5px solid;
+  border: $choosedGifColor 3px solid;
+}
 
-  &:hover {
-    border: blue 5px solid;
-  }
+.search-icon {
+  position: absolute;
+  display: flex;
+  right: 2%;
+  top: 13%;
 }
