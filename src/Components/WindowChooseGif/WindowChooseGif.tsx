@@ -1,21 +1,19 @@
-import React, {useDeferredValue, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import GameStore from "../../Store/GameStore.ts";
 import WindowGifItem from "./WindowGifItem.tsx";
 import {getNanoGifs} from "../../tenorAPI/tenorAPI.ts";
 import {observer} from "mobx-react-lite";
 import SearchIcon from "../../Imgs/SVG/SearchIcon.tsx";
+import {useDebounce} from "usehooks-ts";
 
 const WindowChooseGif: React.FC = observer(() => {
     const [textSearcher, setTextSearcher] = useState("")
-    const debounceSearcher = useDeferredValue(textSearcher)
-
+    const debounce = useDebounce(textSearcher, 500)
     const countGifsCanSelect = 1;
 
     useEffect(() => {
-        if (debounceSearcher) {
-            getNanoGifs(debounceSearcher, 10)
-        }
-    }, [debounceSearcher])
+        getNanoGifs(debounce, 10)
+    }, [debounce])
 
     return (
         <div className="window-choose-gif">
