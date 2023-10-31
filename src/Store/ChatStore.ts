@@ -1,13 +1,17 @@
 import {makeAutoObservable} from "mobx";
-import {addDoc, collection, serverTimestamp} from "firebase/firestore";
+import {
+    addDoc,
+    collection,
+    DocumentData,
+    QueryDocumentSnapshot,
+    serverTimestamp
+} from "firebase/firestore";
 import {getAuth} from "firebase/auth";
 import authStore from "./AuthStore";
 import {v4 as uuidv4} from "uuid";
-import {MessageType} from "../Types/MessageType.ts";
 
 class ChatStore {
     userChatText: string = "";
-    messages: MessageType[] = []
 
     constructor() {
         makeAutoObservable(this)
@@ -32,6 +36,17 @@ class ChatStore {
 
     changeUserChatText(text: string) {
         this.userChatText = text
+    }
+
+    checkDiffTime(doc: QueryDocumentSnapshot<DocumentData, DocumentData>) {
+        const diffTime = Math.ceil((new Date().getTime() - new Date(doc.data().createdAt.seconds * 1000).getTime()) / (1000 * 3600))
+        return diffTime <= 2
+    }
+
+    getFormattedTime(time: number) {
+        const hours = new Date(time * 1000).getHours().toString().padStart(2, "0")
+        const minutes = new Date(time * 1000).getMinutes().toString().padStart(2, "0")
+        return hours + ":" + minutes
     }
 }
 

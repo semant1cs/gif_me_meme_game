@@ -1,85 +1,68 @@
 import React, {useEffect, useState} from 'react';
 import UserIcon from "../../Imgs/SVG/UserIcon";
 import {observer} from "mobx-react-lite";
-import {
-    collection,
-    DocumentData,
-    limit,
-    onSnapshot,
-    orderBy,
-    query,
-    QueryDocumentSnapshot,
-    Timestamp
-} from "firebase/firestore";
-import authStore from "../../Store/AuthStore.ts";
-import {MessageType} from "../../Types/MessageType.ts";
+import chatStore from "../../Store/ChatStore";
+import {MessageType} from "../../Types/MessageType";
+import authStore from "../../Store/AuthStore";
+import {collection, limit, onSnapshot, orderBy, query} from "firebase/firestore";
 
 const LobbyChat: React.FC = observer(() => {
     const [messages, setMessages] = useState<MessageType[]>([])
 
     useEffect(() => {
+        if (authStore.dataBase) {
+            const q = query(collection(authStore.dataBase, "usersChat"), orderBy("createdAt"), limit(100))
 
-        const q = query(collection(authStore.dataBase, "usersChat"), orderBy("createdAt"), limit(10))
+            return onSnapshot(q, (QuerySnapshot) => {
 
-        const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
-            const fetchedMessages: MessageType[] = [];
-            QuerySnapshot.forEach((doc) => {
-                fetchedMessages.push({
-                    id: doc.id,
-                    displayName: doc.data().displayName,
-                    photoURL: doc.data().photoURL,
-                    text: doc.data().text,
-                    createdAt: doc.data().createdAt
+                const fetchedMessages: MessageType[] = [];
+                QuerySnapshot.forEach((doc) => {
+                    fetchedMessages.push({
+                        id: doc.id,
+                        displayName: doc.data().displayName,
+                        photoURL: doc.data().photoURL,
+                        text: doc.data().text,
+                        createdAt: doc.data().createdAt
+                    });
                 });
-            });
-            setMessages(fetchedMessages)
-        })
-
-        return () => unsubscribe
+                setMessages(fetchedMessages)
+            })
+        }
     }, [])
 
-
-    const checkDiffTime = (doc: QueryDocumentSnapshot<DocumentData, DocumentData>): boolean => {
-        const diffTime = Math.ceil((new Date().getTime() - new Date(doc.data().createdAt.seconds * 1000).getTime()) / (1000 * 3600))
-        return diffTime <= 2
-    }
-
-    const getFormattedTime = (time: number) => {
-        const hours = new Date(time * 1000).getHours().toString().padStart(2, "0")
-        const minutes = new Date(time * 1000).getMinutes().toString().padStart(2, "0")
-        return hours + ":" + minutes
-    }
+    useEffect(() => {
+        document.getElementById("chat")?.scrollTo(0, 9999999)
+    }, [messages])
 
     return (
         <div className="chats__block" id="chat">
             {
                 messages
                     ?
-                    messages.map(doc => {
-                            return (
-                                <div className="chats__message" key={doc.id}>
-                                    <p className="message__text">{doc.text}</p>
-                                    <div className="message__info">
-                                        <div className="info__text">
+                    messages.map(msg =>
+                        msg
+                            ?
+                            <div className="chats__message" key={msg?.id}>
+                                <p className="message__text">{msg?.text}</p>
+                                <div className="message__info">
+                                    <div className="info__text">
                                              <span className="message__name">
-                                                {doc.displayName}
+                                                {msg?.displayName}
                                              </span>
-                                            <span className="message__time">
+                                        <span className="message__time">
                                                 {
-                                                    getFormattedTime(doc.createdAt.seconds)
+                                                    chatStore.getFormattedTime(msg?.createdAt?.seconds)
                                                 }
                                             </span>
-                                        </div>
-                                        {
-                                            doc.photoURL
-                                                ? <img src={doc.photoURL} alt="Аватар"/>
-                                                : <UserIcon/>
-                                        }
                                     </div>
+                                    {
+                                        msg?.photoURL
+                                            ? <img src={msg?.photoURL} alt="Аватар"/>
+                                            : <UserIcon/>
+                                    }
                                 </div>
-                            )
-
-                        }
+                            </div>
+                            : ""
                     )
                     : ""
             }
