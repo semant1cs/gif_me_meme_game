@@ -1,85 +1,75 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import UserIcon from "../../Imgs/SVG/UserIcon";
 import {observer} from "mobx-react-lite";
-import {DocumentData, QueryDocumentSnapshot} from "firebase/firestore";
-import chatStore from "../../Store/ChatStore";
+import {collection, DocumentData, limit, onSnapshot, orderBy, query, QueryDocumentSnapshot} from "firebase/firestore";
+import authStore from "../../Store/AuthStore.ts";
+import {MessageType} from "../../Types/MessageType.ts";
 
 const LobbyChat: React.FC = observer(() => {
+    const [messages, setMessages] = useState([])
 
     useEffect(() => {
-        chatStore.getChatData()
-            .then(() => document.getElementById("chat")?.scrollTo(0, 9999999))
+        const q = query(collection(authStore.dataBase, "usersChat"), orderBy("createdAt"), limit(10))
+
+        const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+            const fetchedMessages: MessageType[] = [];
+            QuerySnapshot.forEach((doc) => {
+                fetchedMessages.push({
+                    id: doc.id,
+                    displayName: doc.data().displayName,
+                    photoURL: doc.data().photoURL,
+                    text: doc.data().text,
+                    createdAt: doc.data().createdAt
+                });
+            });
+            setMessages(fetchedMessages)
+        })
+
+        return () => unsubscribe
     }, [])
+
 
     const checkDiffTime = (doc: QueryDocumentSnapshot<DocumentData, DocumentData>): boolean => {
         const diffTime = Math.ceil((new Date().getTime() - new Date(doc.data().createdAt.seconds * 1000).getTime()) / (1000 * 3600))
         return diffTime <= 2
     }
 
+    const getFormattedTime = (time: number) => {
+        const hours = new Date(time * 1000).getHours().toString().padStart(2, "0")
+        const minutes = new Date(time * 1000).getMinutes().toString().padStart(2, "0")
+        return hours + ":" + minutes
+    }
+
     return (
         <div className="chats__block" id="chat">
             {
-                chatStore.chatData
+                messages
                     ?
-                    chatStore.chatData.map(doc => {
-                            if (checkDiffTime(doc)) {
-                                return (
-                                    <div className="chats__message" key={doc.id}>
-                                        <p className="message__text">{doc.data().text}</p>
-                                        <div className="message__info">
-                                            <div className="info__text">
+                    messages.map(doc => {
+                            return (
+                                <div className="chats__message" key={doc.id}>
+                                    <p className="message__text">{doc.text}</p>
+                                    <div className="message__info">
+                                        <div className="info__text">
                                              <span className="message__name">
-                                                {doc.data().displayName}
+                                                {doc.displayName}
                                              </span>
-                                                <span className="message__time">
-                                            {
-                                                new Date(doc.data().createdAt.seconds * 1000)
-                                                    .getHours().toString().padStart(2, "0")
-                                                + ":" +
-                                                new Date(doc.data().createdAt.seconds * 1000)
-                                                    .getMinutes().toString().padStart(2, "0")
-                                            }
+                                            <span className="message__time">
+                                                {
+                                                    getFormattedTime(doc.createdAt)
+                                                }
                                             </span>
-                                            </div>
-                                            {
-                                                doc.data().photoURL
-                                                    ? <img src={doc.data().photoURL} alt="Аватар"/>
-                                                    : <UserIcon/>
-                                            }
                                         </div>
+                                        {
+                                            doc.photoURL
+                                                ? <img src={doc.photoURL} alt="Аватар"/>
+                                                : <UserIcon/>
+                                        }
                                     </div>
-                                )
-                            }
-                        }
-                    )
-                    : ""
-            }
-            {
-                chatStore.currentChatData
-                    ?
-                    chatStore.currentChatData.map(msg =>
-                        <div key={msg.id} className="chats__message">
-                            <p className="message__text">{msg.text}</p>
-                            <div className="message__info">
-                                <div className="info__text">
-                                    <span className="message__name">
-                                        {msg.displayName}
-                                    </span>
-                                    <span className="message__time">
-                                            {
-                                                msg.createdAt.getHours().toString().padStart(2, "0")
-                                                + ":" +
-                                                msg.createdAt.getMinutes().toString().padStart(2, "0")
-                                            }
-                                    </span>
                                 </div>
-                                {
-                                    msg.photoURL
-                                        ? <img src={msg.photoURL} alt="Аватар"/>
-                                        : <UserIcon/>
-                                }
-                            </div>
-                        </div>
+                            )
+
+                        }
                     )
                     : ""
             }
