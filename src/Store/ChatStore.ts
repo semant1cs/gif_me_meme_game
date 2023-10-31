@@ -1,15 +1,17 @@
 import {makeAutoObservable} from "mobx";
-import {setDoc, doc, collection, getDocs, QueryDocumentSnapshot, QuerySnapshot, serverTimestamp} from "firebase/firestore";
-import {Auth} from "firebase/auth";
-import {MessageType} from "../Types/MessageType";
-import authStore from "./AuthStore";
+import {
+    addDoc,
+    collection,
+    DocumentData,
+    QueryDocumentSnapshot,
+    serverTimestamp
+} from "firebase/firestore";
 import {getAuth} from "firebase/auth";
+import authStore from "./AuthStore";
 import {v4 as uuidv4} from "uuid";
 
 class ChatStore {
     userChatText: string = "";
-    chatData: Array<QueryDocumentSnapshot> | null = null;
-    currentChatData: MessageType[] = [];
 
     constructor() {
         makeAutoObservable(this)
@@ -20,43 +22,31 @@ class ChatStore {
             const auth = getAuth()
             const uid = uuidv4()
 
-            await setDoc(doc(authStore.dataBase, "usersChat", uid), {
+            await addDoc(collection(authStore.dataBase, "usersChat"), {
                 uid: uid,
                 displayName: auth.currentUser?.displayName || authStore.userAuthNickName,
                 photoURL: auth.currentUser?.photoURL,
                 text: this.userChatText,
                 createdAt: serverTimestamp()
             })
-                .then(() => this.setCurrentChatData(auth, uid))
                 .then(() => this.changeUserChatText(""))
                 .then(() => document.getElementById("chat")?.scrollTo(0, 9999999))
         }
     }
 
-    async getChatData() {
-        if (authStore.dataBase) {
-            await getDocs(collection(authStore.dataBase, "usersChat"))
-                .then((snapshot) => this.setChatData(snapshot))
-        }
-    }
-
-    setCurrentChatData(auth: Auth, uid: string){
-        this.currentChatData.push({
-            id: uid,
-            displayName: auth.currentUser?.displayName || authStore.userAuthNickName,
-            photoURL: auth.currentUser?.photoURL,
-            text: this.userChatText,
-            createdAt: new Date()
-        })
-    }
-
-    setChatData(snapshot: QuerySnapshot) {
-        this.chatData = snapshot.docs
-            .sort((doc, doc2) => doc.data().createdAt.seconds - doc2.data().createdAt.seconds)
-    }
-
     changeUserChatText(text: string) {
         this.userChatText = text
+    }
+
+    checkDiffTime(doc: QueryDocumentSnapshot<DocumentData, DocumentData>) {
+        const diffTime = Math.ceil((new Date().getTime() - new Date(doc.data().createdAt.seconds * 1000).getTime()) / (1000 * 3600))
+        return diffTime <= 2
+    }
+
+    getFormattedTime(time: number) {
+        const hours = new Date(time * 1000).getHours().toString().padStart(2, "0")
+        const minutes = new Date(time * 1000).getMinutes().toString().padStart(2, "0")
+        return hours + ":" + minutes
     }
 }
 
