@@ -1,9 +1,9 @@
 import React from "react";
 import {observer} from "mobx-react-lite";
-import UserIcon from "../../Imgs/SVG/UserIcon";
-import {IUserType} from "../../Types/UserType";
-import {ILobbyType} from "../../Types/LobbyType.ts";
-import lobbyStore from "../../Store/LobbyStore.ts";
+import UserIcon from "../../../Imgs/SVG/UserIcon";
+import {IUserType} from "../../../Types/UserType";
+import {ILobbyType} from "../../../Types/LobbyType.ts";
+import lobbyStore from "../../../Store/LobbyStore.ts";
 import {getAuth} from "firebase/auth";
 
 type LobbyUserProps = {

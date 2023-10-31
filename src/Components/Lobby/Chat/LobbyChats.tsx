@@ -1,9 +1,9 @@
 import React from 'react';
 import {observer} from "mobx-react-lite";
-import MyInput from "../../UI/MyInput";
-import MyButton from "../../UI/MyButton";
+import MyInput from "../../../UI/MyInput";
+import MyButton from "../../../UI/MyButton";
 import LobbyChat from "./LobbyChat";
-import chatStore from "../../Store/ChatStore";
+import chatStore from "../../../Store/ChatStore";
 
 const LobbyChats: React.FC = observer(() => {
     const sendMessage = () => {
