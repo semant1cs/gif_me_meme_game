@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import UserIcon from "../../Imgs/SVG/UserIcon";
+import UserIcon from "../../../Imgs/SVG/UserIcon";
 import {observer} from "mobx-react-lite";
-import chatStore from "../../Store/ChatStore";
-import {MessageType} from "../../Types/MessageType";
-import authStore from "../../Store/AuthStore";
+import chatStore from "../../../Store/ChatStore";
+import {MessageType} from "../../../Types/MessageType";
+import authStore from "../../../Store/AuthStore";
 import {collection, limit, onSnapshot, orderBy, query} from "firebase/firestore";
 
 const LobbyChat: React.FC = observer(() => {
@@ -18,7 +18,7 @@ const LobbyChat: React.FC = observer(() => {
                 const fetchedMessages: MessageType[] = [];
                 QuerySnapshot.forEach((doc) => {
                     fetchedMessages.push({
-                        id: doc.id,
+                        id: doc.data().uid,
                         displayName: doc.data().displayName,
                         photoURL: doc.data().photoURL,
                         text: doc.data().text,

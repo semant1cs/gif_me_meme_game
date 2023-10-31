@@ -1,7 +1,6 @@
 import {makeAutoObservable} from "mobx";
 import {
-    collection, getDocs, serverTimestamp,
-    QuerySnapshot, getDoc, doc, setDoc, deleteDoc,
+    serverTimestamp, getDoc, doc, setDoc, deleteDoc,
 } from "firebase/firestore";
 import {v4 as uuidv4} from "uuid";
 import {ILobbyType} from "../Types/LobbyType";
@@ -15,7 +14,6 @@ class LobbyStore {
     paramsPlayerCount: number = 0;
     paramsIsLobbyPrivate: boolean = false;
     paramsIsAutoStart: boolean = false;
-    currentAvailableParties: ILobbyType[] = [];
     userLobby: ILobbyType | null = null;
     userIsLobbyLeader: boolean = false;
     signOutModal: boolean = false;
@@ -123,7 +121,6 @@ class LobbyStore {
                 .then(() => this.changeShowCreateModal())
                 .then(() => this.makeParamsNull())
                 .then(() => this.addPlayer(newLobby))
-                .then(() => this.getLobbiesData())
         }
     }
 
@@ -131,7 +128,6 @@ class LobbyStore {
     async deleteLobby(lobbyInfo: ILobbyType) {
         if (authStore.dataBase)
             await deleteDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid))
-                .then(() => this.getLobbiesData())
     }
 
     async deleteLobbyWithPlayers(lobbyInfo: ILobbyType) {
@@ -165,33 +161,6 @@ class LobbyStore {
         }
     }
 
-    async getLobbiesData() {
-        if (authStore.dataBase) {
-            await getDocs(collection(authStore.dataBase, "lobbies"))
-                .then(snap => this.setCurrentAvailableParties(snap))
-        }
-    }
-
-    setCurrentAvailableParties(snap: QuerySnapshot) {
-        this.currentAvailableParties = []
-        snap.docs.forEach(item => {
-            const newLobby = {
-                uid: item.data().uid,
-                lobbyName: item.data().lobbyName,
-                playerCount: item.data().playerCount,
-                isLobbyPrivate: item.data().isLobbyPrivate,
-                isAutoStart: item.data().isAutoStart,
-                players: item.data().players,
-                createdAt: item.data().createdAt,
-            }
-
-            if (newLobby.players.length !== 0)
-                this.currentAvailableParties.push(newLobby)
-            else
-                this.deleteLobby(newLobby).then()
-        })
-    }
-
     // Добавляет игрока в лобби, делается проверка на наличие игрока в других лобби с помощью this.userLobby
     // Если всё нормально, то игрок добавляется, изменяются локальные переменные игрока, связанные с лобби
     // Происходит проверка на начало игры
@@ -221,7 +190,6 @@ class LobbyStore {
                         else
                             this.changeUserDataInDB(lobbyInfo, false)
                     })
-                    .then(() => this.getLobbiesData())
                     .then(() => this.checkLobbyStart(lobbyInfo))
         }
     }
@@ -242,7 +210,6 @@ class LobbyStore {
                         })
                             .then(() => this.changeUserDataInDB(null, false))
                 })
-                .then(() => this.getLobbiesData())
     }
 }
 

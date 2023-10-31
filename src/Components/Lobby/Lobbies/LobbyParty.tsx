@@ -1,9 +1,9 @@
 import LobbyPartyPlayer from "./LobbyPartyPlayer.tsx";
 import {observer} from "mobx-react-lite";
 import React from "react";
-import MyAddPlayer from "../../UI/MyAddPlayer";
-import {ILobbyType} from "../../Types/LobbyType";
-import lobbyStore from "../../Store/LobbyStore";
+import MyAddPlayer from "../../../UI/MyAddPlayer";
+import {ILobbyType} from "../../../Types/LobbyType";
+import lobbyStore from "../../../Store/LobbyStore";
 
 type LobbyProps = {
     lobbyInfo: ILobbyType,
