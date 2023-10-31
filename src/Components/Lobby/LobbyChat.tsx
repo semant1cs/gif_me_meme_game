@@ -1,14 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import UserIcon from "../../Imgs/SVG/UserIcon";
 import {observer} from "mobx-react-lite";
-import {collection, DocumentData, limit, onSnapshot, orderBy, query, QueryDocumentSnapshot} from "firebase/firestore";
+import {
+    collection,
+    DocumentData,
+    limit,
+    onSnapshot,
+    orderBy,
+    query,
+    QueryDocumentSnapshot,
+    Timestamp
+} from "firebase/firestore";
 import authStore from "../../Store/AuthStore.ts";
 import {MessageType} from "../../Types/MessageType.ts";
 
 const LobbyChat: React.FC = observer(() => {
-    const [messages, setMessages] = useState([])
+    const [messages, setMessages] = useState<MessageType[]>([])
 
     useEffect(() => {
+
         const q = query(collection(authStore.dataBase, "usersChat"), orderBy("createdAt"), limit(10))
 
         const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
@@ -56,7 +66,7 @@ const LobbyChat: React.FC = observer(() => {
                                              </span>
                                             <span className="message__time">
                                                 {
-                                                    getFormattedTime(doc.createdAt)
+                                                    getFormattedTime(doc.createdAt.seconds)
                                                 }
                                             </span>
                                         </div>
