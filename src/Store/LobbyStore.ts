@@ -14,7 +14,7 @@ class LobbyStore {
     paramsPlayerCount: number = 0;
     paramsIsLobbyPrivate: boolean = false;
     paramsIsAutoStart: boolean = false;
-    userLobby: ILobbyType | null = null;
+    userLobbyID: string | null = null;
     userIsLobbyLeader: boolean = false;
     signOutModal: boolean = false;
 
@@ -22,8 +22,11 @@ class LobbyStore {
         makeAutoObservable(this)
     }
 
-    changeSignOutModal() {
-        this.signOutModal = !this.signOutModal
+    changeSignOutModal(flag?: boolean) {
+        if (flag)
+            this.signOutModal = flag
+        else
+            this.signOutModal = !this.signOutModal
     }
 
     changeShowCreateModal() {
@@ -52,8 +55,8 @@ class LobbyStore {
             this.paramsIsAutoStart = !this.paramsIsAutoStart
     }
 
-    setUserLobby(lobby: ILobbyType | null) {
-        this.userLobby = lobby
+    setUserLobbyID(lobby: string | null) {
+        this.userLobbyID = lobby
     }
 
     setUserIsLobbyLeader(isLobbyLeader: boolean) {
@@ -74,9 +77,9 @@ class LobbyStore {
         if (authStore.dataBase && auth.currentUser)
             await getDoc(doc(authStore.dataBase, "users", auth.currentUser.uid))
                 .then((snap) => {
-                    // console.log(snap.data()?.lobby)
+                    // console.log(snap.data()?.lobbyID)
                     // console.log(snap.data()?.isLobbyLeader)
-                    this.setUserLobby(snap.data()?.lobby)
+                    this.setUserLobbyID(snap.data()?.lobbyID)
                     this.setUserIsLobbyLeader(snap.data()?.isLobbyLeader)
                 })
     }
@@ -93,15 +96,35 @@ class LobbyStore {
                 nickname: auth.currentUser?.displayName,
                 photoURL: auth.currentUser?.photoURL,
                 token: auth.currentUser?.refreshToken,
-                lobby: lobby,
+                lobbyID: lobby?.uid || null,
                 isLobbyLeader: isLobbyLeader,
             })
                 .then(() => {
                     // console.log(lobby)
                     // console.log(isLobbyLeader)
-                    this.setUserLobby(lobby)
+                    this.setUserLobbyID(lobby?.uid || "")
                     this.setUserIsLobbyLeader(isLobbyLeader)
                 })
+    }
+
+    async getCurrentUserLobby() {
+        if (authStore.dataBase && this.userLobbyID) {
+            return await getDoc(doc(authStore.dataBase, "lobbies", this.userLobbyID))
+                .then((snap) => {
+                    return {
+                        uid: snap.data()?.uid,
+                        lobbyName: snap.data()?.lobbyName,
+                        playerCount: snap.data()?.playerCount,
+                        isLobbyPrivate: snap.data()?.isLobbyPrivate,
+                        isAutoStart: snap.data()?.isAutoStart,
+                        isLobbyInGame: snap.data()?.isLobbyInGame,
+                        players: snap.data()?.players,
+                        createdAt: snap.data()?.createdAt,
+                    }
+                })
+        }
+
+        return null
     }
 
     // Создаёт новое лобби
@@ -115,6 +138,7 @@ class LobbyStore {
                 isLobbyPrivate: this.paramsIsLobbyPrivate,
                 isAutoStart: this.paramsIsAutoStart,
                 players: [],
+                isLobbyInGame: false,
                 createdAt: serverTimestamp(),
             }
             await setDoc(doc(authStore.dataBase, "lobbies", uid), {...newLobby})
@@ -131,7 +155,6 @@ class LobbyStore {
     }
 
     async deleteLobbyWithPlayers(lobbyInfo: ILobbyType) {
-        console.log(lobbyInfo)
 
         lobbyInfo.players.map(async player => {
             if (authStore.dataBase && player.id)
@@ -145,23 +168,20 @@ class LobbyStore {
                     isLobbyLeader: false,
                 })
                     .then(() => {
-                        this.setUserLobby(null)
+                        this.setUserLobbyID(null)
                         this.setUserIsLobbyLeader(false)
+                        this.deleteLobby(lobbyInfo)
                     })
-                    .then(() => this.deleteLobby(lobbyInfo))
         })
     }
 
     checkLobbyStart(lobbyInfo: ILobbyType) {
-        if (lobbyInfo.players.length + 1 === lobbyInfo.playerCount) {
-            if (lobbyInfo.isAutoStart)
-                alert("AutoStart")
-            else
-                alert("Start button")
+        if (lobbyInfo.players.length + 1 === lobbyInfo.playerCount && lobbyInfo.isAutoStart) {
+            alert("AutoStart")
         }
     }
 
-    // Добавляет игрока в лобби, делается проверка на наличие игрока в других лобби с помощью this.userLobby
+    // Добавляет игрока в лобби, делается проверка на наличие игрока в других лобби с помощью this.userLobbyID
     // Если всё нормально, то игрок добавляется, изменяются локальные переменные игрока, связанные с лобби
     // Происходит проверка на начало игры
     async addPlayer(lobbyInfo: ILobbyType) {
@@ -173,13 +193,13 @@ class LobbyStore {
                 nickname: auth.currentUser?.displayName,
                 email: auth.currentUser?.email,
                 isLobbyLeader: false,
-                lobby: null,
+                lobbyID: null,
                 photoURL: auth.currentUser?.photoURL,
                 token: auth.currentUser?.refreshToken,
             }
             const isUserNotInThisParty = lobbyInfo.players.findIndex(p => p.id === user.id) === -1
 
-            if (!this.userLobby && isUserNotInThisParty)
+            if (!this.userLobbyID && isUserNotInThisParty)
                 await setDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid), {
                     ...lobbyInfo,
                     players: [...lobbyInfo.players, user]

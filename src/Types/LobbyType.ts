@@ -6,9 +6,10 @@ import {
 export interface ILobbyType {
     uid: string,
     lobbyName: string,
-    playerCount: number;
+    playerCount: number,
     isLobbyPrivate: boolean,
     isAutoStart: boolean,
-    players: IUserType[];
-    createdAt: FieldValue;
+    isLobbyInGame: boolean,
+    players: IUserType[],
+    createdAt: FieldValue,
 }
