@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {observer} from 'mobx-react-lite';
 import "../../Styles/LobbyStyle/Lobby.scss";
 import UserIcon from "../../Imgs/SVG/UserIcon";
@@ -12,6 +12,11 @@ import lobbyStore from "../../Store/LobbyStore";
 
 const Lobby: React.FC = observer(() => {
     const auth = getAuth()
+
+    useEffect(() => {
+        lobbyStore.changeSignOutModal(false)
+    }, []);
+
 
     return (
         <main className="lobby">

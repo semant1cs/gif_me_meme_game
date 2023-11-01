@@ -8,7 +8,7 @@ import {
     signInWithEmailAndPassword,
     signOut, updateProfile
 } from "firebase/auth";
-import {IUserWithLobbyType} from "../Types/UserWithLobbyType";
+import {IUserType} from "../Types/UserType";
 
 class UserStore {
     userAuthNickName: string = "";
@@ -72,13 +72,13 @@ class UserStore {
         const auth = getAuth();
 
         if (this.dataBase && auth.currentUser) {
-            const userCurrent: IUserWithLobbyType = {
+            const userCurrent: IUserType = {
                 email: auth.currentUser?.email,
                 id: auth.currentUser?.uid,
                 nickname: auth.currentUser?.displayName || this.userAuthNickName,
                 photoURL: auth.currentUser?.photoURL,
                 token: auth.currentUser?.refreshToken,
-                lobby: null,
+                lobbyID: null,
                 isLobbyLeader: false,
             }
 

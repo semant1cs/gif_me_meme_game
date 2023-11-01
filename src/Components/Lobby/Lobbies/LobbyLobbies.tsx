@@ -9,6 +9,8 @@ import LobbyModalBody from "./LobbyModalBody";
 import authStore from "../../../Store/AuthStore";
 import {collection, onSnapshot, orderBy, query} from "firebase/firestore";
 import {ILobbyType} from "../../../Types/LobbyType";
+import gameStore from "../../../Store/GameStore";
+import {getAuth} from "firebase/auth";
 
 const LobbyLobbies: React.FC = observer(() => {
     const navigate = useNavigate()
@@ -18,6 +20,7 @@ const LobbyLobbies: React.FC = observer(() => {
         lobbyStore.getUserLobbyInfo().then()
 
         if (authStore.dataBase) {
+            const auth = getAuth()
             const q = query(collection(authStore.dataBase, "lobbies"), orderBy("createdAt"))
 
             return onSnapshot(q, (QuerySnapshot) => {
@@ -30,20 +33,23 @@ const LobbyLobbies: React.FC = observer(() => {
                         playerCount: lobby.data().playerCount,
                         isLobbyPrivate: lobby.data().isLobbyPrivate,
                         isAutoStart: lobby.data().isAutoStart,
+                        isLobbyInGame: lobby.data().isLobbyInGame,
                         players: lobby.data().players,
                         createdAt: lobby.data().createdAt,
                     }
 
-                    fetchedLobbies.push(newLobby)
+                    if (newLobby.isLobbyInGame && newLobby.players.findIndex(p => p.id === auth.currentUser?.uid) !== -1) {
+                        navigate(`/gameLobby?lobbyID=${newLobby.uid}`)
+                    }
+                    else {
+                        fetchedLobbies.push(newLobby)
+                    }
+
                 })
                 setCurrentLobbies(fetchedLobbies)
             })
         }
     }, [])
-
-    const handleOnStart = () => {
-        navigate("/play")
-    }
 
     return (
         <section className="lobby__lobbies">
@@ -64,11 +70,11 @@ const LobbyLobbies: React.FC = observer(() => {
                             ?
                             <MyButton btnText="Начать игру"
                                       btnStyle="lobbies__button"
-                                      handleOnClick={() => handleOnStart()}/>
+                                      handleOnClick={() => gameStore.startGame().then()}/>
                             : ""
                     }
                     {
-                        lobbyStore.userLobby
+                        lobbyStore.userLobbyID
                             ? ""
                             : <MyButton btnText="Создать игру"
                                         btnStyle="lobbies__button"

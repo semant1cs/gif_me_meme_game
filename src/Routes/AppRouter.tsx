@@ -34,7 +34,7 @@ const AppRouter: React.FC = () => {
             element: <Lobby/>
         },
         {
-            path: "/play",
+            path: "/gameLobby",
             element: <Game/>
         }
     ]
