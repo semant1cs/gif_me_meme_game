@@ -29,10 +29,69 @@
   padding: 15px 30px 0 30px;
 }
 
-.game-header__leave {
-  font-size: 16px;
-  padding: 8px 10px;
+// PLAYERS
+
+.game__players{
+  position: absolute;
+  top: 50%;
+  left: 30px;
+  transform: translate(0, -50%);
+  background-color: $mainColor;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
 }
+
+.players__list{
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.players__player{
+  @extend %flex;
+  flex-direction: column;
+  width: 75px;
+  color: $bgWindowGifColor;
+
+
+  &:not(:last-child){
+    margin-bottom: 15px;
+  }
+}
+
+.player__avatar{
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin-bottom: 5px;
+
+  svg{
+    width: 60px;
+    height: 60px;
+
+    path, circle{
+      stroke: $bgWindowGifColor;
+      fill: transparent;
+    }
+  }
+}
+
+.player__name{
+  font-size: 14px;
+  text-align: center;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+.game-header__leave {
+  font-size: 14px;
+  padding: 10px 0;
+  width: 100%;
+  color: white;
+}
+
 
 // IDEA
 
@@ -60,12 +119,58 @@
 
 .idea__textarea{
   width: 100%;
+  max-width: 100%;
+  min-width: 100%;
   flex-grow: 1;
   margin-bottom: 15px;
   padding: 15px;
   font-size: 16px;
 }
 
+.idea__buttons{
+  width: 100%;
+  @extend %flex;
+  justify-content: end;
+  font-size: 16px;
+}
+
+.idea-buttons__random{
+  color: $bgColor;
+  background-color: white;
+  padding: 10px 20px;
+  height: 50px;
+  margin-right: 15px;
+  transition: all 0.15s ease-in-out;
+
+  &:hover {
+    transform: none;
+    color: white;
+    background-color: $bgColor;
+  }
+
+  &:active{
+    transform: scale(0.9);
+    color: white;
+    background-color: $bgColor;
+  }
+}
+
+.idea-buttons__send{
+  width: 50px;
+  height: 50px;
+  color: $bgColor;
+  background: white url("../../Imgs/PNG/send.svg") no-repeat center;
+  transition: all 0.15s ease-in-out;
+
+  &:hover {
+    background: $bgColor url("../../Imgs/PNG/send_white.svg") no-repeat center;
+  }
+
+  &:active{
+    transform: scale(0.9);
+    background: $bgColor url("../../Imgs/PNG/send_white.svg") no-repeat center;
+  }
+}
 
 // С этим потом нужно разобраться и написать нормальные стили)))
 

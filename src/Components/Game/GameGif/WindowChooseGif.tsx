@@ -17,7 +17,7 @@ const WindowChooseGif: React.FC = observer(() => {
 
     return (
         <div className="window-choose-gif">
-            <form className="form-choose-gif">
+            <div className="form-choose-gif">
                 <div className="searcher__field">
                     <input className="gif-searcher" type="text" value={textSearcher}
                            onChange={(e) => setTextSearcher(e.target.value)}/>
@@ -25,7 +25,7 @@ const WindowChooseGif: React.FC = observer(() => {
                 </div>
                 {GameStore.testGifs.map((gif, index) =>
                     <WindowGifItem countGifsCanSelect={countGifsCanSelect} key={index} gif={gif}/>)}
-            </form>
+            </div>
         </div>
     );
 });
