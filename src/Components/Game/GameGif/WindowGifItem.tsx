@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import gameStore from "../../Store/GameStore.ts";
+import gameStore from "../../../Store/GameStore.ts";
 import {observer} from "mobx-react-lite";
 
 interface IPictureItemProps {

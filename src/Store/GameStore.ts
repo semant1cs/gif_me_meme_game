@@ -9,9 +9,26 @@ class GameStore {
     testGifs: string[] = [];
     selectedGifs: number = 0;
     chosenGif: string = "";
+    currentUserIdea: string = "";
 
     constructor() {
         makeAutoObservable(this)
+    }
+
+    setTestGifs(gifs: string[]) {
+        this.testGifs = gifs
+    }
+
+    setSelectedGifs(value: number) {
+        this.selectedGifs = value
+    }
+
+    setChosenGif(gif: string) {
+        this.chosenGif = gif
+    }
+
+    setCurrentUserIdea(idea: string) {
+        this.currentUserIdea = idea
     }
 
     async startGame() {
@@ -40,16 +57,12 @@ class GameStore {
         }
     }
 
-    setTestGifs(gifs: string[]) {
-        this.testGifs = gifs
+    getRandomTheme() {
+
     }
 
-    setSelectedGifs(value: number) {
-        this.selectedGifs = value
-    }
+    sendIdea() {
 
-    setChosenGif(gif: string) {
-        this.chosenGif = gif
     }
 
     async appendGifOnDb(gif: string) {

@@ -7,6 +7,7 @@ import {ILobbyType} from "../Types/LobbyType";
 import authStore from "./AuthStore";
 import {getAuth} from "firebase/auth";
 import {IUserType} from "../Types/UserType";
+import gameStore from "./GameStore";
 
 class LobbyStore {
     showCreateModal: boolean = false;
@@ -177,7 +178,7 @@ class LobbyStore {
 
     checkLobbyStart(lobbyInfo: ILobbyType) {
         if (lobbyInfo.players.length + 1 === lobbyInfo.playerCount && lobbyInfo.isAutoStart) {
-            alert("AutoStart")
+            gameStore.startGame().then()
         }
     }
 
@@ -209,8 +210,8 @@ class LobbyStore {
                             this.changeUserDataInDB(lobbyInfo, true)
                         else
                             this.changeUserDataInDB(lobbyInfo, false)
+                                .then(() => this.checkLobbyStart(lobbyInfo))
                     })
-                    .then(() => this.checkLobbyStart(lobbyInfo))
         }
     }
 

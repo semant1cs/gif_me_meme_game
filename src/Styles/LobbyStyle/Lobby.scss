@@ -1,15 +1,9 @@
-$bgColor: #102031;
-$mainColor: #9B59B6;
-$borderGrey: #dedede;
+@import "../Variables";
 
-%flex {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .lobby {
   height: 100vh;
+  max-height: 100vh;
   background-color: $bgColor;
   color: #102031;
   font-weight: 700;
@@ -255,7 +249,7 @@ $borderGrey: #dedede;
   border-left: none;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.15s ease-in-out;
 
   &:hover, &:active {
     transform: none;
