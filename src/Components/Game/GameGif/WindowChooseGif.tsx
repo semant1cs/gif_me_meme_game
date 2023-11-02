@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import GameStore from "../../Store/GameStore.ts";
+import GameStore from "../../../Store/GameStore.ts";
 import WindowGifItem from "./WindowGifItem.tsx";
-import {getNanoGifs} from "../../tenorAPI/tenorAPI.ts";
+import {getNanoGifs} from "../../../tenorAPI/tenorAPI.ts";
 import {observer} from "mobx-react-lite";
-import SearchIcon from "../../Imgs/SVG/SearchIcon.tsx";
+import SearchIcon from "../../../Imgs/SVG/SearchIcon.tsx";
 import {useDebounce} from "usehooks-ts";
 
 const WindowChooseGif: React.FC = observer(() => {
