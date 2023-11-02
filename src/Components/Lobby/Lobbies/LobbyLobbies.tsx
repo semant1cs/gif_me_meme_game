@@ -39,9 +39,12 @@ const LobbyLobbies: React.FC = observer(() => {
                     }
 
                     if (newLobby.isLobbyInGame && newLobby.players.findIndex(p => p.id === auth.currentUser?.uid) !== -1) {
-                        navigate(`/gameLobby?lobbyID=${newLobby.uid}`)
-                    }
-                    else {
+                        const prom = new Promise(() => {
+                            navigate('/loader')
+                            setTimeout(() => navigate(`/gameLobby?lobbyID=${newLobby.uid}`), 1500)
+                        }).then()
+                        Promise.resolve(prom).then()
+                    } else {
                         fetchedLobbies.push(newLobby)
                     }
 

@@ -1,15 +1,9 @@
-$bgColor: #102031;
-$mainColor: #9B59B6;
-$borderGrey: #dedede;
+@import "../Variables";
 
-%flex {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .lobby {
   height: 100vh;
+  max-height: 100vh;
   background-color: $bgColor;
   color: #102031;
   font-weight: 700;

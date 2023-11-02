@@ -5,8 +5,8 @@ const apikey: string = "AIzaSyBgy8HxFMPvU4xJPQGr-EGjO0mtEMxTvZo";
 const clientKey: string = "gife_me_meme";
 
 function isEmptyString(line: string): boolean {
-    let lineArray = Array.from(line.trim())
-    for (let symbol in lineArray) {
+    const lineArray = Array.from(line.trim())
+    for (const symbol in lineArray) {
         if (symbol)
             return false
     }
