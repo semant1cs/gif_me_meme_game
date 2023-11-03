@@ -6,9 +6,8 @@ import authStore from "../../Store/AuthStore";
 import LobbyChats from "./Chat/LobbyChats";
 import LobbyLobbies from "./Lobbies/LobbyLobbies";
 import {getAuth} from "firebase/auth";
-import MyButton from "../../UI/MyButton";
-import {useNavigate} from "react-router-dom";
 import lobbyStore from "../../Store/LobbyStore";
+import LobbySignOutModal from "./Lobbies/LobbySignOutModal.tsx";
 
 const Lobby: React.FC = observer(() => {
     const auth = getAuth()
@@ -50,15 +49,5 @@ const Lobby: React.FC = observer(() => {
     );
 })
 
-const LobbySignOutModal = observer(() => {
-    const navigate = useNavigate()
-
-    return (
-        <div className="lobby-header__modal">
-            <MyButton btnText="Выйти" btnStyle="lobby-headerModal__button" handleOnClick={() =>
-                authStore.logOutUser().then(() => navigate("/"))}/>
-        </div>
-    )
-})
 
 export default Lobby;
