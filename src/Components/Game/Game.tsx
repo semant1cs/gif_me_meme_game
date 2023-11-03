@@ -7,6 +7,8 @@ import GamePlayers from "./GameUI/GamePlayers";
 import lobbyStore from "../../Store/LobbyStore";
 import {ILobbyType} from "../../Types/LobbyType";
 import WindowChooseGif from "./GameGif/WindowChooseGif";
+import GameIdea from "./GameIdea.tsx";
+import GameReactionsWindow from "./GameReactions/GameReactionsWindow.tsx";
 
 const Game: React.FC = () => {
     const [currentUserLobby, setCurrentUserLobby] = useState<ILobbyType | null>(null);
@@ -24,7 +26,8 @@ const Game: React.FC = () => {
             <GamePlayers currentUserLobby={currentUserLobby}/>
             <div className="game__centerBlock">
                 {/*<GameIdea/>*/}
-                <WindowChooseGif/>
+                {/*<WindowChooseGif/>*/}
+                <GameReactionsWindow/>
             </div>
         </div>
     );

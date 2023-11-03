@@ -15,7 +15,7 @@ const WindowGifItem: React.FC<IPictureItemProps> = observer(({gif, countGifsCanS
             gameStore.setSelectedGifs(gameStore.selectedGifs - 1)
         } else if (gameStore.selectedGifs < countGifsCanSelect) {
             gameStore.setSelectedGifs(gameStore.selectedGifs + 1)
-            gameStore.appendGifOnDb(gif)
+            gameStore.appendGifOnDb(gif).then()
         } else return
         setIsImgSelected(!isImgSelected)
     }
