@@ -229,6 +229,7 @@
 // GAME REACTIONS
 
 .game-reactions-window {
+  z-index: 100000;
   @extend %flex;
   width: 60%;
   height: 35%;

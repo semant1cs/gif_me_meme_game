@@ -8,7 +8,8 @@ import GameIdeaProposalStage from "./GameIdeaProposalStage.tsx";
 import {observer} from "mobx-react-lite";
 import gameStore from "../../Store/GameStore.ts";
 import GameReactionsWindow from "./GameReactions/GameReactionsWindow.tsx";
-import GameSendAnswers from "./GameSendAnswers.tsx";
+import GameSendAnswersStage from "./GameSendAnswersStage.tsx";
+import GameSendReactionStage from "./GameSendReactionStage.tsx";
 
 const Game: React.FC = observer(() => {
     const [currentUserLobby, setCurrentUserLobby] = useState<ILobbyType | null>(null);
@@ -22,6 +23,11 @@ const Game: React.FC = observer(() => {
 
     return (
         <div className="game">
+            {/*В геймсторе описано как сделаны этапы, завтра допилю это*/}
+            {/*А может и не завтра))*/}
+            {/*но в любом случае стоит сделать это на енамах(типах): вроде такого:*/}
+            {/*1: стадия отправки идеи*/}
+            {/*2. стадия отправки ответа*/}
             <GameHeader/>
             <GamePlayers currentUserLobby={currentUserLobby}/>
             <div className="game__centerBlock">
@@ -31,11 +37,11 @@ const Game: React.FC = observer(() => {
                 }
                 {
                     gameStore.currentStage === 1 &&
-                    <GameSendAnswers/>
+                    <GameSendAnswersStage/>
                 }
                 {
                     gameStore.currentStage === 2 &&
-                    <GameReactionsWindow/>
+                    <GameSendReactionStage/>
                 }
             </div>
         </div>

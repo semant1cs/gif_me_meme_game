@@ -1,5 +1,5 @@
 export interface IAnswerType {
-    answeredUserId: string
+    answeredUserId: string | undefined
     answerId: string
     answerGif: string
     answerPoints: number

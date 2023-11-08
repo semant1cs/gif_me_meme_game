@@ -5,7 +5,7 @@ import gameStore from "../../Store/GameStore.ts";
 import MyButton from "../../UI/MyButton.tsx";
 import MyTimer from "../../UI/MyTimer.tsx";
 
-const GameSendAnswers: React.FC = observer(() => {
+const GameSendAnswersStage: React.FC = observer(() => {
     useEffect(() => {
         gameStore.getSituation().then()
     })
@@ -16,10 +16,10 @@ const GameSendAnswers: React.FC = observer(() => {
             <WindowChooseGif/>
             <MyButton btnText=""
                       btnStyle="gif-send__btn"
-                      handleOnClick={() => gameStore.sendSituation().then(() => gameStore.setNextStage())}/>
+                      handleOnClick={() => gameStore.sendAnswer().then()}/>
             <div className="game-send-answers__timer"><MyTimer seconds={60}/></div>
         </section>
     );
 });
 
-export default GameSendAnswers;
+export default GameSendAnswersStage;
