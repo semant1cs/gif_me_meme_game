@@ -17,7 +17,7 @@ const GamePlayers: React.FC<GamePlayersProps> = ({currentUserLobby}: GamePlayers
             <ul className="players__list">
                 {
                     currentUserLobby?.players.map(player =>
-                        <li className="players__player">
+                        <li key={player.id} className="players__player">
                             {
                                 player.photoURL
                                     ?

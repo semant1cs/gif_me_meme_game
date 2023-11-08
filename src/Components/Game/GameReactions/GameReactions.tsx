@@ -7,7 +7,7 @@ const GameReactions: React.FC = () => {
     return (
         <div className="game-reactions">
 
-            {reactions.map((reaction) => <img src={reaction.imgSrc.default} alt=""
+            {reactions.map((reaction) => <img key={reaction.imgSrc.default} src={reaction.imgSrc.default} alt=""
                                               onClick={() => setPoints(points + reaction.points)}/>)}
             <br/>
             {points}

@@ -12,9 +12,8 @@ import GameReactionsWindow from "./GameReactions/GameReactionsWindow.tsx";
 
 const Game: React.FC = () => {
     const [currentUserLobby, setCurrentUserLobby] = useState<ILobbyType | null>(null);
-    const [searchParams] = useSearchParams()
-    const lobbyID: string | null = searchParams.get("lobbyID")
-    console.log(lobbyID)
+    // const [searchParams] = useSearchParams()
+    // const lobbyID: string | null = searchParams.get("lobbyID")
 
     useEffect(() => {
         lobbyStore.getCurrentUserLobby().then(r => setCurrentUserLobby(r))
@@ -25,8 +24,8 @@ const Game: React.FC = () => {
             <GameHeader/>
             <GamePlayers currentUserLobby={currentUserLobby}/>
             <div className="game__centerBlock">
-                {/*<GameIdea/>*/}
-                {/*<WindowChooseGif/>*/}
+                <GameIdea/>
+                <WindowChooseGif/>
                 <GameReactionsWindow/>
             </div>
         </div>

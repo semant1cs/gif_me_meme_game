@@ -1,4 +1,5 @@
-export interface ReactionType {
+export interface IReactionType {
+    userId: string
     name: string,
     points: number
 }
