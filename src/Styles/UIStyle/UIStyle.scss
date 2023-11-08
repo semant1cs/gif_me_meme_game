@@ -103,3 +103,26 @@
     max-width: 100%;
   }
 }
+
+
+// Timer
+
+.timer {
+  display: flex;
+  position: absolute;
+  left: 10px;
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px;
+  width: 40px;
+  height: 60px;
+}
+
+.timer-remaining-time-value {
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  bottom: 5%;
+  text-align: center;
+}

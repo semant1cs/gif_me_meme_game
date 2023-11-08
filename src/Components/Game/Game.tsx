@@ -1,14 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {useSearchParams} from "react-router-dom";
 import "../../Styles/GameStyle/Game.scss"
 import GameHeader from "./GameUI/GameHeader";
-// import GameIdea from "./GameIdea";
 import GamePlayers from "./GameUI/GamePlayers";
 import lobbyStore from "../../Store/LobbyStore";
 import {ILobbyType} from "../../Types/LobbyType";
-import WindowChooseGif from "./GameGif/WindowChooseGif";
 import GameIdea from "./GameIdea.tsx";
-import GameReactionsWindow from "./GameReactions/GameReactionsWindow.tsx";
 
 const Game: React.FC = () => {
     const [currentUserLobby, setCurrentUserLobby] = useState<ILobbyType | null>(null);
@@ -25,8 +21,8 @@ const Game: React.FC = () => {
             <GamePlayers currentUserLobby={currentUserLobby}/>
             <div className="game__centerBlock">
                 <GameIdea/>
-                <WindowChooseGif/>
-                <GameReactionsWindow/>
+                {/*<WindowChooseGif/>*/}
+                {/*<GameReactionsWindow/>*/}
             </div>
         </div>
     );

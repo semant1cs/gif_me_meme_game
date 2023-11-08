@@ -4,12 +4,14 @@ import authStore from "./AuthStore.ts";
 import {doc, setDoc} from "firebase/firestore";
 import {ILobbyType} from "../Types/LobbyType";
 import lobbyStore from "./LobbyStore";
+import {ISituationType} from "../Types/SituationType.ts";
+import {v4 as uuidv4} from "uuid";
 
 class GameStore {
     testGifs: string[] = [];
     selectedGifs: number = 0;
     chosenGif: string = "";
-    currentUserIdea: string = "";
+    situationText: string = "";
 
     constructor() {
         makeAutoObservable(this)
@@ -27,8 +29,8 @@ class GameStore {
         this.chosenGif = gif
     }
 
-    setCurrentUserIdea(idea: string) {
-        this.currentUserIdea = idea
+    setSituationText(newText: string) {
+        this.situationText = newText
     }
 
     async startGame() {
@@ -61,25 +63,21 @@ class GameStore {
 
     }
 
-    sendIdea() {
+    async sendSituation() {
+        const auth = getAuth()
+        if (authStore.dataBase && auth.currentUser?.uid) {
+            const situationId = uuidv4()
+            const situation: ISituationType = {
+                lobbyId: lobbyStore.userLobbyID,
+                situationId: situationId,
+                situationUserId: auth.currentUser?.uid,
+                situationText: this.situationText,
+                answers: [],
+        }
 
+            await setDoc(doc(authStore.dataBase, "situations", auth.currentUser?.uid), {...situation})
+        }
     }
-
-    // async sendSituation() {
-    //     if (authStore.dataBase && lobbyStore.userLobbyID && lobbyStore) {
-    //         const userCurrent: IUserType = {
-    //             email: auth.currentUser?.email,
-    //             id: auth.currentUser?.uid,
-    //             nickname: auth.currentUser?.displayName || this.userAuthNickName,
-    //             photoURL: auth.currentUser?.photoURL,
-    //             token: auth.currentUser?.refreshToken,
-    //             lobbyID: null,
-    //             isLobbyLeader: false,
-    //         }
-    //
-    //         await setDoc(doc(this.dataBase, "users", auth.currentUser?.uid), {...userCurrent})
-    //     }
-    // }
 }
 
 export default new GameStore()

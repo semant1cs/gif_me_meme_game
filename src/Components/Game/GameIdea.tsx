@@ -3,6 +3,7 @@ import gameStore from "../../Store/GameStore";
 import MyTextArea from "../../UI/MyTextArea";
 import MyButton from "../../UI/MyButton";
 import {observer} from "mobx-react-lite";
+import MyTimer from "../../UI/MyTimer.tsx";
 
 const GameIdea: React.FC = observer(() => {
     return (
@@ -10,9 +11,9 @@ const GameIdea: React.FC = observer(() => {
             <p className="idea__title">
                 Предложите идею, ситуацию или событие, на которое смогут отреагировать другие игроки
             </p>
-            <MyTextArea value={gameStore.currentUserIdea}
+            <MyTextArea value={gameStore.situationText}
                         placeholder="Например..."
-                        handleOnChange={(e) => gameStore.setCurrentUserIdea(e.target.value)}
+                        handleOnChange={(e) => gameStore.setSituationText(e.target.value)}
                         style="idea__textarea"/>
             <div className="idea__buttons">
                 <MyButton btnText="Случайная тема"
@@ -20,7 +21,8 @@ const GameIdea: React.FC = observer(() => {
                           handleOnClick={() => gameStore.getRandomTheme()}/>
                 <MyButton btnText=""
                           btnStyle="idea-buttons__send"
-                          handleOnClick={() => gameStore.sendIdea()}/>
+                          handleOnClick={() => gameStore.sendSituation()}/>
+                <MyTimer seconds={3}/>
             </div>
         </section>
     );
