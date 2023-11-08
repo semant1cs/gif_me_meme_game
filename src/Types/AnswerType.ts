@@ -1,4 +1,6 @@
 export interface IAnswerType {
-    userId: string,
-    answer: string
+    answeredUserId: string
+    answerId: string
+    answerGif: string
+    answerPoints: number
 }
