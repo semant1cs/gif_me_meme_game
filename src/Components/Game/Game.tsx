@@ -7,7 +7,6 @@ import {ILobbyType} from "../../Types/LobbyType";
 import GameIdeaProposalStage from "./GameIdeaProposalStage.tsx";
 import {observer} from "mobx-react-lite";
 import gameStore from "../../Store/GameStore.ts";
-import GameReactionsWindow from "./GameReactions/GameReactionsWindow.tsx";
 import GameSendAnswersStage from "./GameSendAnswersStage.tsx";
 import GameSendReactionStage from "./GameSendReactionStage.tsx";
 
