@@ -5,7 +5,7 @@ import MyButton from "../../UI/MyButton";
 import {observer} from "mobx-react-lite";
 import MyTimer from "../../UI/MyTimer.tsx";
 
-const GameIdea: React.FC = observer(() => {
+const GameIdeaProposalStage: React.FC = observer(() => {
     return (
         <section className="game__idea">
             <p className="idea__title">
@@ -22,10 +22,10 @@ const GameIdea: React.FC = observer(() => {
                 <MyButton btnText=""
                           btnStyle="idea-buttons__send"
                           handleOnClick={() => gameStore.sendSituation()}/>
-                <MyTimer seconds={3}/>
+                <MyTimer seconds={30}/>
             </div>
         </section>
     );
 });
 
-export default GameIdea;
+export default GameIdeaProposalStage;

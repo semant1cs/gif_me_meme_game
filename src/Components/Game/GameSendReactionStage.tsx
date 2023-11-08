@@ -1,6 +1,6 @@
 import React from 'react';
 
-const GameReadyPlayers: React.FC = () => {
+const GameSendReactionStage: React.FC = () => {
     return (
         <div>
             
@@ -8,4 +8,4 @@ const GameReadyPlayers: React.FC = () => {
     );
 };
 
-export default GameReadyPlayers;
+export default GameSendReactionStage;
