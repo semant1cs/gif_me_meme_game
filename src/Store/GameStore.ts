@@ -65,13 +65,21 @@ class GameStore {
 
     }
 
-    async appendGifOnDb(gif: string) {
-        const auth = getAuth()
-        const uid = auth.currentUser?.uid
-        if (authStore.dataBase && uid) {
-            await setDoc(doc(authStore.dataBase, "playersGifs", uid), {})
-        }
-    }
+    // async sendSituation() {
+    //     if (authStore.dataBase && lobbyStore.userLobbyID && lobbyStore) {
+    //         const userCurrent: IUserType = {
+    //             email: auth.currentUser?.email,
+    //             id: auth.currentUser?.uid,
+    //             nickname: auth.currentUser?.displayName || this.userAuthNickName,
+    //             photoURL: auth.currentUser?.photoURL,
+    //             token: auth.currentUser?.refreshToken,
+    //             lobbyID: null,
+    //             isLobbyLeader: false,
+    //         }
+    //
+    //         await setDoc(doc(this.dataBase, "users", auth.currentUser?.uid), {...userCurrent})
+    //     }
+    // }
 }
 
 export default new GameStore()

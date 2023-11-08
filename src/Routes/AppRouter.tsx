@@ -4,13 +4,13 @@ import Auth from "../Components/Authentication/Auth";
 import Register from "../Components/Authentication/Register";
 import Lobby from "../Components/Lobby/Lobby";
 import WelcomePage from "../Components/WelcomePage/WelcomePage";
-import {RouteType} from "../Types/RouteType";
+import {IRouteType} from "../Types/RouteType.ts";
 import {getAuth} from "firebase/auth";
 import Game from "../Components/Game/Game.tsx";
 import Loader from "../Components/Loader/Loader";
 
 const AppRouter: React.FC = () => {
-    const publicRoutes: RouteType[] = [
+    const publicRoutes: IRouteType[] = [
         {
             path: "/",
             element: <WelcomePage/>
@@ -25,7 +25,7 @@ const AppRouter: React.FC = () => {
         }
     ]
 
-    const privateRoutes: RouteType[] = [
+    const privateRoutes: IRouteType[] = [
         {
             path: "/",
             element: <WelcomePage/>

@@ -1,6 +1,6 @@
 import {Timestamp} from "firebase/firestore";
 
-export interface MessageType {
+export interface IMessageType {
     id: string | undefined;
     displayName: string | null | undefined,
     photoURL: string | null | undefined;

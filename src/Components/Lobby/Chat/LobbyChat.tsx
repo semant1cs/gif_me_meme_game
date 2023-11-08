@@ -2,12 +2,12 @@ import React, {useEffect, useState} from 'react';
 import UserIcon from "../../../Imgs/SVG/UserIcon";
 import {observer} from "mobx-react-lite";
 import chatStore from "../../../Store/ChatStore";
-import {MessageType} from "../../../Types/MessageType";
+import {IMessageType} from "../../../Types/MessageType.ts";
 import authStore from "../../../Store/AuthStore";
 import {collection, limit, onSnapshot, orderBy, query} from "firebase/firestore";
 
 const LobbyChat: React.FC = observer(() => {
-    const [messages, setMessages] = useState<MessageType[]>([])
+    const [messages, setMessages] = useState<IMessageType[]>([])
 
     useEffect(() => {
         if (authStore.dataBase) {
@@ -15,7 +15,7 @@ const LobbyChat: React.FC = observer(() => {
 
             return onSnapshot(q, (QuerySnapshot) => {
 
-                const fetchedMessages: MessageType[] = [];
+                const fetchedMessages: IMessageType[] = [];
                 QuerySnapshot.forEach((doc) => {
                     fetchedMessages.push({
                         id: doc.data().uid,
