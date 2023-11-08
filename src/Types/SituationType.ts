@@ -1,9 +1,9 @@
 import {IAnswerType} from "./AnswerType.ts";
 
 export interface ISituationType {
-    lobbyId: string,
-    situationUserId: string,
+    lobbyId: string | null,
     situationId: string,
+    situationUserId: string,
     situationText: string,
     answers: IAnswerType[]
 }
