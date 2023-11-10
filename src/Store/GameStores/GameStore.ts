@@ -61,10 +61,11 @@ class GameStore {
         }
     }
 
-    async leaveGame(currentUserLobby: ILobbyType | null) {
+    async leaveGame() {
         const auth = getAuth()
+        const currentUserLobby: ILobbyType | null = await lobbyStore.getCurrentUserLobby()
 
-        if (authStore.dataBase && currentUserLobby) {
+        if (authStore.dataBase && currentUserLobby?.uid) {
             const playerInd = currentUserLobby.players.findIndex(p => p.id === auth.currentUser?.uid)
             const leavedPlayer = currentUserLobby.players[playerInd]
 

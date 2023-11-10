@@ -22,6 +22,10 @@ class SituationStore {
 
     }
 
+    async deleteAllSituationAfterGameEnd() {
+
+    }
+
     async sendSituation() {
         const auth = getAuth()
         const situationId = uuidv4()

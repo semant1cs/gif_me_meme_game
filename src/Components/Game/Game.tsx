@@ -10,6 +10,8 @@ import gameStore from "../../Store/GameStores/GameStore.ts";
 import GameSendAnswersStage from "./GameStages/GameSendAnswersStage.tsx";
 import GameSendReactionStage from "./GameStages/GameSendReactionStage.tsx";
 import GameWaitingForPlayersStage from "./GameStages/GameWaitingForPlayersStage";
+import situationStore from "../../Store/GameStores/SituationStore";
+import Lobby from "../Lobby/Lobby";
 // import situationStore from "../../Store/GameStores/SituationStore";
 
 const Game: React.FC = observer(() => {
@@ -19,6 +21,7 @@ const Game: React.FC = observer(() => {
     useEffect(() => {
         gameStore.setCurrentUserLobby().then()
         gameStore.getCurrentUserStage().then()
+        situationStore.setSituationText("")
         // situationStore.getSituations().then()
     }, [])
 
@@ -33,7 +36,7 @@ const Game: React.FC = observer(() => {
             case "WaitingForPlayers":
                 return <GameWaitingForPlayersStage/>
             default:
-                return ""
+                return <Lobby/>
         }
     }
 
