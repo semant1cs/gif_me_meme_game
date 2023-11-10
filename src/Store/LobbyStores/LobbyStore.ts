@@ -3,11 +3,11 @@ import {
     serverTimestamp, getDoc, doc, setDoc, deleteDoc,
 } from "firebase/firestore";
 import {v4 as uuidv4} from "uuid";
-import {ILobbyType} from "../Types/LobbyType";
-import authStore from "./AuthStore";
+import {ILobbyType} from "../../Types/LobbyType";
+import authStore from "../AuthStore";
 import {getAuth} from "firebase/auth";
-import {IUserType} from "../Types/UserType";
-import gameStore from "./GameStore";
+import {IUserType} from "../../Types/UserType";
+import gameStore from "../GameStores/GameStore";
 
 class LobbyStore {
     showCreateModal: boolean = false;
@@ -99,6 +99,7 @@ class LobbyStore {
                 token: auth.currentUser?.refreshToken,
                 lobbyID: lobby?.uid || null,
                 isLobbyLeader: isLobbyLeader,
+                currentGameStage: "IdeaPropose",
             })
                 .then(() => {
                     // console.log(lobby)
@@ -167,6 +168,7 @@ class LobbyStore {
                     token: player.token,
                     lobby: null,
                     isLobbyLeader: false,
+                    currentGameStage: "IdeaPropose",
                 })
                     .then(() => {
                         this.setUserLobbyID(null)
@@ -195,6 +197,7 @@ class LobbyStore {
                 email: auth.currentUser?.email,
                 isLobbyLeader: false,
                 lobbyID: null,
+                currentGameStage: "IdeaPropose",
                 photoURL: auth.currentUser?.photoURL,
                 token: auth.currentUser?.refreshToken,
             }

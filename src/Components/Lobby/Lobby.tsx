@@ -6,7 +6,7 @@ import authStore from "../../Store/AuthStore";
 import LobbyChats from "./Chat/LobbyChats";
 import LobbyLobbies from "./Lobbies/LobbyLobbies";
 import {getAuth} from "firebase/auth";
-import lobbyStore from "../../Store/LobbyStore";
+import lobbyStore from "../../Store/LobbyStores/LobbyStore";
 import LobbySignOutModal from "./Lobbies/LobbySignOutModal.tsx";
 
 const Lobby: React.FC = observer(() => {

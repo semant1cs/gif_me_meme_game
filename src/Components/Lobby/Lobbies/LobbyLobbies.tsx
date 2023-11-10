@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {observer} from "mobx-react-lite";
 import MyButton from "../../../UI/MyButton";
-import lobbyStore from "../../../Store/LobbyStore";
+import lobbyStore from "../../../Store/LobbyStores/LobbyStore";
 import ModalWindow from "../../../UI/ModalWindow";
 import LobbyParty from "./LobbyParty.tsx";
 import {useNavigate} from "react-router-dom";
@@ -9,7 +9,7 @@ import LobbyModalBody from "./LobbyModalBody";
 import authStore from "../../../Store/AuthStore";
 import {collection, onSnapshot, orderBy, query} from "firebase/firestore";
 import {ILobbyType} from "../../../Types/LobbyType";
-import gameStore from "../../../Store/GameStore";
+import gameStore from "../../../Store/GameStores/GameStore";
 import {getAuth} from "firebase/auth";
 
 const LobbyLobbies: React.FC = observer(() => {

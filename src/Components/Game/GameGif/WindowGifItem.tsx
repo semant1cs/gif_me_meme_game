@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import gameStore from "../../../Store/GameStore.ts";
 import {observer} from "mobx-react-lite";
+import answerStore from "../../../Store/GameStores/AnswerStore";
 
 interface IPictureItemProps {
     gif: string,
@@ -12,12 +12,12 @@ const WindowGifItem: React.FC<IPictureItemProps> = observer(({gif, countGifsCanS
 
     function SelectGif(gif: string) {
         if (isImgSelected) {
-            gameStore.setSelectedGifs(gameStore.selectedGifs - 1)
-        } else if (gameStore.selectedGifs < countGifsCanSelect) {
-            gameStore.setSelectedGifs(gameStore.selectedGifs + 1)
+            answerStore.setSelectedGifs(answerStore.selectedGifs - 1)
+        } else if (answerStore.selectedGifs < countGifsCanSelect) {
+            answerStore.setSelectedGifs(answerStore.selectedGifs + 1)
         } else return
         setIsImgSelected(!isImgSelected)
-        gameStore.setChosenGif(gif)
+        answerStore.setChosenGif(gif)
     }
 
     return (

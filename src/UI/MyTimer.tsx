@@ -17,7 +17,7 @@ const MyTimer: React.FC<IPropTimer> = ({seconds}) => {
     return (
         <div className="timer">
             <div className="timer__logo">
-                    <svg width="30" height="30" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="25" height="25" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="50" cy="50" r="50" fill="black"/>
                     <circle cx="50" cy="50" r="42" fill="white"/>
                     <path d="M50 15L41.3397 30H58.6603L50 15ZM51.5 50V28.5H48.5V50H51.5Z" fill="black"/>

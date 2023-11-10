@@ -126,11 +126,15 @@
   font-size: 16px;
 }
 
-.idea__buttons {
+.idea__down{
   width: 100%;
   @extend %flex;
-  justify-content: end;
+  justify-content: space-between;
   font-size: 16px;
+}
+
+.idea__buttons {
+  @extend %flex;
 }
 
 .idea-buttons__random {

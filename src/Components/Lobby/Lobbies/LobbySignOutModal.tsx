@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import MyButton from "../../../UI/MyButton.tsx";
 import authStore from "../../../Store/AuthStore.ts";
 import React, {useEffect} from "react";
-import lobbyStore from "../../../Store/LobbyStore.ts";
+import lobbyStore from "../../../Store/LobbyStores/LobbyStore.ts";
 
 const LobbySignOutModal: React.FC = observer(() => {
     const navigate = useNavigate()

@@ -1,5 +1,5 @@
 import axios from "axios";
-import GameStore from "../Store/GameStore.ts";
+import answerStore from "../Store/GameStores/AnswerStore";
 
 const apikey: string = "AIzaSyBgy8HxFMPvU4xJPQGr-EGjO0mtEMxTvZo";
 const clientKey: string = "gife_me_meme";
@@ -25,7 +25,7 @@ function getNanoGifs(searchString: string, limit_gifs: number): void {
         }
     }).then((resp) => {
         const gifs = resp.data.results.map((result: any) => result.media_formats.nanogif.url);
-        GameStore.setTestGifs(gifs)
+        answerStore.setTestGifs(gifs)
     })
 }
 

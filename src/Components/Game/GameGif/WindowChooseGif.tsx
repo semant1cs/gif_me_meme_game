@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import GameStore from "../../../Store/GameStore.ts";
 import WindowGifItem from "./WindowGifItem.tsx";
 import {getNanoGifs} from "../../../tenorAPI/tenorAPI.ts";
 import {observer} from "mobx-react-lite";
 import SearchIcon from "../../../Imgs/SVG/SearchIcon.tsx";
 import {useDebounce} from "usehooks-ts";
+import answerStore from "../../../Store/GameStores/AnswerStore";
 
 const WindowChooseGif: React.FC = observer(() => {
     const [textSearcher, setTextSearcher] = useState("")
@@ -24,7 +24,7 @@ const WindowChooseGif: React.FC = observer(() => {
                     <SearchIcon/>
                 </div>
                 <div className="window-choose-gif-items">
-                {GameStore.testGifs.map((gif, index) =>
+                {answerStore.testGifs.map((gif, index) =>
                     <WindowGifItem countGifsCanSelect={countGifsCanSelect} key={index} gif={gif}/>)}
                 </div>
             </div>
