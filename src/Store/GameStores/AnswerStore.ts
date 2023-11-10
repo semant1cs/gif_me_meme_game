@@ -66,24 +66,20 @@ class AnswerStore {
         }
 
         gameStore.setCurrentUserLobby().then()
+        this.getNewSituationId().then()
 
         if (authStore.dataBase && gameStore.currentUserLobby && auth.currentUser?.uid) {
-            this.getNewSituationId().then(async () => {
-                if (authStore.dataBase && gameStore.currentUserLobby && auth.currentUser?.uid) {
-                    const situation: ISituationType = {
-                        lobbyId: gameStore.currentUserLobby.uid,
-                        situationId: this.fetchedSituationId,
-                        situationUserId: auth.currentUser?.uid,
-                        situationText: situationStore.situationText,
-                        answers: [{...answer}],
-                        createdAt: Timestamp.now(),
-                    }
+            const situation: ISituationType = {
+                lobbyId: gameStore.currentUserLobby.uid,
+                situationId: this.fetchedSituationId,
+                situationUserId: auth.currentUser?.uid,
+                situationText: situationStore.situationText,
+                answers: [{...answer}],
+                createdAt: Timestamp.now(),
+            }
 
-                    await setDoc(doc(authStore.dataBase, "situations", gameStore.currentUserLobby.uid), {...situation})
-                        .then(() => gameStore.setCurrentUserStage(""))
-                }
-            })
-
+            await setDoc(doc(authStore.dataBase, "situations", gameStore.currentUserLobby.uid), {...situation})
+                .then(() => gameStore.setCurrentUserStage(""))
         }
     }
 
