@@ -22,24 +22,19 @@ const Game: React.FC = observer(() => {
 
     return (
         <div className="game">
-            {/*В геймсторе описано как сделаны этапы, завтра допилю это*/}
-            {/*А может и не завтра))*/}
-            {/*но в любом случае стоит сделать это на енамах(типах): вроде такого:*/}
-            {/*1: стадия отправки идеи*/}
-            {/*2. стадия отправки ответа*/}
             <GameHeader/>
             <GamePlayers currentUserLobby={currentUserLobby}/>
             <div className="game__centerBlock">
                 {
-                    gameStore.currentStage === 0 &&
+                    gameStore.currentStage === "ideaPropose" &&
                     <GameIdeaProposalStage/>
                 }
                 {
-                    gameStore.currentStage === 1 &&
+                    gameStore.currentStage === "sendAnswer" &&
                     <GameSendAnswersStage/>
                 }
                 {
-                    gameStore.currentStage === 2 &&
+                    gameStore.currentStage === "sendReaction" &&
                     <GameSendReactionStage/>
                 }
             </div>
