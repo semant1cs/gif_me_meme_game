@@ -24,14 +24,14 @@ const GamePlayers: React.FC<GamePlayersProps> = ({currentUserLobby}: GamePlayers
             );
 
             return onSnapshot(q, (QuerySnapshot) => {
-                const lobby = QuerySnapshot.docs[0]
+                const lobby = QuerySnapshot.docs[0]?.data()
                 if (lobby)
-                    setPlayers(lobby.data()?.players)
+                    setPlayers(lobby?.players)
                 else
-                    setPlayers([])
+                    setPlayers(null)
             })
         }
-    }, []);
+    }, [currentUserLobby]);
 
 
     return (
@@ -57,7 +57,10 @@ const GamePlayers: React.FC<GamePlayersProps> = ({currentUserLobby}: GamePlayers
                                 </p>
                             </li>
                         )
-                        : ""
+                        :
+                        <li className="players__all-leave">
+                            Все игроки покинули игру Обновите страницу
+                        </li>
                 }
                 <MyButton btnStyle="game-header__leave"
                           handleOnClick={() => gameStore.leaveGame().then(() => navigate("/lobby"))}
