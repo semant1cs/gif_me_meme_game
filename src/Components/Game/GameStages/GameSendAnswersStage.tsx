@@ -8,7 +8,7 @@ import answerStore from "../../../Store/GameStores/AnswerStore";
 
 const GameSendAnswersStage: React.FC = observer(() => {
     useEffect(() => {
-        situationStore.getSituation().then()
+        situationStore.getSituations().then()
     })
 
     return (

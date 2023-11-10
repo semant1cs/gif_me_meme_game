@@ -5,7 +5,7 @@ import {IAnswerType} from "../../Types/AnswerType";
 import authStore from "../AuthStore";
 import {ISituationType} from "../../Types/SituationType";
 import situationStore from "./SituationStore";
-import {doc, getDoc, setDoc} from "firebase/firestore";
+import {doc, getDoc, serverTimestamp, setDoc} from "firebase/firestore";
 import gameStore from "./GameStore";
 
 class AnswerStore {
@@ -46,7 +46,8 @@ class AnswerStore {
             answerId: answerId,
             answeredUserId: auth.currentUser?.uid,
             answerGif: this.chosenGif,
-            answerPoints: 0
+            answerPoints: 0,
+            createdAt: serverTimestamp(),
         }
         gameStore.setCurrentUserLobby().then()
 
@@ -58,6 +59,7 @@ class AnswerStore {
                 situationUserId: auth.currentUser?.uid,
                 situationText: situationStore.situationText,
                 answers: [{...answer}],
+                createdAt: serverTimestamp(),
             }
 
             await setDoc(doc(authStore.dataBase, "situations", gameStore.currentUserLobby.uid), {...situation})

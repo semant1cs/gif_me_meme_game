@@ -14,7 +14,11 @@ class GameStore {
     }
 
     async setCurrentUserLobby() {
-        await lobbyStore.getCurrentUserLobby().then(lobby => this.currentUserLobby = lobby)
+        await lobbyStore.getCurrentUserLobby().then(lobby => this.setCurrentUserLobbyLocal(lobby))
+    }
+
+    setCurrentUserLobbyLocal(lobby: ILobbyType | null) {
+        this.currentUserLobby = lobby
     }
 
     async setCurrentUserStage(stage: string) {
@@ -38,8 +42,12 @@ class GameStore {
 
         if (authStore.dataBase && auth.currentUser) {
             await getDoc(doc(authStore.dataBase, "users", auth.currentUser.uid))
-                .then((snap) => this.currentUserStage = snap.data()?.currentGameStage)
+                .then((snap) => this.setCurrentUserStageLocal(snap.data()?.currentGameStage))
         }
+    }
+
+    setCurrentUserStageLocal(stage: string) {
+        this.currentUserStage = stage
     }
 
     async startGame() {

@@ -3,12 +3,12 @@ import {getAuth} from "firebase/auth";
 import authStore from "../AuthStore";
 import {v4 as uuidv4} from "uuid";
 import {ISituationType} from "../../Types/SituationType";
-import {doc, getDoc, setDoc} from "firebase/firestore";
+import {doc, getDocs, query, where, setDoc, collection, serverTimestamp, orderBy} from "firebase/firestore";
 import gameStore from "./GameStore";
-import answerStore from "./AnswerStore";
 
 class SituationStore {
     situationText: string = "";
+    allGameSituations: ISituationType[] | null = null;
 
     constructor() {
         makeAutoObservable(this)
@@ -33,20 +33,48 @@ class SituationStore {
                 situationUserId: auth.currentUser?.uid,
                 situationText: this.situationText,
                 answers: [],
+                createdAt: serverTimestamp(),
             }
 
             await setDoc(doc(authStore.dataBase, "situations", situationId), {...situation})
-                .then(() => gameStore.setCurrentUserStage("WaitingForPlayers"))
+                .then(() => gameStore.setCurrentUserStage("WaitingForPlayers")
+                    .then(() => gameStore.getCurrentUserStage()))
         }
     }
 
-    async getSituation() {
+    async getSituations() {
         if (authStore.dataBase && gameStore.currentUserLobby) {
-            await getDoc(doc(authStore.dataBase, "situations", gameStore.currentUserLobby.uid))
-                .then((snap) => {
-                    answerStore.setFetchedText(snap.data()?.situationText)
+            const q = query(
+                collection(authStore.dataBase, "situations"),
+                where("lobbyId", "==", gameStore.currentUserLobby.uid),
+                orderBy("createdAt")
+            );
+
+            await getDocs(q)
+                .then(doc => {
+                    const situations: ISituationType[] = [];
+
+                    doc.forEach(snap => {
+                        const situation: ISituationType = {
+                            lobbyId: snap.data()?.lobbyId,
+                            answers: snap.data()?.answers,
+                            situationId: snap.data()?.situationId,
+                            situationText: snap.data()?.situationText,
+                            situationUserId: snap.data()?.situationUserId,
+                            createdAt: snap.data()?.createdAt,
+                        }
+
+                        situations.push(situation)
+                    })
+
+                    console.log(situations)
+                    this.setAllGameSituationsLocal(situations)
                 })
         }
+    }
+
+    setAllGameSituationsLocal(situations: ISituationType[] | null) {
+        this.allGameSituations = situations
     }
 }
 

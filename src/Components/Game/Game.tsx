@@ -9,6 +9,8 @@ import {observer} from "mobx-react-lite";
 import gameStore from "../../Store/GameStores/GameStore.ts";
 import GameSendAnswersStage from "./GameStages/GameSendAnswersStage.tsx";
 import GameSendReactionStage from "./GameStages/GameSendReactionStage.tsx";
+import GameWaitingForPlayersStage from "./GameStages/GameWaitingForPlayersStage";
+// import situationStore from "../../Store/GameStores/SituationStore";
 
 const Game: React.FC = observer(() => {
     // const [searchParams] = useSearchParams()
@@ -17,8 +19,8 @@ const Game: React.FC = observer(() => {
     useEffect(() => {
         gameStore.setCurrentUserLobby().then()
         gameStore.getCurrentUserStage().then()
+        // situationStore.getSituations().then()
     }, [])
-
 
     function getCurrentStage(stage: string): ReactNode {
         switch (stage) {
@@ -28,6 +30,8 @@ const Game: React.FC = observer(() => {
                 return <GameSendAnswersStage/>
             case "SendReaction":
                 return <GameSendReactionStage/>
+            case "WaitingForPlayers":
+                return <GameWaitingForPlayersStage/>
             default:
                 return ""
         }
