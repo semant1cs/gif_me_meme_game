@@ -18,7 +18,7 @@ const GameWaitingForPlayersStage: React.FC = observer(() => {
             );
 
             return onSnapshot(q, (QuerySnapshot) => {
-                if (gameStore.currentUserLobby && QuerySnapshot.size < gameStore.currentUserLobby.playerCount)
+                if (gameStore.currentUserLobby && QuerySnapshot.size !== gameStore.currentUserLobby.players.length)
                     setPlayerCount(QuerySnapshot.size)
                 else {
                     const prom = new Promise(() => {
@@ -43,7 +43,7 @@ const GameWaitingForPlayersStage: React.FC = observer(() => {
         <section className="game__waiting">
             <p className="waiting__ready-players">
                 {
-                    `${playerCount}/${gameStore.currentUserLobby?.playerCount} игроков готовы`
+                    `${playerCount}/${gameStore.currentUserLobby?.players.length} игроков готовы`
                 }
             </p>
         </section>

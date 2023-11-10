@@ -29,12 +29,12 @@ const Game: React.FC = observer(() => {
         switch (stage) {
             case "IdeaPropose":
                 return <GameIdeaProposalStage/>
+            case "WaitingForPlayers":
+                return <GameWaitingForPlayersStage/>
             case "SendAnswer":
                 return <GameSendAnswersStage/>
             case "SendReaction":
                 return <GameSendReactionStage/>
-            case "WaitingForPlayers":
-                return <GameWaitingForPlayersStage/>
             default:
                 return <Lobby/>
         }

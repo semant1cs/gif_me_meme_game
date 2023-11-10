@@ -76,8 +76,6 @@ class SituationStore {
 
                         situations.push(situation)
                     })
-
-                    console.log(situations)
                     this.setAllGameSituationsLocal(situations)
                 })
         }
