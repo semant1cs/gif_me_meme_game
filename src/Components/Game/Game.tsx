@@ -1,41 +1,52 @@
-import React, {useEffect, useState} from 'react';
+import React, {ReactNode, useEffect} from 'react';
+// import {useSearchParams} from "react-router-dom";
 import "../../Styles/GameStyle/Game.scss"
 import GameHeader from "./GameUI/GameHeader";
+// import GameIdea from "./GameIdea";
 import GamePlayers from "./GameUI/GamePlayers";
-import lobbyStore from "../../Store/LobbyStore";
-import {ILobbyType} from "../../Types/LobbyType";
-import GameIdeaProposalStage from "./GameIdeaProposalStage.tsx";
+import GameIdeaProposalStage from "./GameStages/GameIdeaProposalStage.tsx";
 import {observer} from "mobx-react-lite";
-import gameStore from "../../Store/GameStore.ts";
-import GameSendAnswersStage from "./GameSendAnswersStage.tsx";
-import GameSendReactionStage from "./GameSendReactionStage.tsx";
+import gameStore from "../../Store/GameStores/GameStore.ts";
+import GameSendAnswersStage from "./GameStages/GameSendAnswersStage.tsx";
+import GameSendReactionStage from "./GameStages/GameSendReactionStage.tsx";
+import GameWaitingForPlayersStage from "./GameStages/GameWaitingForPlayersStage";
+import situationStore from "../../Store/GameStores/SituationStore";
+import Lobby from "../Lobby/Lobby";
+// import situationStore from "../../Store/GameStores/SituationStore";
 
 const Game: React.FC = observer(() => {
-    const [currentUserLobby, setCurrentUserLobby] = useState<ILobbyType | null>(null);
     // const [searchParams] = useSearchParams()
     // const lobbyID: string | null = searchParams.get("lobbyID")
 
     useEffect(() => {
-        lobbyStore.getCurrentUserLobby().then(r => setCurrentUserLobby(r))
+        gameStore.setCurrentUserLobby().then()
+        gameStore.getCurrentUserStage().then()
+        situationStore.setSituationText("")
+        // situationStore.getSituations().then()
     }, [])
 
+    function getCurrentStage(stage: string): ReactNode {
+        switch (stage) {
+            case "IdeaPropose":
+                return <GameIdeaProposalStage/>
+            case "SendAnswer":
+                return <GameSendAnswersStage/>
+            case "SendReaction":
+                return <GameSendReactionStage/>
+            case "WaitingForPlayers":
+                return <GameWaitingForPlayersStage/>
+            default:
+                return <Lobby/>
+        }
+    }
 
     return (
         <div className="game">
             <GameHeader/>
-            <GamePlayers currentUserLobby={currentUserLobby}/>
+            <GamePlayers currentUserLobby={gameStore.currentUserLobby}/>
             <div className="game__centerBlock">
                 {
-                    gameStore.currentStage === "ideaPropose" &&
-                    <GameIdeaProposalStage/>
-                }
-                {
-                    gameStore.currentStage === "sendAnswer" &&
-                    <GameSendAnswersStage/>
-                }
-                {
-                    gameStore.currentStage === "sendReaction" &&
-                    <GameSendReactionStage/>
+                    getCurrentStage(gameStore.currentUserStage)
                 }
             </div>
         </div>

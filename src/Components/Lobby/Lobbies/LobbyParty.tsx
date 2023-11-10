@@ -3,7 +3,7 @@ import {observer} from "mobx-react-lite";
 import React from "react";
 import MyAddPlayer from "../../../UI/MyAddPlayer";
 import {ILobbyType} from "../../../Types/LobbyType";
-import lobbyStore from "../../../Store/LobbyStore";
+import lobbyStore from "../../../Store/LobbyStores/LobbyStore";
 
 type LobbyProps = {
     lobbyInfo: ILobbyType,

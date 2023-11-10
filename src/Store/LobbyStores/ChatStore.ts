@@ -7,7 +7,7 @@ import {
     serverTimestamp
 } from "firebase/firestore";
 import {getAuth} from "firebase/auth";
-import authStore from "./AuthStore";
+import authStore from "../AuthStore";
 import {v4 as uuidv4} from "uuid";
 
 class ChatStore {

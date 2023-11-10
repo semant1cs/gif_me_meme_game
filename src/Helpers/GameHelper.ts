@@ -1,0 +1,1 @@
+export const GameStages = ["IdeaPropose", "SendAnswer", "SendReaction", "WaitingForPlayers", "Error"]

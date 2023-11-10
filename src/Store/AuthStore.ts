@@ -80,6 +80,7 @@ class UserStore {
                 token: auth.currentUser?.refreshToken,
                 lobbyID: null,
                 isLobbyLeader: false,
+                currentGameStage: "IdeaPropose",
             }
 
             await setDoc(doc(this.dataBase, "users", auth.currentUser?.uid), {...userCurrent})

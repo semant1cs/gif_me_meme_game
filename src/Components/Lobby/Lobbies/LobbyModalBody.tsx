@@ -1,6 +1,6 @@
 import React from "react";
 import {observer} from "mobx-react-lite";
-import lobbyStore from "../../../Store/LobbyStore";
+import lobbyStore from "../../../Store/LobbyStores/LobbyStore";
 import MyInput from "../../../UI/MyInput";
 import MySwiper from "../../../UI/MySwiper";
 import MyButton from "../../../UI/MyButton";
