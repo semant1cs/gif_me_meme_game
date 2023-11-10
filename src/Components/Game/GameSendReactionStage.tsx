@@ -9,10 +9,10 @@ const GameSendReactionStage: React.FC = observer(() => {
     })
 
     return (
-        <div>
-            <img style={{textAlign: "center"}} src={gameStore.fetchedGif} alt="text"/>
+        <section className="game-send-answers">
+            <img className="game-send-answers-gif" src={gameStore.fetchedGif} alt="text"/>
             <GameReactionsWindow/>
-        </div>
+        </section>
     );
 });
 

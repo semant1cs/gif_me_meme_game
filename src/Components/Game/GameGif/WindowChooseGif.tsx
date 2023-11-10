@@ -23,8 +23,10 @@ const WindowChooseGif: React.FC = observer(() => {
                            onChange={(e) => setTextSearcher(e.target.value)}/>
                     <SearchIcon/>
                 </div>
+                <div className="window-choose-gif-items">
                 {GameStore.testGifs.map((gif, index) =>
                     <WindowGifItem countGifsCanSelect={countGifsCanSelect} key={index} gif={gif}/>)}
+                </div>
             </div>
         </div>
     );
