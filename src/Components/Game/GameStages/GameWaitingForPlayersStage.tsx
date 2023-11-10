@@ -4,6 +4,7 @@ import gameStore from "../../../Store/GameStores/GameStore";
 import authStore from "../../../Store/AuthStore";
 import {collection, onSnapshot, query, where} from "firebase/firestore";
 import {useNavigate} from "react-router-dom";
+import situationStore from "../../../Store/GameStores/SituationStore";
 
 const GameWaitingForPlayersStage: React.FC = observer(() => {
     const [playerCount, setPlayerCount] = useState(0);
@@ -25,8 +26,11 @@ const GameWaitingForPlayersStage: React.FC = observer(() => {
                         setTimeout(() => {
                             gameStore.setCurrentUserStage("SendAnswer")
                                 .then(() => gameStore.getCurrentUserStage()
-                                    .then(() => navigate(`/gameLobby?lobbyID=${gameStore.currentUserLobby?.uid}`)))
-                        }, 1500)
+                                    .then(() => situationStore.getSituations()
+                                        .then(() => navigate(`/gameLobby?lobbyID=${gameStore.currentUserLobby?.uid}`))
+                                    )
+                                )
+                        }, 1000)
                     }).then()
                     Promise.resolve(prom).then()
                 }

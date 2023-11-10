@@ -8,6 +8,7 @@ import authStore from "../AuthStore";
 import {getAuth} from "firebase/auth";
 import {IUserType} from "../../Types/UserType";
 import gameStore from "../GameStores/GameStore";
+import situationStore from "../GameStores/SituationStore";
 
 class LobbyStore {
     showCreateModal: boolean = false;
@@ -154,6 +155,8 @@ class LobbyStore {
     async deleteLobby(lobbyInfo: ILobbyType) {
         if (authStore.dataBase)
             await deleteDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid))
+                .then(() => situationStore.deleteAllSituationAfterGameEnd())
+
     }
 
     async deleteLobbyWithPlayers(lobbyInfo: ILobbyType) {

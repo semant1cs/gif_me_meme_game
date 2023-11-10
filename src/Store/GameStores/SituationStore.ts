@@ -3,7 +3,7 @@ import {getAuth} from "firebase/auth";
 import authStore from "../AuthStore";
 import {v4 as uuidv4} from "uuid";
 import {ISituationType} from "../../Types/SituationType";
-import {doc, getDocs, query, where, setDoc, collection, serverTimestamp, orderBy} from "firebase/firestore";
+import {doc, getDocs, query, where, setDoc, collection, serverTimestamp, orderBy, deleteDoc} from "firebase/firestore";
 import gameStore from "./GameStore";
 
 class SituationStore {
@@ -23,7 +23,13 @@ class SituationStore {
     }
 
     async deleteAllSituationAfterGameEnd() {
-
+        const situations = this.allGameSituations
+        if (situations) {
+            for (let ind = 0; ind < situations.length; ind++) {
+                if (authStore.dataBase)
+                    await deleteDoc(doc(authStore.dataBase, "situations", situations[ind].situationId))
+            }
+        }
     }
 
     async sendSituation() {
@@ -77,7 +83,10 @@ class SituationStore {
         }
     }
 
-    setAllGameSituationsLocal(situations: ISituationType[] | null) {
+    setAllGameSituationsLocal(situations
+                                  :
+                                  ISituationType[] | null
+    ) {
         this.allGameSituations = situations
     }
 }
