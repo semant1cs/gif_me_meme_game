@@ -204,6 +204,21 @@
   width: 100%;
 }
 
+.game-send-answers-gif {
+  margin: auto;
+  width: 50%;
+  height: 90%;
+  border-radius: 10px;
+  border: 5px white solid;
+}
+
+.window-choose-gif-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 15px;
+}
+
 .window-choose-gif-item {
   position: relative;
   width: 150px;
@@ -236,6 +251,7 @@
   background-color: $mainColor;
   border-radius: 10px;
   padding: 15px;
+  margin: auto;
   flex-direction: column;
   justify-content: space-between;
   align-items: start;
@@ -258,7 +274,8 @@
 // GAME SEND ANSWERS
 
 .game-send-answers {
-  width: 100%;
+  margin: auto;
+  width: 80%;
   height: 100%;
   background-color: $mainColor;
   border-radius: 10px;
@@ -282,7 +299,7 @@
 .game-send-answers__timer {
   position: absolute;
   bottom: 20px;
-  left: 2.5%;
+  left: 12%;
   width: 50px;
   height: 50px;
 }
@@ -290,7 +307,7 @@
 .gif-send__btn {
   position: absolute;
   bottom: 10px;
-  right: 3.4%;
+  right: 13%;
   width: 50px;
   height: 50px;
   color: $bgColor;

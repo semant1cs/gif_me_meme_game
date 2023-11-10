@@ -7,6 +7,7 @@ import lobbyStore from "./LobbyStore";
 import {ISituationType} from "../Types/SituationType.ts";
 import {v4 as uuidv4} from "uuid";
 import {IAnswerType} from "../Types/AnswerType.ts";
+import GameStages from "../Components/Game/GameStages.ts";
 
 class GameStore {
     testGifs: string[] = [];
@@ -14,13 +15,10 @@ class GameStore {
     chosenGif: string = "";
     situationText: string = "";
 
-    // Пока что сделал этапы таким образом:
-    // 1 предложение идеи
-    // 2 ответ пользователя на идею
-    // 3 отправка реакции на ответ пользователя
-    // рендер компонентов зависит от текущего этапа
-    currentStage: number = 0;
+    indexStage: number = 0;
+    currentStage: string = GameStages[this.indexStage];
     fetchedText: string = "";
+    fetchedGif: string = "";
     currentUserLobby: string | null = null;
 
     constructor() {
@@ -35,8 +33,12 @@ class GameStore {
         this.selectedGifs = value
     }
 
-    setFetchedText(fetchedText: string) {
-        this.fetchedText = fetchedText
+    setFetchedText(receivedText: string) {
+        this.fetchedText = receivedText
+    }
+
+    setFetchedGif(receivedGif: string) {
+        this.fetchedGif = receivedGif
     }
 
     async setCurrentUserLobby() {
@@ -63,7 +65,8 @@ class GameStore {
     }
 
     setNextStage() {
-        this.currentStage++
+        this.indexStage++
+        this.currentStage = GameStages[this.indexStage]
     }
 
     async leaveGame() {
@@ -133,6 +136,15 @@ class GameStore {
             }
 
             await setDoc(doc(authStore.dataBase, "situations", this.currentUserLobby), {...situation}).then(() => this.setNextStage())
+        }
+    }
+
+    async getAnswer() {
+        this.setCurrentUserLobby().then()
+        if (authStore.dataBase && this.currentUserLobby) {
+            await getDoc(doc(authStore.dataBase, "situations", this.currentUserLobby)).then((snap) => {
+                this.setFetchedGif(snap.data()?.answers[0].answerGif)
+            })
         }
     }
 }
