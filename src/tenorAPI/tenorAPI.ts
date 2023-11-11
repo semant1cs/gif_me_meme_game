@@ -19,7 +19,7 @@ function getNanoGifs(searchString: string, limit_gifs: number): void {
     axios.get(respURL, {
         params: {
             q: searchString,
-            key: import.meta.env.VITE_TENOR_API_KEY,
+            key: import.meta.env.VITE_API_KEY,
             client_key: clientKey,
             limit: limit_gifs
         }
