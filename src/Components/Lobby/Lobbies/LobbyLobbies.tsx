@@ -90,7 +90,7 @@ const LobbyLobbies: React.FC = observer(() => {
                 {
                     currentLobbies
                         ? currentLobbies.map((lobby, index) =>
-                            <LobbyParty lobbyInfo={lobby} key={index}/>)
+                        !lobby.isLobbyInGame ? <LobbyParty lobbyInfo={lobby} key={index}/> : "")
                         : ""
                 }
             </div>
