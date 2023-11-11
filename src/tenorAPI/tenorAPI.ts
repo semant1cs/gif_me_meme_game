@@ -1,8 +1,8 @@
 import axios from "axios";
 import answerStore from "../Store/GameStores/AnswerStore";
 
-const apikey: string = "AIzaSyBgy8HxFMPvU4xJPQGr-EGjO0mtEMxTvZo";
 const clientKey: string = "gife_me_meme";
+
 
 function isEmptyString(line: string): boolean {
     const lineArray = Array.from(line.trim())
@@ -19,7 +19,7 @@ function getNanoGifs(searchString: string, limit_gifs: number): void {
     axios.get(respURL, {
         params: {
             q: searchString,
-            key: apikey,
+            key: import.meta.env.VITE_TENOR_API_KEY,
             client_key: clientKey,
             limit: limit_gifs
         }
