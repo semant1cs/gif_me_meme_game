@@ -26,6 +26,8 @@ const LobbyChat: React.FC = observer(() => {
                     });
                 });
                 setMessages(fetchedMessages)
+
+
             })
         }
     }, [])

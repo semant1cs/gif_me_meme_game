@@ -31,7 +31,7 @@
   position: relative;
 }
 
-.lobby-header__modal{
+.lobby-header__modal {
   position: absolute;
   width: 150px;
   height: 150px;
@@ -43,7 +43,7 @@
   box-shadow: 0 0 4px 0 rgba(16, 32, 49, 0.50);
 }
 
-.lobby-headerModal__button{
+.lobby-headerModal__button {
   font-size: 16px;
   padding: 8px 10px;
   background-color: white;
@@ -67,7 +67,7 @@
     margin-right: 15px;
   }
 
-  svg{
+  svg {
     cursor: pointer;
   }
 }
@@ -78,6 +78,11 @@
   max-height: 87%;
   @extend %flex;
   justify-content: space-between;
+
+  @media screen and (orientation: portrait) {
+    display: block;
+    width: 100%;
+  }
 }
 
 .lobby__chats {
@@ -95,6 +100,11 @@
     font-size: 24px;
     margin-bottom: 5px;
     user-select: none;
+  }
+
+  @media screen and (orientation: portrait) {
+    height: 40%;
+    width: 100%;
   }
 }
 
@@ -238,6 +248,11 @@
   border-bottom-right-radius: 0;
   padding-left: 10px;
   font-size: 16px;
+
+  @media screen and (orientation: portrait) {
+    height: 50%;
+    margin-bottom: 5px;
+  }
 }
 
 .chats__button {
@@ -255,6 +270,11 @@
     transform: none;
     background: $mainColor url("../../Imgs/PNG/send_white.svg") no-repeat center;
   }
+
+  @media screen and (orientation: portrait) {
+    height: 50%;
+    margin-bottom: 5px;
+  }
 }
 
 .lobby__lobbies {
@@ -268,6 +288,11 @@
   flex-direction: column;
   align-items: start;
   justify-content: start;
+
+  @media screen and (orientation: portrait) {
+    margin-top: 20px;
+    max-width: 100%;
+  }
 }
 
 .lobbies__header {
@@ -283,7 +308,7 @@
   }
 }
 
-.lobbies__buttonDelete{
+.lobbies__buttonDelete {
   margin-right: 15px;
 }
 
@@ -489,7 +514,7 @@
   object-fit: cover;
   margin-bottom: 10px;
 
-  svg{
+  svg {
     width: 75px;
     height: 75px;
   }

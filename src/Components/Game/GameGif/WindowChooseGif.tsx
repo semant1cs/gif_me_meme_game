@@ -13,6 +13,7 @@ const WindowChooseGif: React.FC = observer(() => {
 
     useEffect(() => {
         getNanoGifs(debounce, 10)
+        answerStore.selectedGifs = 0
     }, [debounce])
 
     return (

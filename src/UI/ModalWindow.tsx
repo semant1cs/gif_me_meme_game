@@ -1,6 +1,5 @@
-import React, {MutableRefObject, useEffect, useRef} from 'react';
+import React, {PropsWithChildren, useEffect, useRef} from 'react';
 import '../Styles/UIStyle/UIStyle.scss'
-import {PropsWithChildren} from "react";
 import gsap from 'gsap';
 
 interface ModalWindowProps {
@@ -12,12 +11,13 @@ interface ModalWindowProps {
 
 const ModalWindow: React.FC<ModalWindowProps> =
     ({body, onClose, windowContentStyles}: PropsWithChildren<ModalWindowProps>) => {
-        let el: MutableRefObject<any> | gsap.core.Timeline = useRef();
+        let element = useRef(null);
 
         const onKeypress = (e: KeyboardEvent) => e?.key === "Esc" || e.key === "Escape" ? onClose() : null;
         useEffect(() => {
+            gsap.fromTo(element.current, {opacity: 0}, {opacity: 1, duration: 0.2})
+            gsap.to(element.current, {duration: 0.5, scale: 1.3, ease: "expoScale(i, 2)"});
             document.addEventListener('keyup', onKeypress);
-            gsap.fromTo('.modal-window', {opacity: 0}, {opacity: 1, duration: 0.2})
 
             return () => {
                 document.removeEventListener('keyup', onKeypress);
@@ -25,7 +25,7 @@ const ModalWindow: React.FC<ModalWindowProps> =
         }, []);
 
         return (
-            <div className="modal-window" onClick={onClose} ref={el}>
+            <div className="modal-window" onClick={onClose} ref={element}>
                 <div className={`modal-window__content ${windowContentStyles}`}
                      onClick={(e) => e.stopPropagation()}>
                     <div className="modal-window__body" children={body}></div>

@@ -9,6 +9,7 @@ import answerStore from "../../../Store/GameStores/AnswerStore";
 const GameSendAnswersStage: React.FC = observer(() => {
     useEffect(() => {
         situationStore.getSituations().then()
+        answerStore.setFetchedText()
     })
 
     return (

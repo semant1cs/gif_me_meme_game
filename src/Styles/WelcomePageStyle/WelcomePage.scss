@@ -62,7 +62,12 @@
   bottom: 0;
   height: 230px;
   width: 330px;
-  
+
+  @media (max-height: 650px) {
+    height: 105px;
+    width: 150px;
+  }
+
   @media (max-width: 768px) {
     height: 175px;
     width: 250px;

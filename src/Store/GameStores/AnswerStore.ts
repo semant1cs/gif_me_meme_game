@@ -10,7 +10,7 @@ import gameStore from "./GameStore";
 
 class AnswerStore {
     chosenGif: string = "";
-    fetchedText: string = "";
+    fetchedText: string | null = "";
     fetchedGif: string = "";
     testGifs: string[] = [];
     selectedGifs: number = 0;
@@ -37,8 +37,10 @@ class AnswerStore {
         this.selectedGifs = value
     }
 
-    setFetchedText(receivedText: string) {
-        this.fetchedText = receivedText
+    setFetchedText() {
+        if (situationStore.allGameSituations) {
+            this.fetchedText = situationStore.allGameSituations[0].situationText
+        }
     }
 
     setFetchedSituationId(newId: string) {
@@ -47,11 +49,15 @@ class AnswerStore {
 
     async getNewSituationId() {
         const auth = getAuth()
+        let situationId = "";
         if (authStore.dataBase && gameStore.currentUserLobby && auth.currentUser?.uid) {
             await getDoc(doc(authStore.dataBase, "situations", gameStore.currentUserLobby.uid)).then((snap) => {
-                this.setFetchedSituationId(snap.data()?.situationId)
+                situationId = snap.get("lobbyId")
+                console.log(snap.data())
             })
         }
+        console.log(situationId)
+        this.setFetchedSituationId(situationId)
     }
 
     async sendAnswer() {

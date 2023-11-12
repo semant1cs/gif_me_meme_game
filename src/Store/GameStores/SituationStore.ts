@@ -73,7 +73,6 @@ class SituationStore {
                             situationUserId: snap.data()?.situationUserId,
                             createdAt: snap.data()?.createdAt,
                         }
-
                         situations.push(situation)
                     })
                     this.setAllGameSituationsLocal(situations)
@@ -81,10 +80,7 @@ class SituationStore {
         }
     }
 
-    setAllGameSituationsLocal(situations
-                                  :
-                                  ISituationType[] | null
-    ) {
+    setAllGameSituationsLocal(situations: ISituationType[] | null) {
         this.allGameSituations = situations
     }
 }
