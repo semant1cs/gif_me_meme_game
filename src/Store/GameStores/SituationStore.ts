@@ -23,12 +23,17 @@ class SituationStore {
     }
 
     async deleteAllSituationAfterGameEnd() {
-        const situations = this.allGameSituations
-        if (situations) {
-            for (let ind = 0; ind < situations.length; ind++) {
-                if (authStore.dataBase)
-                    await deleteDoc(doc(authStore.dataBase, "situations", situations[ind].situationId))
-            }
+        if (authStore.dataBase && gameStore.currentUserLobby) {
+            const q = query(collection(authStore.dataBase, "situations"),
+                where("lobbyId", "==", gameStore.currentUserLobby.uid))
+
+            await getDocs(q)
+                .then((snap) =>
+                    snap.docs.forEach(document => {
+                        if (authStore.dataBase)
+                            deleteDoc(doc(authStore.dataBase, "situations", document.data().situationId))
+                    })
+                )
         }
     }
 

@@ -16,6 +16,7 @@
     "firebase": "^10.4.0",
     "gsap": "^3.12.2",
     "json-server": "^0.17.3",
+    "lazy": "^1.0.11",
     "mobx": "^6.10.2",
     "mobx-react-lite": "^4.0.5",
     "react": "^18.2.0",

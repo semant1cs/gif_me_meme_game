@@ -21,18 +21,12 @@ const GameWaitingForPlayersStage: React.FC = observer(() => {
                 if (gameStore.currentUserLobby && QuerySnapshot.size !== gameStore.currentUserLobby.players.length)
                     setPlayerCount(QuerySnapshot.size)
                 else {
-                    const prom = new Promise(() => {
-                        navigate('/loader')
-                        setTimeout(() => {
-                            gameStore.setCurrentUserStage("SendAnswer")
-                                .then(() => gameStore.getCurrentUserStage()
-                                    .then(() => situationStore.getSituations()
-                                        .then(() => navigate(`/gameLobby?lobbyID=${gameStore.currentUserLobby?.uid}`))
-                                    )
-                                )
-                        }, 1000)
-                    }).then()
-                    Promise.resolve(prom).then()
+                    gameStore.setCurrentUserStage("SendAnswer")
+                        .then(() => gameStore.getCurrentUserStage()
+                            .then(() => situationStore.getSituations()
+                                .then(() => navigate(`/gameLobby?lobbyID=${gameStore.currentUserLobby?.uid}`))
+                            )
+                        )
                 }
             })
         }

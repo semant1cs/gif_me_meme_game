@@ -153,10 +153,11 @@ class LobbyStore {
 
     // Удаляет существующее лобби
     async deleteLobby(lobbyInfo: ILobbyType) {
-        if (authStore.dataBase)
+        if (authStore.dataBase) {
             await deleteDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid))
-                .then(() => situationStore.deleteAllSituationAfterGameEnd())
-
+                .then(() => situationStore.deleteAllSituationAfterGameEnd()
+                    .then(() => this.getUserLobbyInfo()))
+        }
     }
 
     async deleteLobbyWithPlayers(lobbyInfo: ILobbyType) {
