@@ -13,15 +13,22 @@ const GameSendAnswersStage: React.FC = observer(() => {
 
     return (
         <section className="game__answers">
-            <p className="answers__situation">
-                {answerStore.fetchedText}
+            <p className="answers__round">
+                Раунд 1
             </p>
-            <WindowChooseGif/>
+            <p className="answers__situation">
+                {answerStore.fetchedText}ddawdawd
+            </p>
+            <div className="answers__window">
+                <WindowChooseGif/>
+            </div>
             <div className="answers__bottom">
                 <MyButton btnText=""
                           btnStyle="gif-send__btn"
                           handleOnClick={() => answerStore.sendAnswer().then()}/>
-                <div className="game-send-answers__timer"><MyTimer seconds={60}/></div>
+                <div className="game-send-answers__timer">
+                    <MyTimer seconds={60}/>
+                </div>
             </div>
         </section>
     );

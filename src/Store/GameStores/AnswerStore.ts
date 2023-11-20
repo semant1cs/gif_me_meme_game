@@ -9,20 +9,26 @@ import {doc, getDoc, setDoc, Timestamp} from "firebase/firestore";
 import gameStore from "./GameStore";
 
 class AnswerStore {
-    chosenGif: string = "";
+
     fetchedText: string = "";
     fetchedGif: string = "";
     testGifs: string[] = [];
-    selectedGifs: number = 0;
-
     fetchedSituationId: string = ""
+
+
+    canChooseGif: boolean = false;
+    userSelectedGif: string = "";
 
     constructor() {
         makeAutoObservable(this)
     }
 
-    setChosenGif(gif: string) {
-        this.chosenGif = gif
+    setUserSelectedGif(gif: string) {
+        this.userSelectedGif = gif
+    }
+
+    setCanChooseGif(canChooseGif: boolean) {
+        this.canChooseGif = canChooseGif;
     }
 
     setFetchedGif(receivedGif: string) {
@@ -31,10 +37,6 @@ class AnswerStore {
 
     setTestGifs(gifs: string[]) {
         this.testGifs = gifs
-    }
-
-    setSelectedGifs(value: number) {
-        this.selectedGifs = value
     }
 
     setFetchedText(receivedText: string) {
@@ -60,7 +62,7 @@ class AnswerStore {
         const answer: IAnswerType = {
             answerId: answerId,
             answeredUserId: auth.currentUser?.uid,
-            answerGif: this.chosenGif,
+            answerGif: this.userSelectedGif,
             answerPoints: 0,
             createdAt: Timestamp.now(),
         }
