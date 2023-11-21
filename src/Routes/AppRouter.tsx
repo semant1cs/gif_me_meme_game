@@ -1,15 +1,16 @@
-import React from 'react';
+import React, {lazy, Suspense} from 'react';
 import {Routes, Route, Navigate, useLocation} from "react-router-dom";
 import Auth from "../Components/Authentication/Auth";
 import Register from "../Components/Authentication/Register";
-import Lobby from "../Components/Lobby/Lobby";
 import WelcomePage from "../Components/WelcomePage/WelcomePage";
 import {IRouteType} from "../Types/RouteType.ts";
 import {getAuth} from "firebase/auth";
-import Game from "../Components/Game/Game.tsx";
 import Loader from "../Components/Loader/Loader";
 
 const AppRouter: React.FC = () => {
+    const Lobby = lazy(() => import("../Components/Lobby/Lobby"))
+    const Game = lazy(() => import("../Components/Game/Game"))
+
     const publicRoutes: IRouteType[] = [
         {
             path: "/",
@@ -32,11 +33,15 @@ const AppRouter: React.FC = () => {
         },
         {
             path: "/lobby",
-            element: <Lobby/>
+            element: <Suspense fallback={<Loader/>}>
+                <Lobby/>
+            </Suspense>
         },
         {
             path: "/gameLobby",
-            element: <Game/>
+            element: <Suspense fallback={<Loader/>}>
+                <Game/>
+            </Suspense>
         },
         {
             path: "/loader",

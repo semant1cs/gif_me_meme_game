@@ -10,6 +10,7 @@ export interface ILobbyType {
     isLobbyPrivate: boolean,
     isAutoStart: boolean,
     isLobbyInGame: boolean,
+    currentGameRound: number,
     players: IUserType[],
     createdAt: FieldValue,
 }

@@ -1,4 +1,3 @@
-import {IAnswerType} from "./AnswerType.ts";
 import {FieldValue} from "firebase/firestore";
 
 export interface ISituationType {
@@ -6,6 +5,5 @@ export interface ISituationType {
     situationId: string,
     situationUserId: string,
     situationText: string,
-    answers: IAnswerType[],
     createdAt: FieldValue,
 }

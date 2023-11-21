@@ -1,5 +1,5 @@
 import axios from "axios";
-import answerStore from "../Store/GameStores/AnswerStore";
+import answerStore from "../../Store/GameStores/AnswerStore";
 
 const clientKey: string = "gife_me_meme";
 
@@ -13,7 +13,7 @@ function isEmptyString(line: string): boolean {
     return true
 }
 
-function getNanoGifs(searchString: string, limit_gifs: number): void {
+export function getGifs(searchString: string, limit_gifs: number): void {
     if (isEmptyString(searchString)) return
     const respURL = "https://tenor.googleapis.com/v2/search?q="
     axios.get(respURL, {
@@ -24,9 +24,15 @@ function getNanoGifs(searchString: string, limit_gifs: number): void {
             limit: limit_gifs
         }
     }).then((resp) => {
-        const gifs = resp.data.results.map((result: any) => result.media_formats.nanogif.url);
-        answerStore.setTestGifs(gifs)
+        const gifs = resp.data.results.map((result: any) => {
+            return ({
+                id: result.id,
+                gif: result.media_formats.gif.url,
+                mediumGif: result.media_formats.mediumgif.url,
+                tinyGif: result.media_formats.tinygif.url,
+                nanoGif: result.media_formats.nanogif.url,
+            })
+        });
+        answerStore.setCurrentGifs(gifs)
     })
 }
-
-export {getNanoGifs}

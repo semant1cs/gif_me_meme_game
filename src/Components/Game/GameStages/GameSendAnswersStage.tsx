@@ -1,24 +1,50 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import WindowChooseGif from "../GameGif/WindowChooseGif.tsx";
 import {observer} from "mobx-react-lite";
 import MyButton from "../../../UI/MyButton.tsx";
 import MyTimer from "../../../UI/MyTimer.tsx";
-import situationStore from "../../../Store/GameStores/SituationStore";
 import answerStore from "../../../Store/GameStores/AnswerStore";
+import gameStore from "../../../Store/GameStores/GameStore";
+import situationStore from "../../../Store/GameStores/SituationStore";
 
 const GameSendAnswersStage: React.FC = observer(() => {
-    useEffect(() => {
-        situationStore.getSituations().then()
-    })
-
     return (
-        <section className="game-send-answers">
-            <div className="situation-text">{answerStore.fetchedText}</div>
-            <WindowChooseGif/>
-            <MyButton btnText=""
-                      btnStyle="gif-send__btn"
-                      handleOnClick={() => answerStore.sendAnswer().then()}/>
-            <div className="game-send-answers__timer"><MyTimer seconds={60}/></div>
+        <section className="game__answers">
+            <p className="answers__round">
+                Раунд {gameStore.currentUserLobby?.currentGameRound}
+            </p>
+            {
+                gameStore.currentUserLobby && situationStore.allGameSituations
+                    ?
+                    <p className="answers__situation">
+                        {
+                            situationStore.currentRoundSituation?.situationText
+                        }
+                    </p>
+                    : ""
+            }
+            <div className="answers__window">
+                <WindowChooseGif/>
+            </div>
+            <div className="answers__bottom">
+                <MyTimer seconds={60}/>
+                {
+                    answerStore.userSelectedGif
+                        ?
+                        <MyButton btnText="Отменить выбор"
+                                  btnStyle="answer__cancel"
+                                  handleOnClick={() => answerStore.setUserSelectedGif(null)}/>
+                        : ""
+                }
+                {
+                    answerStore.userSelectedGif
+                        ?
+                        <MyButton btnText=""
+                                  btnStyle="answers__button"
+                                  handleOnClick={() => answerStore.sendAnswer(situationStore.currentRoundSituation).then()}/>
+                        : ""
+                }
+            </div>
         </section>
     );
 });

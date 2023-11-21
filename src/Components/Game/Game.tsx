@@ -1,42 +1,74 @@
-import React, {ReactNode, useEffect} from 'react';
-// import {useSearchParams} from "react-router-dom";
+import React, {lazy, Suspense, useEffect} from 'react';
 import "../../Styles/GameStyle/Game.scss"
 import GameHeader from "./GameUI/GameHeader";
-// import GameIdea from "./GameIdea";
 import GamePlayers from "./GameUI/GamePlayers";
-import GameIdeaProposalStage from "./GameStages/GameIdeaProposalStage.tsx";
 import {observer} from "mobx-react-lite";
 import gameStore from "../../Store/GameStores/GameStore.ts";
-import GameSendAnswersStage from "./GameStages/GameSendAnswersStage.tsx";
-import GameSendReactionStage from "./GameStages/GameSendReactionStage.tsx";
-import GameWaitingForPlayersStage from "./GameStages/GameWaitingForPlayersStage";
 import situationStore from "../../Store/GameStores/SituationStore";
-import Lobby from "../Lobby/Lobby";
-// import situationStore from "../../Store/GameStores/SituationStore";
+import Loader from "../Loader/Loader";
 
 const Game: React.FC = observer(() => {
-    // const [searchParams] = useSearchParams()
-    // const lobbyID: string | null = searchParams.get("lobbyID")
 
     useEffect(() => {
-        gameStore.setCurrentUserLobby().then()
-        gameStore.getCurrentUserStage().then()
-        situationStore.setSituationText("")
-        // situationStore.getSituations().then()
+        gameStore.setCurrentUserLobby()
+            .then(() => situationStore.getSituations())
+            .then(() => gameStore.getCurrentUserStage())
+        gameStore.setNullLocalVariables()
     }, [])
 
-    function getCurrentStage(stage: string): ReactNode {
+    function getCurrentStage(stage: string): JSX.Element {
+
+        const IdeaPropose = lazy(() => import("./GameStages/GameIdeaProposalStage"))
+        const GameWaitingForPlayersStage = lazy(() => import("./GameStages/GameWaitingForPlayersStage"))
+        const GameSendAnswersStage = lazy(() => import("./GameStages/GameSendAnswersStage"))
+        const GameWaitingAfterSendAnswer = lazy(() => import("./GameStages/GameWaitingAfterSendAnswer"))
+        const GameSendReactionStage = lazy(() => import("./GameStages/GameSendReactionStage"))
+        const GameEnd = lazy(() => import("./GameStages/GameEnd"))
+        const Lobby = lazy(() => import("../Lobby/Lobby"))
+
         switch (stage) {
             case "IdeaPropose":
-                return <GameIdeaProposalStage/>
+                return (
+                    <Suspense fallback={<Loader/>}>
+                        <IdeaPropose/>
+                    </Suspense>
+                )
             case "WaitingForPlayers":
-                return <GameWaitingForPlayersStage/>
+                return (
+                    <Suspense fallback={<Loader/>}>
+                        <GameWaitingForPlayersStage/>
+                    </Suspense>
+                )
             case "SendAnswer":
-                return <GameSendAnswersStage/>
+                return (
+                    <Suspense fallback={<Loader/>}>
+                        <GameSendAnswersStage/>
+                    </Suspense>
+                )
             case "SendReaction":
-                return <GameSendReactionStage/>
+                return (
+                    <Suspense fallback={<Loader/>}>
+                        <GameSendReactionStage/>
+                    </Suspense>
+                )
+            case "WaitingAfterAnswer":
+                return (
+                    <Suspense fallback={<Loader/>}>
+                        <GameWaitingAfterSendAnswer/>
+                    </Suspense>
+                )
+            case "GameEnd":
+                return (
+                    <Suspense fallback={<Loader/>}>
+                        <GameEnd/>
+                    </Suspense>
+                )
             default:
-                return <Lobby/>
+                return (
+                    <Suspense fallback={<Loader/>}>
+                        <Lobby/>
+                    </Suspense>
+                )
         }
     }
 

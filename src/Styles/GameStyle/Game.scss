@@ -15,7 +15,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 60%;
+  width: 50%;
   height: 60%;
 }
 
@@ -48,7 +48,7 @@
   max-width: 100px;
 }
 
-.players__all-leave{
+.players__all-leave {
   font-size: 14px;
   text-align: center;
   word-break: break-word;
@@ -134,7 +134,7 @@
   font-size: 16px;
 }
 
-.idea__down{
+.idea__down {
   width: 100%;
   @extend %flex;
   justify-content: space-between;
@@ -185,7 +185,7 @@
 
 // WaitingForPlayers
 
-.game__waiting{
+.game__waiting {
   width: 100%;
   height: 100%;
   background-color: $mainColor;
@@ -193,149 +193,62 @@
   @extend %flex;
 }
 
-.waiting__ready-players{
+.waiting__ready-players {
   color: #FFF;
   text-align: center;
   font-size: 24px;
 }
 
-// С этим потом нужно разобраться и написать нормальные стили)))
+// Answers
 
-.window-choose-gif {
-  width: 96%;
-  height: 80%;
-  margin: 20px auto 60px;
-}
-
-.form-choose-gif {
+.game__answers {
   width: 100%;
   height: 100%;
+  background-color: $mainColor;
+  border-radius: 10px;
   padding: 15px;
-  background: $bgWindowGifColor;
-  border-radius: 10px;
-  overflow: auto;
+  @extend %flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
 }
 
-.gif-searcher {
-  margin: auto;
-  height: 32px;
-  background: none;
-  width: 80%;
-}
-
-.searcher__field {
-  position: relative;
-  display: flex;
-  margin: auto;
-  background: white;
-  border-radius: 10px;
+.answers__round {
+  font-size: 20px;
+  font-weight: 400;
+  color: white;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
   width: 100%;
-}
-
-.game-send-answers-gif {
-  margin: auto;
-  width: 50%;
-  height: 90%;
-  border-radius: 10px;
-  border: 5px white solid;
-}
-
-.window-choose-gif-items {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  margin-top: 15px;
-}
-
-.window-choose-gif-item {
   position: relative;
-  width: 150px;
-  height: 150px;
-  border-radius: 10px;
 
-  &:hover {
-    border: $chosenGifColor 3px solid;
+  &::before {
+    content: "";
+    width: calc(100% + 30px);
+    height: 1px;
+    background-color: white;
+    position: absolute;
+    bottom: 0;
+    left: -15px;
   }
 }
 
-.selected-gif {
-  border: $chosenGifColor 3px solid;
-}
-
-.search-icon {
-  position: absolute;
-  display: flex;
-  right: 2%;
-  top: 13%;
-}
-
-// GAME REACTIONS
-
-.game-reactions-window {
-  z-index: 100000;
-  @extend %flex;
-  width: 60%;
-  height: 35%;
-  background-color: $mainColor;
-  border-radius: 10px;
-  padding: 15px;
-  margin: auto;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: start;
-}
-
-.game-reactions__title {
+.answers__situation {
+  font-weight: 400;
+  font-size: 16px;
   width: 100%;
-  text-align: center;
-  background-color: white;
-  border-radius: 5px;
+  color: white;
+  word-wrap: break-word;
   margin-bottom: 10px;
-  padding: 5px;
-  word-wrap: break-word;
 }
 
-.game-reactions {
-  margin: auto;
-}
-
-// GAME SEND ANSWERS
-
-.game-send-answers {
-  margin: auto;
-  width: 80%;
-  height: 100%;
-  background-color: $mainColor;
-  border-radius: 10px;
-  padding: 15px;
+.answers__bottom{
+  width: 100%;
   @extend %flex;
-  flex-direction: column;
   justify-content: space-between;
-  align-items: start;
 }
 
-.situation-text {
-  margin: auto;
-  width: 96%;
-  background-color: white;
-  border-radius: 5px;
-  padding: 15px;
-  text-align: center;
-  word-wrap: break-word;
-}
-
-.game-send-answers__timer {
-  position: absolute;
-  bottom: 20px;
-  left: 12%;
-  width: 50px;
-  height: 50px;
-}
-
-.gif-send__btn {
-  position: absolute;
-  bottom: 10px;
-  right: 13%;
+.answers__button {
   width: 50px;
   height: 50px;
   color: $bgColor;
@@ -347,7 +260,145 @@
   }
 
   &:active {
-    transform: scale(0.9);
     background: $bgColor url("../../Imgs/PNG/send_white.svg") no-repeat center;
+  }
+}
+
+// Answers-Window
+
+.answers__window {
+  width: 100%;
+  flex-grow: 1;
+  background-color: $bgColor;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 7px;
+    height: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    margin-top: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    background: white;
+    border-radius: 20px;
+  }
+}
+
+.window {
+  width: 100%;
+  height: 100%;
+  @extend %flex;
+}
+
+.window__block {
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+}
+
+.window__search {
+  width: 100%;
+  height: 35px;
+  @extend %flex;
+  margin-bottom: 15px;
+}
+
+.window__search-input {
+  flex-grow: 1;
+  height: 100%;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  padding: 10px 15px;
+  color: $bgColor;
+  font-size: 16px;
+}
+
+.window__search-search {
+  cursor: pointer;
+  padding: 0 15px 0 15px;
+  background-color: white;
+  height: 100%;
+  @extend %flex;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.window__items {
+  @extend %flex;
+  align-items: start;
+  justify-content: start;
+  flex-wrap: wrap;
+  width: 100%;
+  height: fit-content;
+}
+
+.window__items-item {
+  margin-bottom: 15px;
+  user-select: none;
+
+  &:not(:last-child){
+    margin-right: 15px;
+  }
+}
+
+.window__item-gif{
+  cursor: pointer;
+
+  &:hover, &:active{
+    outline: 5px solid $mainColor;
+  }
+}
+
+.window__currentGif{
+  width: 100%;
+  height: 100%;
+  @extend %flex;
+  position: relative;
+  overflow-y: auto;
+}
+
+.window__currentGif-img{
+  max-width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+}
+
+.window__choose {
+  cursor: pointer;
+  width: 100px;
+  height: 100px;
+  position: relative;
+  border-radius: 50%;
+  background-color: $mainColor;
+
+  &::before {
+    content: "";
+    width: 50px;
+    height: 1px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(90deg);
+    background-color: white;
+    position: absolute;
+  }
+
+  &::after {
+    content: "";
+    width: 50px;
+    height: 1px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(180deg);
+    background-color: white;
+    position: absolute;
   }
 }

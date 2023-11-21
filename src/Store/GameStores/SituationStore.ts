@@ -9,6 +9,7 @@ import gameStore from "./GameStore";
 class SituationStore {
     situationText: string = "";
     allGameSituations: ISituationType[] | null = null;
+    currentRoundSituation: ISituationType | null = null;
 
     constructor() {
         makeAutoObservable(this)
@@ -22,13 +23,23 @@ class SituationStore {
 
     }
 
+    setCurrentRoundSituation() {
+        if (gameStore.currentUserLobby && this.allGameSituations)
+            this.currentRoundSituation = this.allGameSituations[gameStore.currentUserLobby?.currentGameRound - 1]
+    }
+
     async deleteAllSituationAfterGameEnd() {
-        const situations = this.allGameSituations
-        if (situations) {
-            for (let ind = 0; ind < situations.length; ind++) {
-                if (authStore.dataBase)
-                    await deleteDoc(doc(authStore.dataBase, "situations", situations[ind].situationId))
-            }
+        if (authStore.dataBase && gameStore.currentUserLobby) {
+            const q = query(collection(authStore.dataBase, "situations"),
+                where("lobbyId", "==", gameStore.currentUserLobby.uid))
+
+            await getDocs(q)
+                .then((snap) =>
+                    snap.docs.forEach(document => {
+                        if (authStore.dataBase)
+                            deleteDoc(doc(authStore.dataBase, "situations", document.data().situationId))
+                    })
+                )
         }
     }
 
@@ -42,13 +53,11 @@ class SituationStore {
                 situationId: situationId,
                 situationUserId: auth.currentUser?.uid,
                 situationText: this.situationText,
-                answers: [],
                 createdAt: serverTimestamp(),
             }
 
             await setDoc(doc(authStore.dataBase, "situations", situationId), {...situation})
-                .then(() => gameStore.setCurrentUserStage("WaitingForPlayers")
-                    .then(() => gameStore.getCurrentUserStage()))
+                .then(() => gameStore.setCurrentUserStage("WaitingForPlayers"))
         }
     }
 
@@ -67,7 +76,6 @@ class SituationStore {
                     doc.forEach(snap => {
                         const situation: ISituationType = {
                             lobbyId: snap.data()?.lobbyId,
-                            answers: snap.data()?.answers,
                             situationId: snap.data()?.situationId,
                             situationText: snap.data()?.situationText,
                             situationUserId: snap.data()?.situationUserId,
@@ -78,13 +86,11 @@ class SituationStore {
                     })
                     this.setAllGameSituationsLocal(situations)
                 })
+                .then(() => this.setCurrentRoundSituation())
         }
     }
 
-    setAllGameSituationsLocal(situations
-                                  :
-                                  ISituationType[] | null
-    ) {
+    setAllGameSituationsLocal(situations: ISituationType[] | null) {
         this.allGameSituations = situations
     }
 }

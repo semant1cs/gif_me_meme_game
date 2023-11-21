@@ -4,6 +4,8 @@ import authStore from "../AuthStore.ts";
 import {doc, getDoc, setDoc} from "firebase/firestore";
 import {ILobbyType} from "../../Types/LobbyType";
 import lobbyStore from "../LobbyStores/LobbyStore";
+import situationStore from "./SituationStore";
+import answerStore from "./AnswerStore";
 
 class GameStore {
     currentUserStage: string = "";
@@ -13,12 +15,28 @@ class GameStore {
         makeAutoObservable(this)
     }
 
+    setNullLocalVariables() {
+        situationStore.setSituationText("")
+        answerStore.setUserSelectedGif(null)
+        answerStore.setCurrentGifs([])
+        answerStore.setCanChooseGif(false)
+    }
+
     async setCurrentUserLobby() {
         await lobbyStore.getCurrentUserLobby().then(lobby => this.setCurrentUserLobbyLocal(lobby))
     }
 
     setCurrentUserLobbyLocal(lobby: ILobbyType | null) {
         this.currentUserLobby = lobby
+    }
+
+    async setCurrentGameRound(round: number) {
+        if (authStore.dataBase && this.currentUserLobby)
+            await setDoc(doc(authStore.dataBase, "lobbies", this.currentUserLobby.uid), {
+                ...this.currentUserLobby,
+                currentGameRound: round,
+            })
+                .then(() => this.setCurrentUserLobby())
     }
 
     async setCurrentUserStage(stage: string) {
@@ -35,6 +53,7 @@ class GameStore {
                 isLobbyLeader: lobbyStore.userIsLobbyLeader,
                 currentGameStage: stage,
             })
+                .then(() => this.getCurrentUserStage())
     }
 
     async getCurrentUserStage() {
