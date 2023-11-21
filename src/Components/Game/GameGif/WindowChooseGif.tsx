@@ -43,7 +43,8 @@ const WindowChooseGif: React.FC = observer(() => {
                                                  src={gif.tinyGif || gif.nanoGif} alt="gifImage"
                                                  onClick={() => answerStore.setUserSelectedGif(gif)}/>
                                         </div>
-                                    )}
+                                    )
+                                }
                             </div>
                         </div>
                     :

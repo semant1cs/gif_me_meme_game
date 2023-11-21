@@ -9,6 +9,7 @@ import {getAuth} from "firebase/auth";
 import {IUserType} from "../../Types/UserType";
 import gameStore from "../GameStores/GameStore";
 import situationStore from "../GameStores/SituationStore";
+import answerStore from "../GameStores/AnswerStore";
 
 class LobbyStore {
     showCreateModal: boolean = false;
@@ -121,6 +122,7 @@ class LobbyStore {
                         isLobbyPrivate: snap.data()?.isLobbyPrivate,
                         isAutoStart: snap.data()?.isAutoStart,
                         isLobbyInGame: snap.data()?.isLobbyInGame,
+                        currentGameRound: snap.data()?.currentGameRound,
                         players: snap.data()?.players,
                         createdAt: snap.data()?.createdAt,
                     }
@@ -142,6 +144,7 @@ class LobbyStore {
                 isAutoStart: this.paramsIsAutoStart,
                 players: [],
                 isLobbyInGame: false,
+                currentGameRound: 1,
                 createdAt: serverTimestamp(),
             }
             await setDoc(doc(authStore.dataBase, "lobbies", uid), {...newLobby})
@@ -156,7 +159,10 @@ class LobbyStore {
         if (authStore.dataBase) {
             await deleteDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid))
                 .then(() => situationStore.deleteAllSituationAfterGameEnd()
-                    .then(() => this.getUserLobbyInfo()))
+                    .then(() => answerStore.deleteAllAnswers()
+                        .then(() => this.getUserLobbyInfo())
+                    )
+                )
         }
     }
 

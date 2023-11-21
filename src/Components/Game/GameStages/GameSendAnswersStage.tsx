@@ -1,24 +1,28 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import WindowChooseGif from "../GameGif/WindowChooseGif.tsx";
 import {observer} from "mobx-react-lite";
 import MyButton from "../../../UI/MyButton.tsx";
 import MyTimer from "../../../UI/MyTimer.tsx";
-import situationStore from "../../../Store/GameStores/SituationStore";
 import answerStore from "../../../Store/GameStores/AnswerStore";
+import gameStore from "../../../Store/GameStores/GameStore";
+import situationStore from "../../../Store/GameStores/SituationStore";
 
 const GameSendAnswersStage: React.FC = observer(() => {
-    useEffect(() => {
-        situationStore.getSituations().then()
-    })
-
     return (
         <section className="game__answers">
             <p className="answers__round">
-                Раунд 1
+                Раунд {gameStore.currentUserLobby?.currentGameRound}
             </p>
-            <p className="answers__situation">
-                ddawdawdddawdawdddawdawdddawdawd
-            </p>
+            {
+                gameStore.currentUserLobby && situationStore.allGameSituations
+                    ?
+                    <p className="answers__situation">
+                        {
+                            situationStore.currentRoundSituation?.situationText
+                        }
+                    </p>
+                    : ""
+            }
             <div className="answers__window">
                 <WindowChooseGif/>
             </div>
@@ -37,7 +41,7 @@ const GameSendAnswersStage: React.FC = observer(() => {
                         ?
                         <MyButton btnText=""
                                   btnStyle="answers__button"
-                                  handleOnClick={() => answerStore.sendAnswer().then()}/>
+                                  handleOnClick={() => answerStore.sendAnswer(situationStore.currentRoundSituation).then()}/>
                         : ""
                 }
             </div>

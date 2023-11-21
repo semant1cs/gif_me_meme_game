@@ -9,6 +9,7 @@ import gameStore from "./GameStore";
 class SituationStore {
     situationText: string = "";
     allGameSituations: ISituationType[] | null = null;
+    currentRoundSituation: ISituationType | null = null;
 
     constructor() {
         makeAutoObservable(this)
@@ -20,6 +21,11 @@ class SituationStore {
 
     getRandomTheme() {
 
+    }
+
+    setCurrentRoundSituation() {
+        if (gameStore.currentUserLobby && this.allGameSituations)
+            this.currentRoundSituation = this.allGameSituations[gameStore.currentUserLobby?.currentGameRound - 1]
     }
 
     async deleteAllSituationAfterGameEnd() {
@@ -47,13 +53,11 @@ class SituationStore {
                 situationId: situationId,
                 situationUserId: auth.currentUser?.uid,
                 situationText: this.situationText,
-                answers: [],
                 createdAt: serverTimestamp(),
             }
 
             await setDoc(doc(authStore.dataBase, "situations", situationId), {...situation})
-                .then(() => gameStore.setCurrentUserStage("WaitingForPlayers")
-                    .then(() => gameStore.getCurrentUserStage()))
+                .then(() => gameStore.setCurrentUserStage("WaitingForPlayers"))
         }
     }
 
@@ -72,7 +76,6 @@ class SituationStore {
                     doc.forEach(snap => {
                         const situation: ISituationType = {
                             lobbyId: snap.data()?.lobbyId,
-                            answers: snap.data()?.answers,
                             situationId: snap.data()?.situationId,
                             situationText: snap.data()?.situationText,
                             situationUserId: snap.data()?.situationUserId,
@@ -86,10 +89,7 @@ class SituationStore {
         }
     }
 
-    setAllGameSituationsLocal(situations
-                                  :
-                                  ISituationType[] | null
-    ) {
+    setAllGameSituationsLocal(situations: ISituationType[] | null) {
         this.allGameSituations = situations
     }
 }

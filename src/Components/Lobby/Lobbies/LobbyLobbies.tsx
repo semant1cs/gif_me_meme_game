@@ -34,16 +34,13 @@ const LobbyLobbies: React.FC = observer(() => {
                         isLobbyPrivate: lobby.data().isLobbyPrivate,
                         isAutoStart: lobby.data().isAutoStart,
                         isLobbyInGame: lobby.data().isLobbyInGame,
+                        currentGameRound: lobby.data().currentGameRound,
                         players: lobby.data().players,
                         createdAt: lobby.data().createdAt,
                     }
 
                     if (newLobby.isLobbyInGame && newLobby.players.findIndex(p => p.id === auth.currentUser?.uid) !== -1) {
-                        const prom = new Promise(() => {
-                            navigate('/loader')
-                            setTimeout(() => navigate(`/gameLobby?lobbyID=${newLobby.uid}`), 1500)
-                        }).then()
-                        Promise.resolve(prom).then()
+                        navigate(`/gameLobby?lobbyID=${newLobby.uid}`)
                     } else {
                         fetchedLobbies.push(newLobby)
                     }

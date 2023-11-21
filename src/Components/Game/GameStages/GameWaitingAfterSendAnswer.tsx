@@ -9,18 +9,21 @@ const GameWaitingForPlayersStage: React.FC = observer(() => {
     const [playerCount, setPlayerCount] = useState(0);
 
     useEffect(() => {
-        if (authStore.dataBase && gameStore.currentUserLobby) {
+        if (authStore.dataBase && gameStore.currentUserLobby && situationStore.currentRoundSituation) {
             const q = query(
-                collection(authStore.dataBase, "situations"),
+                collection(authStore.dataBase, "answers"),
                 where("lobbyId", "==", gameStore.currentUserLobby.uid),
+                where("situationId", "==", situationStore.currentRoundSituation.situationId),
             );
 
             return onSnapshot(q, (QuerySnapshot) => {
                 if (gameStore.currentUserLobby && QuerySnapshot.size !== gameStore.currentUserLobby.players.length)
                     setPlayerCount(QuerySnapshot.size)
-                else {
-                    gameStore.setCurrentUserStage("SendAnswer")
-                        .then(() => situationStore.getSituations())
+                else if (gameStore.currentUserLobby) {
+                    gameStore.setCurrentGameRound(gameStore.currentUserLobby.currentGameRound + 1)
+                        .then(() => situationStore.setCurrentRoundSituation())
+                        .then(() => gameStore.setNullLocalVariables())
+                        .then(() => gameStore.setCurrentUserStage("SendAnswer"))
                 }
             })
         }
