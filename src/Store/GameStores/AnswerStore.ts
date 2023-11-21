@@ -7,7 +7,6 @@ import {IGifType} from "../../Types/GifType";
 import {ISituationType} from "../../Types/SituationType";
 import authStore from "../AuthStore";
 import gameStore from "./GameStore";
-import situationStore from "./SituationStore";
 
 class AnswerStore {
     currentGifs: IGifType[] = [];
@@ -45,21 +44,14 @@ class AnswerStore {
             }
 
             await setDoc(doc(authStore.dataBase, "answers", answer.answerId), {...answer})
-                .then(() => {
-                    if (gameStore.currentUserLobby &&
-                        gameStore.currentUserLobby.currentGameRound <= gameStore.currentUserLobby.playerCount)
-                        gameStore.setCurrentUserStage("WaitingAfterAnswer")
-                    else
-                        gameStore.setCurrentUserStage("GameEnd")
-                })
+                .then(() => gameStore.setCurrentUserStage("WaitingAfterAnswer"))
         }
     }
 
     async deleteAllAnswers() {
-        if (authStore.dataBase && gameStore.currentUserLobby && situationStore.currentRoundSituation) {
+        if (authStore.dataBase && gameStore.currentUserLobby) {
             const q = query(collection(authStore.dataBase, "answers"),
-                where("lobbyId", "==", gameStore.currentUserLobby.uid),
-                where("situationId", "==", situationStore.currentRoundSituation.situationId))
+                where("lobbyId", "==", gameStore.currentUserLobby.uid))
 
             await getDocs(q)
                 .then((snap) =>

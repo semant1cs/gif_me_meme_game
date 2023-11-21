@@ -86,6 +86,7 @@ class SituationStore {
                     })
                     this.setAllGameSituationsLocal(situations)
                 })
+                .then(() => this.setCurrentRoundSituation())
         }
     }
 

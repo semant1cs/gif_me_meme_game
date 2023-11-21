@@ -11,13 +11,8 @@ const Game: React.FC = observer(() => {
 
     useEffect(() => {
         gameStore.setCurrentUserLobby()
-            .then(() => gameStore.getCurrentUserStage()
-                .then(() => {
-                    if (["SendAnswer", "SendReaction", "WaitingAfterAnswer", "GameEnd"]
-                        .includes(gameStore.currentUserStage))
-                        situationStore.getSituations()
-                            .then(() => situationStore.setCurrentRoundSituation())
-                }))
+            .then(() => situationStore.getSituations())
+            .then(() => gameStore.getCurrentUserStage())
         gameStore.setNullLocalVariables()
     }, [])
 

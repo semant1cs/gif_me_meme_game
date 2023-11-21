@@ -19,11 +19,15 @@ const GameWaitingForPlayersStage: React.FC = observer(() => {
             return onSnapshot(q, (QuerySnapshot) => {
                 if (gameStore.currentUserLobby && QuerySnapshot.size !== gameStore.currentUserLobby.players.length)
                     setPlayerCount(QuerySnapshot.size)
-                else if (gameStore.currentUserLobby) {
-                    gameStore.setCurrentGameRound(gameStore.currentUserLobby.currentGameRound + 1)
-                        .then(() => situationStore.setCurrentRoundSituation())
-                        .then(() => gameStore.setNullLocalVariables())
-                        .then(() => gameStore.setCurrentUserStage("SendAnswer"))
+                else {
+                    if (gameStore.currentUserLobby &&
+                        gameStore.currentUserLobby.currentGameRound <= gameStore.currentUserLobby.playerCount) {
+                        gameStore.setCurrentGameRound(gameStore.currentUserLobby.currentGameRound + 1)
+                            .then(() => situationStore.setCurrentRoundSituation())
+                            .then(() => gameStore.setNullLocalVariables())
+                            .then(() => gameStore.setCurrentUserStage("SendAnswer"))
+                    } else
+                        gameStore.setCurrentUserStage("GameEnd").then()
                 }
             })
         }
