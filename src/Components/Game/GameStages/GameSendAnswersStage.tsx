@@ -17,18 +17,29 @@ const GameSendAnswersStage: React.FC = observer(() => {
                 Раунд 1
             </p>
             <p className="answers__situation">
-                {answerStore.fetchedText}ddawdawd
+                ddawdawdddawdawdddawdawdddawdawd
             </p>
             <div className="answers__window">
                 <WindowChooseGif/>
             </div>
             <div className="answers__bottom">
-                <MyButton btnText=""
-                          btnStyle="gif-send__btn"
-                          handleOnClick={() => answerStore.sendAnswer().then()}/>
-                <div className="game-send-answers__timer">
-                    <MyTimer seconds={60}/>
-                </div>
+                <MyTimer seconds={60}/>
+                {
+                    answerStore.userSelectedGif
+                        ?
+                        <MyButton btnText="Отменить выбор"
+                                  btnStyle="answer__cancel"
+                                  handleOnClick={() => answerStore.setUserSelectedGif(null)}/>
+                        : ""
+                }
+                {
+                    answerStore.userSelectedGif
+                        ?
+                        <MyButton btnText=""
+                                  btnStyle="answers__button"
+                                  handleOnClick={() => answerStore.sendAnswer().then()}/>
+                        : ""
+                }
             </div>
         </section>
     );

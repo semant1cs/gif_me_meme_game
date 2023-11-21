@@ -15,8 +15,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 60%;
-  height: 75%;
+  width: 50%;
+  height: 60%;
 }
 
 // HEADER
@@ -242,10 +242,13 @@
   margin-bottom: 10px;
 }
 
-.gif-send__btn {
-  position: absolute;
-  bottom: 10px;
-  right: 13%;
+.answers__bottom{
+  width: 100%;
+  @extend %flex;
+  justify-content: space-between;
+}
+
+.answers__button {
   width: 50px;
   height: 50px;
   color: $bgColor;
@@ -269,6 +272,24 @@
   background-color: $bgColor;
   border-radius: 5px;
   margin-bottom: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 7px;
+    height: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    margin-top: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    background: white;
+    border-radius: 20px;
+  }
 }
 
 .window {
@@ -315,32 +336,16 @@
   align-items: start;
   justify-content: start;
   flex-wrap: wrap;
-  overflow-x: hidden;
-  overflow-y: auto;
-
-  &::-webkit-scrollbar {
-    width: 7px;
-    height: 5px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-    margin-top: 10px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    cursor: pointer;
-    background: $mainColor;
-    border-radius: 20px;
-  }
+  width: 100%;
+  height: fit-content;
 }
 
 .window__items-item {
-  padding: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  user-select: none;
 
-  &:not(:last-child) {
-    margin-right: 10px;
+  &:not(:last-child){
+    margin-right: 15px;
   }
 }
 
@@ -357,48 +362,14 @@
   height: 100%;
   @extend %flex;
   position: relative;
+  overflow-y: auto;
+}
 
-  img{
-    width: 50%;
-    height: 50%;
-    object-fit: contain;
-  }
-
-  &::before{
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 10000000;
-    opacity: 0;
-    transition: all 0.15s ease-in-out;
-  }
-
-  &::after{
-    content: "";
-    cursor: pointer;
-    position: absolute;
-    width: 50%;
-    height: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 100000000;
-    opacity: 0;
-    background: url("./src/Imgs/PNG/cancelIconBig.svg") no-repeat center;
-    transition: all 0.15s ease-in-out;
-  }
-
-  &:hover::before, &:active::before{
-    opacity: 1;
-  }
-
-  &:hover::after, &:active::after{
-    opacity: 1;
-  }
+.window__currentGif-img{
+  max-width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
 }
 
 .window__choose {

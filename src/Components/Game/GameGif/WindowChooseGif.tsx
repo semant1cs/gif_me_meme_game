@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {getNanoGifs} from "../../../tenorAPI/tenorAPI.ts";
+import {getGifs} from "../../../Helpers/tenorAPI/tenorAPI.ts";
 import {observer} from "mobx-react-lite";
 import SearchIcon from "../../../Imgs/SVG/SearchIcon.tsx";
 import {useDebounce} from "usehooks-ts";
@@ -11,7 +11,7 @@ const WindowChooseGif: React.FC = observer(() => {
     const debounce = useDebounce(textSearcher, 500)
 
     useEffect(() => {
-        getNanoGifs(debounce, 10)
+        getGifs(debounce, 10)
     }, [debounce])
 
     return (
@@ -21,8 +21,10 @@ const WindowChooseGif: React.FC = observer(() => {
                     ?
                     answerStore.userSelectedGif
                         ?
-                        <div className="window__currentGif" onClick={() => answerStore.setUserSelectedGif("")}>
-                            <img src={answerStore.userSelectedGif} alt="gifImage"/>
+                        <div className="window__currentGif">
+                            <img className="window__currentGif-img"
+                                 src={answerStore.userSelectedGif.gif || answerStore.userSelectedGif.mediumGif}
+                                 alt="gifImage"/>
                         </div>
                         :
                         <div className="window__block">
@@ -35,10 +37,10 @@ const WindowChooseGif: React.FC = observer(() => {
                             </div>
                             <div className="window__items">
                                 {
-                                    answerStore.testGifs.map((gif, index) =>
-                                        <div key={index} className="window__items-item">
+                                    answerStore.currentGifs.map(gif =>
+                                        <div key={gif.id} className="window__items-item">
                                             <img className="window__item-gif"
-                                                 src={gif} alt="gifImage"
+                                                 src={gif.tinyGif || gif.nanoGif} alt="gifImage"
                                                  onClick={() => answerStore.setUserSelectedGif(gif)}/>
                                         </div>
                                     )}
