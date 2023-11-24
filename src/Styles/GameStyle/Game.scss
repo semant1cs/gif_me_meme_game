@@ -208,11 +208,12 @@
   margin-bottom: 15px;
 }
 
-.swiper {
+.reactions__swiper {
   width: 100%;
   flex-grow: 1;
   margin-bottom: 15px;
   background-color: transparent;
+  cursor: pointer;
 }
 
 .reactions__gif {

@@ -26,8 +26,8 @@ class ReactionStore {
                 answerUserId: currentAnswer.answeredUserId,
             }
 
-            // console.log(reactionIndex, answerIndex)
-            // console.log(reaction)
+            console.log(reactionIndex, answerIndex)
+            console.log(reaction)
 
             await setDoc(doc(authStore.dataBase, "reactions", reaction.reactionId), {...reaction}).then()
         }

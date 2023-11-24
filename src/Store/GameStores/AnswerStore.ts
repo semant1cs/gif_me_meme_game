@@ -13,7 +13,6 @@ class AnswerStore {
     canChooseGif: boolean = false;
     userSelectedGif: IGifType | null = null;
     allLobbySituationAnswers: IAnswerType[] = [];
-    currentAnswer: IAnswerType | null = null;
 
     constructor() {
         makeAutoObservable(this)

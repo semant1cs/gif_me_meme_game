@@ -3,7 +3,6 @@ import authStore from "../../../../Store/AuthStore";
 import gameStore from "../../../../Store/GameStores/GameStore";
 import situationStore from "../../../../Store/GameStores/SituationStore";
 import {collection, onSnapshot, query, where} from "firebase/firestore";
-import answerStore from "../../../../Store/GameStores/AnswerStore";
 
 const GameWaitingAfterSendReaction: React.FC = () => {
     const [playerCount, setPlayerCount] = useState(0);
@@ -11,21 +10,21 @@ const GameWaitingAfterSendReaction: React.FC = () => {
     useEffect(() => {
         if (authStore.dataBase &&
             gameStore.currentUserLobby &&
-            situationStore.currentRoundSituation &&
-            answerStore.currentAnswer) {
+            situationStore.currentRoundSituation) {
             const q = query(
                 collection(authStore.dataBase, "reactions"),
                 where("lobbyId", "==", gameStore.currentUserLobby.uid),
                 where("situationId", "==", situationStore.currentRoundSituation.situationId),
-                where("answerId", "==", answerStore.currentAnswer.answerId)
             );
 
             return onSnapshot(q, (QuerySnapshot) => {
-                if (gameStore.currentUserLobby && QuerySnapshot.size !== gameStore.currentUserLobby.players.length)
-                    setPlayerCount(QuerySnapshot.size)
-                else {
-                    if (gameStore.currentUserLobby &&
-                        gameStore.currentUserLobby.currentGameRound < gameStore.currentUserLobby.players.length) {
+                const lobbyPlayersCount: number | undefined = gameStore.currentUserLobby?.players.length
+
+                if (lobbyPlayersCount && (QuerySnapshot.size / lobbyPlayersCount) !== lobbyPlayersCount) {
+                    setPlayerCount(QuerySnapshot.size / lobbyPlayersCount)
+                } else {
+                    if (gameStore.currentUserLobby && lobbyPlayersCount &&
+                        gameStore.currentUserLobby.currentGameRound < lobbyPlayersCount) {
                         gameStore.setCurrentGameRound(gameStore.currentUserLobby.currentGameRound + 1)
                             .then(() => situationStore.setCurrentRoundSituation()
                                 .then(() => gameStore.setCurrentUserStage("SendAnswer")))
