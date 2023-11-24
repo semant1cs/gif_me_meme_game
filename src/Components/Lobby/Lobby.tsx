@@ -14,6 +14,7 @@ const Lobby: React.FC = observer(() => {
 
     useEffect(() => {
         lobbyStore.changeSignOutModal(false)
+        lobbyStore.getUserImage()
     }, []);
 
 
@@ -31,7 +32,15 @@ const Lobby: React.FC = observer(() => {
                             {auth.currentUser?.displayName || authStore.userAuthNickName || "userNickName"}
                         </span>
                         <div onClick={() => lobbyStore.changeSignOutModal()}>
-                            <UserIcon/>
+                            {
+                                lobbyStore.userImageLocal
+                                    ?
+                                    <img src={lobbyStore.userImageLocal}
+                                         alt="userImage"
+                                         className="header__image"/>
+                                    :
+                                    <UserIcon/>
+                            }
                         </div>
                     </div>
                     {
@@ -46,7 +55,8 @@ const Lobby: React.FC = observer(() => {
                 </div>
             </div>
         </main>
-    );
+    )
+        ;
 })
 
 

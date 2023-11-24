@@ -4,6 +4,7 @@ import App from "./App.tsx";
 import {initializeApp} from "firebase/app";
 import {getFirestore} from "firebase/firestore";
 import authStore from "./Store/AuthStore";
+import { getStorage } from "firebase/storage";
 
 const app = initializeApp({
     apiKey: import.meta.env.VITE_API_KEY,
@@ -16,6 +17,9 @@ const app = initializeApp({
 });
 
 const db = getFirestore(app);
+const storage = getStorage(app)
+
+authStore.setStorage(storage)
 authStore.setDataBase(db);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

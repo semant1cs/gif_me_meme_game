@@ -43,6 +43,36 @@
   box-shadow: 0 0 4px 0 rgba(16, 32, 49, 0.50);
 }
 
+.lobby-header-wrapper__button{
+  @extend %flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: end;
+  height: 100%;
+  width: 100%;
+}
+
+.lobby-header__image{
+  width: fit-content;
+  height: fit-content;
+}
+
+.lobby-header-image__button{
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+  color: white;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  user-select: none;
+  word-break: break-word;
+  word-wrap: break-word;
+}
+
+.lobby-header-image__input{
+  display: none;
+}
+
 .lobby-headerModal__button{
   font-size: 16px;
   padding: 8px 10px;
@@ -70,6 +100,13 @@
   svg{
     cursor: pointer;
   }
+}
+
+.header__image{
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  border-radius: 50%;
 }
 
 .lobby__main {

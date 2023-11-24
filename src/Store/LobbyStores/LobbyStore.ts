@@ -5,11 +5,12 @@ import {
 import {v4 as uuidv4} from "uuid";
 import {ILobbyType} from "../../Types/LobbyType";
 import authStore from "../AuthStore";
-import {getAuth} from "firebase/auth";
+import {getAuth, updateProfile} from "firebase/auth";
 import {IUserType} from "../../Types/UserType";
 import gameStore from "../GameStores/GameStore";
 import situationStore from "../GameStores/SituationStore";
 import answerStore from "../GameStores/AnswerStore";
+import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
 
 class LobbyStore {
     showCreateModal: boolean = false;
@@ -20,13 +21,37 @@ class LobbyStore {
     userLobbyID: string | null = null;
     userIsLobbyLeader: boolean = false;
     signOutModal: boolean = false;
+    userImageLocal: string | null | undefined = "";
 
     constructor() {
         makeAutoObservable(this)
     }
 
+    setUserImage(img: File | null) {
+        if (img && authStore.storage) {
+            const auth = getAuth();
+            const user = auth.currentUser
+
+            const userImage = ref(authStore.storage, img.name)
+
+            uploadBytes(userImage, img)
+                .then(() => getDownloadURL(userImage)
+                    .then((url) => {
+                        if (user) {
+                            updateProfile(user, {photoURL: url}).then()
+                            this.userImageLocal = url
+                            this.changeSignOutModal(false)
+                        }
+                    })
+                )
+        }
+    }
+    getUserImage() {
+        const auth = getAuth()
+        this.userImageLocal = auth.currentUser?.photoURL
+    }
     changeSignOutModal(flag?: boolean) {
-        if (flag)
+        if (flag !== undefined)
             this.signOutModal = flag
         else
             this.signOutModal = !this.signOutModal

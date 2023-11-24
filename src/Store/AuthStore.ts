@@ -9,6 +9,7 @@ import {
     signOut, updateProfile
 } from "firebase/auth";
 import {IUserType} from "../Types/UserType";
+import { FirebaseStorage } from "firebase/storage";
 
 class UserStore {
     userAuthNickName: string = "";
@@ -16,11 +17,15 @@ class UserStore {
     userAuthPassword: string = "";
     userAuthShowPassword: boolean = false;
     dataBase: Firestore | null = null;
+    storage: FirebaseStorage | null = null;
 
     constructor() {
         makeAutoObservable(this)
     }
 
+    setStorage(storage: FirebaseStorage) {
+        this.storage = storage
+    }
     setDataBase(db: Firestore) {
         this.dataBase = db;
     }
