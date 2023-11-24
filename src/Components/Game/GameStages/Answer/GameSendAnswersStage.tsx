@@ -41,7 +41,7 @@ const GameSendAnswersStage: React.FC = observer(() => {
                         ?
                         <MyButton btnText=""
                                   btnStyle="answers__button"
-                                  handleOnClick={() => answerStore.sendAnswer(situationStore.currentRoundSituation).then()}/>
+                                  handleOnClick={() => answerStore.sendAnswer().then()}/>
                         : ""
                 }
             </div>

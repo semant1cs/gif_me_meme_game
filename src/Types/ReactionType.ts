@@ -1,11 +1,8 @@
 export interface IReactionType {
-    points: number
-}
-
-export enum Reactions {
-    Bad = 0,
-    Acceptable = 125,
-    Normal = 250,
-    Funny = 375,
-    Excellent = 500
+    reactionId: string,
+    reactionPoints: number,
+    lobbyId: string,
+    situationId: string,
+    answerId: string,
+    answerUserId: string
 }

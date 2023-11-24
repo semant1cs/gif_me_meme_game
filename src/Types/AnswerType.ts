@@ -2,7 +2,7 @@ import {FieldValue} from "firebase/firestore";
 import {IGifType} from "./GifType";
 
 export interface IAnswerType {
-    answeredUserId: string | undefined,
+    answeredUserId: string,
     answerId: string,
     lobbyId: string,
     situationId: string,

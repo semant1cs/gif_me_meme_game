@@ -4,7 +4,6 @@ import {v4 as uuidv4} from "uuid";
 import {IAnswerType} from "../../Types/AnswerType";
 import {collection, deleteDoc, doc, getDocs, query, setDoc, Timestamp, where} from "firebase/firestore";
 import {IGifType} from "../../Types/GifType";
-import {ISituationType} from "../../Types/SituationType";
 import authStore from "../AuthStore";
 import gameStore from "./GameStore";
 import situationStore from "./SituationStore";
@@ -32,15 +31,15 @@ class AnswerStore {
         this.currentGifs = gifs
     }
 
-    async sendAnswer(currentRoundSituation: ISituationType | null) {
-        if (authStore.dataBase && currentRoundSituation && gameStore.currentUserLobby) {
+    async sendAnswer() {
+        if (authStore.dataBase && situationStore.currentRoundSituation && gameStore.currentUserLobby) {
             const auth = getAuth()
             const answerId = uuidv4()
             const answer: IAnswerType = {
                 answerId: answerId,
                 lobbyId: gameStore.currentUserLobby.uid,
-                situationId: currentRoundSituation.situationId,
-                answeredUserId: auth.currentUser?.uid,
+                situationId: situationStore.currentRoundSituation.situationId,
+                answeredUserId: auth.currentUser ? auth.currentUser.uid : "",
                 answerGif: this.userSelectedGif,
                 answerPoints: 0,
                 createdAt: Timestamp.now(),
