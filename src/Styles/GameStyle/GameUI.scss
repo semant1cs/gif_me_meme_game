@@ -1,0 +1,222 @@
+@import "../Variables";
+
+// HEADER
+
+.game__header {
+  @extend %flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 15px 30px 0 30px;
+}
+
+// PLAYERS
+
+.game__players {
+  position: absolute;
+  top: 50%;
+  left: 30px;
+  transform: translate(0, -50%);
+  background-color: $mainColor;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.players__list {
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px;
+  max-width: 100px;
+}
+
+.players__all-leave {
+  font-size: 14px;
+  text-align: center;
+  word-break: break-word;
+  margin-bottom: 15px;
+}
+
+.players__player {
+  @extend %flex;
+  flex-direction: column;
+  width: 75px;
+  color: $bgWindowGifColor;
+
+
+  &:not(:last-child) {
+    margin-bottom: 15px;
+  }
+}
+
+.player__avatar {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin-bottom: 5px;
+
+  svg {
+    width: 60px;
+    height: 60px;
+
+    path, circle {
+      stroke: $bgWindowGifColor;
+      fill: transparent;
+    }
+  }
+}
+
+.player__name {
+  font-size: 14px;
+  text-align: center;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+.game-header__leave {
+  font-size: 14px;
+  padding: 10px 0;
+  width: 100%;
+  color: white;
+}
+
+// Answers-Window
+
+.answers__window {
+  width: 100%;
+  flex-grow: 1;
+  background-color: $bgColor;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 7px;
+    height: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    margin-top: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    background: white;
+    border-radius: 20px;
+  }
+}
+
+.window {
+  width: 100%;
+  height: 100%;
+  @extend %flex;
+}
+
+.window__block {
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+}
+
+.window__search {
+  width: 100%;
+  height: 35px;
+  @extend %flex;
+  margin-bottom: 15px;
+}
+
+.window__search-input {
+  flex-grow: 1;
+  height: 100%;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  padding: 10px 15px;
+  color: $bgColor;
+  font-size: 16px;
+}
+
+.window__search-search {
+  cursor: pointer;
+  padding: 0 15px 0 15px;
+  background-color: white;
+  height: 100%;
+  @extend %flex;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.window__items {
+  @extend %flex;
+  align-items: start;
+  justify-content: start;
+  flex-wrap: wrap;
+  width: 100%;
+  height: fit-content;
+}
+
+.window__items-item {
+  margin-bottom: 15px;
+  user-select: none;
+
+  &:not(:last-child) {
+    margin-right: 15px;
+  }
+}
+
+.window__item-gif {
+  cursor: pointer;
+
+  &:hover, &:active {
+    outline: 5px solid $mainColor;
+  }
+}
+
+.window__currentGif {
+  width: 100%;
+  height: 100%;
+  @extend %flex;
+  position: relative;
+  overflow-y: auto;
+}
+
+.window__currentGif-img {
+  max-width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+}
+
+.window__choose {
+  cursor: pointer;
+  width: 100px;
+  height: 100px;
+  position: relative;
+  border-radius: 50%;
+  background-color: $mainColor;
+
+  &::before {
+    content: "";
+    width: 50px;
+    height: 1px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(90deg);
+    background-color: white;
+    position: absolute;
+  }
+
+  &::after {
+    content: "";
+    width: 50px;
+    height: 1px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(180deg);
+    background-color: white;
+    position: absolute;
+  }
+}
+
+// Reactions

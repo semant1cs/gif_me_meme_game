@@ -4,14 +4,15 @@ import {v4 as uuidv4} from "uuid";
 import {IAnswerType} from "../../Types/AnswerType";
 import {collection, deleteDoc, doc, getDocs, query, setDoc, Timestamp, where} from "firebase/firestore";
 import {IGifType} from "../../Types/GifType";
-import {ISituationType} from "../../Types/SituationType";
 import authStore from "../AuthStore";
 import gameStore from "./GameStore";
+import situationStore from "./SituationStore";
 
 class AnswerStore {
     currentGifs: IGifType[] = [];
     canChooseGif: boolean = false;
     userSelectedGif: IGifType | null = null;
+    allLobbySituationAnswers: IAnswerType[] = [];
 
     constructor() {
         makeAutoObservable(this)
@@ -29,29 +30,57 @@ class AnswerStore {
         this.currentGifs = gifs
     }
 
-    async sendAnswer(currentRoundSituation: ISituationType | null) {
-        if (authStore.dataBase && currentRoundSituation && gameStore.currentUserLobby) {
+    async sendAnswer() {
+        if (authStore.dataBase && situationStore.currentRoundSituation && gameStore.currentUserLobby) {
             const auth = getAuth()
             const answerId = uuidv4()
             const answer: IAnswerType = {
                 answerId: answerId,
                 lobbyId: gameStore.currentUserLobby.uid,
-                situationId: currentRoundSituation.situationId,
-                answeredUserId: auth.currentUser?.uid,
+                situationId: situationStore.currentRoundSituation.situationId,
+                answeredUserId: auth.currentUser ? auth.currentUser.uid : "",
                 answerGif: this.userSelectedGif,
                 answerPoints: 0,
                 createdAt: Timestamp.now(),
             }
 
             await setDoc(doc(authStore.dataBase, "answers", answer.answerId), {...answer})
-                .then(() => gameStore.setCurrentUserStage("WaitingAfterAnswer"))
+                .then(() => gameStore.setCurrentUserStage("WaitingAfterAnswer")
+                    .then(() => gameStore.setNullLocalVariables()))
         }
     }
 
-    async deleteAllAnswers() {
-        if (authStore.dataBase && gameStore.currentUserLobby) {
+    async getAllLobbySituationAnswers() {
+        if (authStore.dataBase && gameStore.currentUserLobby && situationStore.currentRoundSituation) {
             const q = query(collection(authStore.dataBase, "answers"),
-                where("lobbyId", "==", gameStore.currentUserLobby.uid))
+                where("lobbyId", "==", gameStore.currentUserLobby.uid),
+                where("situationId", "==", situationStore.currentRoundSituation.situationId))
+
+            await getDocs(q).then((snap) => {
+                    const answersArray: IAnswerType[] = []
+                    snap.docs.forEach(document => answersArray.push({
+                        answerId: document.data()?.answerId,
+                        lobbyId: document.data()?.lobbyId,
+                        situationId: document.data()?.situationId,
+                        createdAt: document.data()?.createdAt,
+                        answeredUserId: document.data()?.answeredUserId,
+                        answerGif: document.data()?.answerGif,
+                        answerPoints: document.data()?.answerPoints,
+                    }))
+                    this.setAllLobbySituationAnswersLocal(answersArray)
+                }
+            )
+        }
+    }
+
+    setAllLobbySituationAnswersLocal(array: IAnswerType[]) {
+        this.allLobbySituationAnswers = array
+    }
+
+    async deleteAllAnswers(lobbyId: string) {
+        if (authStore.dataBase) {
+            const q = query(collection(authStore.dataBase, "answers"),
+                where("lobbyId", "==", lobbyId))
 
             await getDocs(q)
                 .then((snap) =>

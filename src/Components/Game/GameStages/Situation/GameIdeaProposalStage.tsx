@@ -1,9 +1,9 @@
 import React from 'react';
-import MyTextArea from "../../../UI/MyTextArea";
-import MyButton from "../../../UI/MyButton";
+import MyTextArea from "../../../../UI/MyTextArea";
+import MyButton from "../../../../UI/MyButton";
 import {observer} from "mobx-react-lite";
-import MyTimer from "../../../UI/MyTimer.tsx";
-import situationStore from "../../../Store/GameStores/SituationStore";
+import MyTimer from "../../../../UI/MyTimer.tsx";
+import situationStore from "../../../../Store/GameStores/SituationStore";
 
 const GameIdeaProposalStage: React.FC = observer(() => {
     return (

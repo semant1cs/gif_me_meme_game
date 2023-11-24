@@ -1,11 +1,11 @@
 import React from 'react';
-import WindowChooseGif from "../GameGif/WindowChooseGif.tsx";
+import WindowChooseGif from "../../GameUI/WindowChooseGif.tsx";
 import {observer} from "mobx-react-lite";
-import MyButton from "../../../UI/MyButton.tsx";
-import MyTimer from "../../../UI/MyTimer.tsx";
-import answerStore from "../../../Store/GameStores/AnswerStore";
-import gameStore from "../../../Store/GameStores/GameStore";
-import situationStore from "../../../Store/GameStores/SituationStore";
+import MyButton from "../../../../UI/MyButton.tsx";
+import MyTimer from "../../../../UI/MyTimer.tsx";
+import answerStore from "../../../../Store/GameStores/AnswerStore";
+import gameStore from "../../../../Store/GameStores/GameStore";
+import situationStore from "../../../../Store/GameStores/SituationStore";
 
 const GameSendAnswersStage: React.FC = observer(() => {
     return (
@@ -41,7 +41,7 @@ const GameSendAnswersStage: React.FC = observer(() => {
                         ?
                         <MyButton btnText=""
                                   btnStyle="answers__button"
-                                  handleOnClick={() => answerStore.sendAnswer(situationStore.currentRoundSituation).then()}/>
+                                  handleOnClick={() => answerStore.sendAnswer().then()}/>
                         : ""
                 }
             </div>

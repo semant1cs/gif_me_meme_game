@@ -38,7 +38,7 @@
 
 // Swiper
 
-.swiper{
+.mySwiper{
   cursor: pointer;
   @extend %flex;
   justify-content: start;
@@ -50,12 +50,12 @@
   transition: all 0.2s ease-in-out;
 }
 
-.swiper-active{
+.mySwiper-active{
   background-color: $mainColor !important;
   justify-content: end !important;
 }
 
-.swiper__block{
+.mySwiper__block{
   width: 20px;
   height: 20px;
   border-radius: 5px;
