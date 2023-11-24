@@ -23,7 +23,7 @@ class SituationStore {
 
     }
 
-    setCurrentRoundSituation() {
+    async setCurrentRoundSituation() {
         if (gameStore.currentUserLobby && this.allGameSituations)
             this.currentRoundSituation = this.allGameSituations[gameStore.currentUserLobby?.currentGameRound - 1]
     }

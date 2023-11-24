@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {reactions} from "../../../assets/assetsPicker.ts";
+import "../../../Styles/GameStyle/GameUI.scss";
 
 const GameReactions: React.FC = () => {
     const [points, setPoints] = useState(0)

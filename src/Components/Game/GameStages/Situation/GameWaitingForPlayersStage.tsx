@@ -1,33 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import {observer} from "mobx-react-lite";
-import gameStore from "../../../Store/GameStores/GameStore";
-import authStore from "../../../Store/AuthStore";
+import gameStore from "../../../../Store/GameStores/GameStore";
+import authStore from "../../../../Store/AuthStore";
 import {collection, onSnapshot, query, where} from "firebase/firestore";
-import situationStore from "../../../Store/GameStores/SituationStore";
+import situationStore from "../../../../Store/GameStores/SituationStore";
 
 const GameWaitingForPlayersStage: React.FC = observer(() => {
     const [playerCount, setPlayerCount] = useState(0);
 
     useEffect(() => {
-        if (authStore.dataBase && gameStore.currentUserLobby && situationStore.currentRoundSituation) {
+        if (authStore.dataBase && gameStore.currentUserLobby) {
             const q = query(
-                collection(authStore.dataBase, "answers"),
+                collection(authStore.dataBase, "situations"),
                 where("lobbyId", "==", gameStore.currentUserLobby.uid),
-                where("situationId", "==", situationStore.currentRoundSituation.situationId),
             );
 
             return onSnapshot(q, (QuerySnapshot) => {
                 if (gameStore.currentUserLobby && QuerySnapshot.size !== gameStore.currentUserLobby.players.length)
                     setPlayerCount(QuerySnapshot.size)
                 else {
-                    if (gameStore.currentUserLobby &&
-                        gameStore.currentUserLobby.currentGameRound <= gameStore.currentUserLobby.playerCount) {
-                        gameStore.setCurrentGameRound(gameStore.currentUserLobby.currentGameRound + 1)
-                            .then(() => situationStore.setCurrentRoundSituation())
-                            .then(() => gameStore.setNullLocalVariables())
-                            .then(() => gameStore.setCurrentUserStage("SendAnswer"))
-                    } else
-                        gameStore.setCurrentUserStage("GameEnd").then()
+                    situationStore.getSituations()
+                        .then(() => gameStore.setCurrentUserStage("SendAnswer"))
                 }
             })
         }

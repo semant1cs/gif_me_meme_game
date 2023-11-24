@@ -7,6 +7,7 @@ import {useNavigate} from "react-router-dom";
 import authStore from "../../../Store/AuthStore";
 import {collection, onSnapshot, query, where} from "firebase/firestore";
 import {IUserType} from "../../../Types/UserType";
+import "../../../Styles/GameStyle/GameUI.scss";
 
 type GamePlayersProps = {
     currentUserLobby: ILobbyType | null

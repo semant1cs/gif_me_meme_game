@@ -5,6 +5,7 @@ import SearchIcon from "../../../Imgs/SVG/SearchIcon.tsx";
 import {useDebounce} from "usehooks-ts";
 import answerStore from "../../../Store/GameStores/AnswerStore";
 import MyInput from "../../../UI/MyInput";
+import "../../../Styles/GameStyle/GameUI.scss";
 
 const WindowChooseGif: React.FC = observer(() => {
     const [textSearcher, setTextSearcher] = useState("")
