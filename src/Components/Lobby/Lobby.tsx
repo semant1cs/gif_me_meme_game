@@ -19,7 +19,7 @@ const Lobby: React.FC = observer(() => {
 
 
     return (
-        <main className="lobby">
+        <main className="lobby" onClick={() => lobbyStore.changeSignOutModal(false)}>
             <div className="lobby__container">
                 <header className="lobby__header">
                     <ul className="header__list">
@@ -27,7 +27,7 @@ const Lobby: React.FC = observer(() => {
                             Друзья
                         </li>
                     </ul>
-                    <div className="header__user">
+                    <div className="header__user" onClick={(e) => e.stopPropagation()}>
                         <span>
                             {auth.currentUser?.displayName || authStore.userAuthNickName || "userNickName"}
                         </span>
