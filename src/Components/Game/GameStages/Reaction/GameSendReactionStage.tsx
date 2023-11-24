@@ -29,7 +29,7 @@ const GameSendReactionStage: React.FC = observer(() => {
                 currentSlide + 1 < swiperRef.current?.swiper.slides.length) {
                 reactionStore.sendReaction(index, currentSlide)
                     .then(() => swiperRef.current?.swiper.slideNext())
-            } else if (currentSlide)
+            } else if (currentSlide !== undefined)
                 reactionStore.sendReaction(index, currentSlide)
                     .then(() => gameStore.setCurrentUserStage("WaitingAfterReaction").then())
         }

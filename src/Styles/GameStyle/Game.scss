@@ -16,7 +16,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 50%;
-  height: 60%;
+  height: 70%;
 }
 
 // IDEA
@@ -133,7 +133,7 @@
 }
 
 .answers__round {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 400;
   color: white;
   margin-bottom: 10px;
@@ -153,8 +153,8 @@
 }
 
 .answers__situation {
+  font-size: 20px;
   font-weight: 400;
-  font-size: 16px;
   width: 100%;
   color: white;
   word-wrap: break-word;
@@ -223,6 +223,8 @@
   user-select: none;
 
   img {
+    max-width: 100%;
+    height: 100%;
     object-position: center;
     object-fit: contain;
     border-radius: 10px;

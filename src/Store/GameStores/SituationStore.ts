@@ -28,10 +28,10 @@ class SituationStore {
             this.currentRoundSituation = this.allGameSituations[gameStore.currentUserLobby?.currentGameRound - 1]
     }
 
-    async deleteAllSituationAfterGameEnd() {
-        if (authStore.dataBase && gameStore.currentUserLobby) {
+    async deleteAllSituationAfterGameEnd(lobbyId: string) {
+        if (authStore.dataBase) {
             const q = query(collection(authStore.dataBase, "situations"),
-                where("lobbyId", "==", gameStore.currentUserLobby.uid))
+                where("lobbyId", "==", lobbyId))
 
             await getDocs(q)
                 .then((snap) =>

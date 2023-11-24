@@ -77,10 +77,10 @@ class AnswerStore {
         this.allLobbySituationAnswers = array
     }
 
-    async deleteAllAnswers() {
-        if (authStore.dataBase && gameStore.currentUserLobby) {
+    async deleteAllAnswers(lobbyId: string) {
+        if (authStore.dataBase) {
             const q = query(collection(authStore.dataBase, "answers"),
-                where("lobbyId", "==", gameStore.currentUserLobby.uid))
+                where("lobbyId", "==", lobbyId))
 
             await getDocs(q)
                 .then((snap) =>

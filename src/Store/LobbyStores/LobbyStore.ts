@@ -11,6 +11,7 @@ import gameStore from "../GameStores/GameStore";
 import situationStore from "../GameStores/SituationStore";
 import answerStore from "../GameStores/AnswerStore";
 import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
+import reactionStore from "../GameStores/ReactionStore";
 
 class LobbyStore {
     showCreateModal: boolean = false;
@@ -46,10 +47,12 @@ class LobbyStore {
                 )
         }
     }
+
     getUserImage() {
         const auth = getAuth()
         this.userImageLocal = auth.currentUser?.photoURL
     }
+
     changeSignOutModal(flag?: boolean) {
         if (flag !== undefined)
             this.signOutModal = flag
@@ -181,35 +184,36 @@ class LobbyStore {
 
     // Удаляет существующее лобби
     async deleteLobby(lobbyInfo: ILobbyType) {
-        if (authStore.dataBase) {
-            await deleteDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid))
-                .then(() => situationStore.deleteAllSituationAfterGameEnd()
-                    .then(() => answerStore.deleteAllAnswers()
-                        .then(() => this.getUserLobbyInfo())
+        if (authStore.dataBase)
+            deleteDoc(doc(authStore.dataBase, "lobbies", lobbyInfo.uid))
+                .then(() => situationStore.deleteAllSituationAfterGameEnd(lobbyInfo.uid)
+                    .then(() => answerStore.deleteAllAnswers(lobbyInfo.uid)
+                        .then(() => reactionStore.deleteReaction(lobbyInfo.uid)
+                            .then(() => this.getUserLobbyInfo())
+                        )
                     )
                 )
-        }
     }
 
     async deleteLobbyWithPlayers(lobbyInfo: ILobbyType) {
-
-        lobbyInfo.players.map(async player => {
-            if (authStore.dataBase && player.id)
-                await setDoc(doc(authStore.dataBase, "users", player.id), {
-                    email: player.email,
-                    id: player.id,
-                    nickname: player.nickname,
-                    photoURL: player.photoURL,
-                    token: player.token,
-                    lobby: null,
-                    isLobbyLeader: false,
-                    currentGameStage: "IdeaPropose",
-                })
-                    .then(() => {
-                        this.setUserLobbyID(null)
-                        this.setUserIsLobbyLeader(false)
-                        this.deleteLobby(lobbyInfo)
+        this.deleteLobby(lobbyInfo).then(() => {
+            lobbyInfo.players.map(async player => {
+                if (authStore.dataBase && player.id)
+                    await setDoc(doc(authStore.dataBase, "users", player.id), {
+                        email: player.email,
+                        id: player.id,
+                        nickname: player.nickname,
+                        photoURL: player.photoURL,
+                        token: player.token,
+                        lobby: null,
+                        isLobbyLeader: false,
+                        currentGameStage: "IdeaPropose",
                     })
+                        .then(() => {
+                            this.setUserLobbyID(null)
+                            this.setUserIsLobbyLeader(false)
+                        })
+            })
         })
     }
 
