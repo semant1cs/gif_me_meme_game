@@ -31,19 +31,20 @@
   position: relative;
 }
 
-.lobby-header__modal{
-  position: absolute;
-  width: 150px;
+.profile-modal-window {
+  width: 400px;
   height: 150px;
-  padding: 15px;
+}
+
+.lobby-header__modal {
+  width: 200px;
+  height: 100px;
   background-color: $mainColor;
-  right: 30px;
-  top: 70px;
   border-radius: 10px;
   box-shadow: 0 0 4px 0 rgba(16, 32, 49, 0.50);
 }
 
-.lobby-header-wrapper__button{
+.lobby-header-wrapper__button {
   @extend %flex;
   justify-content: space-between;
   flex-direction: column;
@@ -52,12 +53,13 @@
   width: 100%;
 }
 
-.lobby-header__image{
+.lobby-header__image {
   width: fit-content;
   height: fit-content;
+  cursor: pointer;
 }
 
-.lobby-header-image__button{
+.lobby-header-image__button {
   cursor: pointer;
   width: 100%;
   font-size: 18px;
@@ -69,15 +71,39 @@
   word-wrap: break-word;
 }
 
-.lobby-header-image__input{
+.lobby-header-image__input {
   display: none;
 }
 
-.lobby-headerModal__button{
+.lobby-headerModal__button {
+  position: absolute;
+  top: 60%;
+  left: 76%;
   font-size: 16px;
   padding: 8px 10px;
-  background-color: white;
-  color: $bgColor
+  background-color: red;
+  color: white;
+}
+
+.profile-modal-window-nickname__input {
+  width: 100%;
+  text-align: right;
+}
+
+.profile-modal-window-nickname {
+  width: 100%;
+  text-align: right;
+}
+
+.profile-modal-window__image {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.profile-modal-window-content {
+  display: flex;
 }
 
 .header__list {
@@ -97,12 +123,12 @@
     margin-right: 15px;
   }
 
-  svg{
+  svg {
     cursor: pointer;
   }
 }
 
-.header__image{
+.header__image {
   width: 50px;
   height: 50px;
   cursor: pointer;
@@ -324,7 +350,7 @@
   }
 }
 
-.lobbies__buttonDelete{
+.lobbies__buttonDelete {
   margin-right: 15px;
 }
 
@@ -530,7 +556,7 @@
   object-fit: cover;
   margin-bottom: 10px;
 
-  svg{
+  svg {
     width: 75px;
     height: 75px;
   }

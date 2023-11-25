@@ -107,6 +107,13 @@ class UserStore {
     changeUserAuthShowPassword() {
         this.userAuthShowPassword = !this.userAuthShowPassword
     }
+
+    changeNickname(newNickname: string) {
+        const auth = getAuth();
+        const user = auth.currentUser
+        if (user)
+            updateProfile(user, {displayName: newNickname}).then()
+    }
 }
 
 export default new UserStore()
