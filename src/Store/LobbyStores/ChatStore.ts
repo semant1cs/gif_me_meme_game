@@ -4,9 +4,9 @@ import {
     collection,
     doc,
     DocumentData,
-    getDoc, getDocs, query,
+    getDoc,
     QueryDocumentSnapshot,
-    serverTimestamp, where
+    serverTimestamp
 } from "firebase/firestore";
 import {getAuth} from "firebase/auth";
 import authStore from "../AuthStore";
@@ -28,6 +28,7 @@ class ChatStore {
                 uid: uid,
                 displayName: auth.currentUser?.displayName || authStore.userAuthNickName,
                 photoURL: auth.currentUser?.photoURL,
+                userId: auth.currentUser?.uid,
                 text: this.userChatText,
                 createdAt: serverTimestamp()
             })
@@ -53,32 +54,31 @@ class ChatStore {
 
     async getUserInfoById(userId: string) {
         if (authStore.dataBase) {
-            const userInfo = await getDoc(doc(authStore.dataBase, "users", userId))
-            if (userInfo.exists()) {
+            getDoc(doc(authStore.dataBase, "users", userId)).then(r => {
                 return {
-                    photoURL: userInfo.data().photoURL,
-                    displayName: userInfo.data().nickname
+                    photoURL: r.data()?.photoURL,
+                    displayName: r.data()?.nickname
                 }
-            }
+            })
         }
     }
 
-    async usersChat(userId: string) {
-        if (authStore.dataBase) {
-            const q = query(collection(authStore.dataBase, "users"),
-                where("id", "==", userId))
-
-            await getDocs(q)
-                .then((snap) =>
-                    snap.docs.forEach(document => {
-                        return {
-                            photoURL: document.data().photoURL,
-                            displayName: document.data().displayName
-                        }
-                    })
-                )
-        }
-    }
+    // async usersChat(userId: string) {
+    //     if (authStore.dataBase) {
+    //         const q = query(collection(authStore.dataBase, "users"),
+    //             where("id", "==", userId))
+    //
+    //         await getDocs(q)
+    //             .then((snap) =>
+    //                 snap.docs.forEach(document => {
+    //                     return {
+    //                         photoURL: document.data().photoURL,
+    //                         displayName: document.data().displayName
+    //                     }
+    //                 })
+    //             )
+    //     }
+    // }
 }
 
 export default new ChatStore();
