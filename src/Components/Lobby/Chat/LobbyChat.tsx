@@ -5,11 +5,14 @@ import chatStore from "../../../Store/LobbyStores/ChatStore";
 import {IMessageType} from "../../../Types/MessageType.ts";
 import authStore from "../../../Store/AuthStore";
 import {collection, limit, onSnapshot, orderBy, query} from "firebase/firestore";
+import {getAuth} from "firebase/auth";
 
 const LobbyChat: React.FC = observer(() => {
     const [messages, setMessages] = useState<IMessageType[]>([])
 
     useEffect(() => {
+        const auth = getAuth()
+
         if (authStore.dataBase) {
             const q = query(collection(authStore.dataBase, "usersChat"), orderBy("createdAt"), limit(100))
 
@@ -21,11 +24,14 @@ const LobbyChat: React.FC = observer(() => {
                         id: doc.data().uid,
                         displayName: doc.data().displayName,
                         photoURL: doc.data().photoURL,
+                        userId: auth.currentUser?.uid,
                         text: doc.data().text,
                         createdAt: doc.data().createdAt
                     });
                 });
                 setMessages(fetchedMessages)
+                if (auth.currentUser?.uid)
+                    chatStore.getUserInfoById(auth.currentUser?.uid).then(r => console.log(r))
             })
         }
     }, [])

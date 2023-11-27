@@ -2,9 +2,11 @@ import {makeAutoObservable} from "mobx";
 import {
     addDoc,
     collection,
+    doc,
     DocumentData,
+    getDoc, getDocs, query,
     QueryDocumentSnapshot,
-    serverTimestamp
+    serverTimestamp, where
 } from "firebase/firestore";
 import {getAuth} from "firebase/auth";
 import authStore from "../AuthStore";
@@ -47,6 +49,35 @@ class ChatStore {
         const hours = new Date(time * 1000).getHours().toString().padStart(2, "0")
         const minutes = new Date(time * 1000).getMinutes().toString().padStart(2, "0")
         return hours + ":" + minutes
+    }
+
+    async getUserInfoById(userId: string) {
+        if (authStore.dataBase) {
+            const userInfo = await getDoc(doc(authStore.dataBase, "users", userId))
+            if (userInfo.exists()) {
+                return {
+                    photoURL: userInfo.data().photoURL,
+                    displayName: userInfo.data().nickname
+                }
+            }
+        }
+    }
+
+    async usersChat(userId: string) {
+        if (authStore.dataBase) {
+            const q = query(collection(authStore.dataBase, "users"),
+                where("id", "==", userId))
+
+            await getDocs(q)
+                .then((snap) =>
+                    snap.docs.forEach(document => {
+                        return {
+                            photoURL: document.data().photoURL,
+                            displayName: document.data().displayName
+                        }
+                    })
+                )
+        }
     }
 }
 
