@@ -11,12 +11,18 @@ import {
 import {getAuth} from "firebase/auth";
 import authStore from "../AuthStore";
 import {v4 as uuidv4} from "uuid";
+import {IUserInfo} from "../../Types/UserInfo.ts";
 
 class ChatStore {
     userChatText: string = "";
+    usersInfo: IUserInfo[] = [];
 
     constructor() {
         makeAutoObservable(this)
+    }
+
+    setUserInfo(newUserInfo: IUserInfo) {
+        this.usersInfo.push(newUserInfo)
     }
 
     async sendChatMessage() {
@@ -54,31 +60,16 @@ class ChatStore {
 
     async getUserInfoById(userId: string) {
         if (authStore.dataBase) {
-            getDoc(doc(authStore.dataBase, "users", userId)).then(r => {
-                return {
-                    photoURL: r.data()?.photoURL,
-                    displayName: r.data()?.nickname
+            await getDoc(doc(authStore.dataBase, "users", userId)).then(r => {
+                    this.setUserInfo({
+                        id: userId,
+                        photoURL: r.data()?.photoURL,
+                        displayName: r.data()?.nickname
+                    })
                 }
-            })
+            )
         }
     }
-
-    // async usersChat(userId: string) {
-    //     if (authStore.dataBase) {
-    //         const q = query(collection(authStore.dataBase, "users"),
-    //             where("id", "==", userId))
-    //
-    //         await getDocs(q)
-    //             .then((snap) =>
-    //                 snap.docs.forEach(document => {
-    //                     return {
-    //                         photoURL: document.data().photoURL,
-    //                         displayName: document.data().displayName
-    //                     }
-    //                 })
-    //             )
-    //     }
-    // }
 }
 
 export default new ChatStore();

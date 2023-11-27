@@ -20,15 +20,11 @@ const LobbyChat: React.FC = observer(() => {
                     chatStore.getUserInfoById(doc.data().userId).then()
                     fetchedMessages.push({
                         id: doc.data().uid,
-                        displayName: doc.data()?.displayName,
-                        photoURL: doc.data()?.photoURL,
                         userId: doc.data()?.userId,
                         text: doc.data().text,
                         createdAt: doc.data().createdAt
                     })
-                    // })
                 });
-                console.log(fetchedMessages)
                 setMessages(fetchedMessages)
             })
         }
@@ -43,7 +39,7 @@ const LobbyChat: React.FC = observer(() => {
             {
                 messages
                     ?
-                    messages.map(msg =>
+                    messages.map((msg, index) =>
                         msg && msg.createdAt?.seconds
                             ?
                             <div className="chats__message" key={msg?.id}>
@@ -51,7 +47,7 @@ const LobbyChat: React.FC = observer(() => {
                                 <div className="message__info">
                                     <div className="info__text">
                                              <span className="message__name">
-                                                {msg?.displayName}
+                                                {chatStore.usersInfo[index - 1]?.displayName}
                                              </span>
                                         <span className="message__time">
                                                 {
@@ -60,8 +56,8 @@ const LobbyChat: React.FC = observer(() => {
                                             </span>
                                     </div>
                                     {
-                                        msg?.photoURL
-                                            ? <img src={msg?.photoURL} alt="Аватар"/>
+                                        chatStore.usersInfo[index - 1]?.photoURL
+                                            ? <img src={chatStore.usersInfo[index - 1]?.photoURL} alt="Аватар"/>
                                             : <UserIcon/>
                                     }
                                 </div>
