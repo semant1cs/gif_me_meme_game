@@ -116,18 +116,21 @@
 .window__block {
   width: 100%;
   height: 100%;
-  padding: 15px;
+  padding: 65px 15px 15px;
+  position: relative;
 }
 
 .window__search {
+  position: fixed;
   width: 100%;
   height: 35px;
   @extend %flex;
   margin-bottom: 15px;
+  top: 111px;
 }
 
 .window__search-input {
-  flex-grow: 1;
+  width: 400px;
   height: 100%;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -216,6 +219,11 @@
     background-color: white;
     position: absolute;
   }
+}
+
+.window__observer{
+  height: 30px;
+  background-color: transparent;
 }
 
 // Reactions

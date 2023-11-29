@@ -12,7 +12,7 @@ const WindowChooseGif: React.FC = observer(() => {
     const debounce = useDebounce(textSearcher, 500)
 
     useEffect(() => {
-        getGifs(debounce, 10)
+        getGifs(debounce, 50)
     }, [debounce])
 
     return (

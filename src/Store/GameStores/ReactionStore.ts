@@ -21,6 +21,10 @@ class ReactionStore {
         makeAutoObservable(this)
     }
 
+    // TODO Ввести искусственное ограничего на отправку реакции.
+    //  Если булевая переменная тру, то можем отправить, если нет, то не можем.
+    //  Значение переменной меняется на фолс во время отправки реации и на тру после выполнения отправки.
+    //  Если фолс, но мы нажимаем на отправку, то открывается окошко, в котором просят подождать, пока не смениться гифка
     async sendReaction(reactionIndex: number, answerIndex: number) {
         if (authStore.dataBase && answerStore.allLobbySituationAnswers) {
 

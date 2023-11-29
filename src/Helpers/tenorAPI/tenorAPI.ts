@@ -21,7 +21,7 @@ export function getGifs(searchString: string, limit_gifs: number): void {
             q: searchString,
             key: import.meta.env.VITE_API_KEY,
             client_key: clientKey,
-            limit: limit_gifs
+            limit: limit_gifs,
         }
     }).then((resp) => {
         const gifs = resp.data.results.map((result: any) => {
