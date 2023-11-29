@@ -3,6 +3,7 @@ import authStore from "../../../../Store/AuthStore";
 import gameStore from "../../../../Store/GameStores/GameStore";
 import situationStore from "../../../../Store/GameStores/SituationStore";
 import {collection, onSnapshot, query, where} from "firebase/firestore";
+import reactionStore from "../../../../Store/GameStores/ReactionStore";
 
 const GameWaitingAfterSendReaction: React.FC = () => {
     const [playerCount, setPlayerCount] = useState(0);
@@ -20,8 +21,8 @@ const GameWaitingAfterSendReaction: React.FC = () => {
             return onSnapshot(q, (QuerySnapshot) => {
                 const lobbyPlayersCount: number | undefined = gameStore.currentUserLobby?.players.length
 
-                if (lobbyPlayersCount && (QuerySnapshot.size / lobbyPlayersCount) !== lobbyPlayersCount) {
-                    setPlayerCount(QuerySnapshot.size / lobbyPlayersCount)
+                if (lobbyPlayersCount && Math.round(QuerySnapshot.size / lobbyPlayersCount) !== lobbyPlayersCount) {
+                    setPlayerCount(Math.round(QuerySnapshot.size / lobbyPlayersCount))
                 } else {
                     if (gameStore.currentUserLobby && lobbyPlayersCount &&
                         gameStore.currentUserLobby.currentGameRound < lobbyPlayersCount) {
@@ -29,7 +30,8 @@ const GameWaitingAfterSendReaction: React.FC = () => {
                             .then(() => situationStore.setCurrentRoundSituation()
                                 .then(() => gameStore.setCurrentUserStage("SendAnswer")))
                     } else
-                        gameStore.setCurrentUserStage("GameEnd").then()
+                        reactionStore.calculateUsersPoints()
+                            .then(() => gameStore.setCurrentUserStage("GameEnd"))
                 }
             })
         }

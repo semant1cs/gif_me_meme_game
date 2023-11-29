@@ -4,9 +4,18 @@ import {v4 as uuidv4} from "uuid";
 import {IReactionType} from "../../Types/ReactionType";
 import answerStore from "./AnswerStore";
 import {collection, deleteDoc, doc, getDocs, query, setDoc, where} from "firebase/firestore";
+import gameStore from "./GameStore";
+
+type UsersScores = {
+    userId: string,
+    nickName: string | null | undefined,
+    photoURL: string | null | undefined,
+    score: number,
+}
 
 class ReactionStore {
     reactionValues: number[] = [0, 125, 250, 375, 500]
+    usersScores: UsersScores[] = []
 
     constructor() {
         makeAutoObservable(this)
@@ -41,12 +50,42 @@ class ReactionStore {
             await getDocs(q)
                 .then((snap) =>
                     snap.docs.forEach(document => {
-                        console.log(document)
                         if (authStore.dataBase)
                             deleteDoc(doc(authStore.dataBase, "reactions", document.data().reactionId))
                     })
                 )
         }
+    }
+
+    async calculateUsersPoints() {
+        if (authStore.dataBase && gameStore.currentUserLobby) {
+            const q = query(collection(authStore.dataBase, "reactions"),
+                where("lobbyId", "==", gameStore.currentUserLobby.uid))
+
+            await getDocs(q)
+                .then((snap) => {
+                    if (gameStore.currentUserLobby) {
+                        const scores: UsersScores[] = []
+                        gameStore.currentUserLobby.players.forEach(p => scores.push({
+                            userId: p.id,
+                            nickName: p.nickname,
+                            photoURL: p.photoURL,
+                            score: 0
+                        }))
+
+                        snap.docs.forEach(document => {
+                            const userIndex = scores.findIndex(u => u.userId === document.data()?.answerUserId)
+                            scores[userIndex].score += document.data()?.reactionPoints
+                        })
+
+                        this.setUsersScores(scores.sort((u1, u2) => u2.score - u1.score))
+                    }
+                })
+        }
+    }
+
+    setUsersScores(scores: UsersScores[]) {
+        this.usersScores = scores
     }
 }
 

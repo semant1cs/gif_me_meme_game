@@ -1,5 +1,5 @@
 export interface IUserType {
-    id: string | undefined,
+    id: string,
     nickname: string | null | undefined,
     email: string | null | undefined,
     isLobbyLeader: boolean | null | undefined,

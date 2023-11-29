@@ -233,9 +233,216 @@
 
 .reactions__reactions {
   @extend %flex;
-
 }
 
 .reactions__reaction {
   cursor: pointer;
+
+  transition: all 0.15s ease-in-out;
+
+  &:hover {
+    transform: scale(0.85);
+  }
+
+  &:active {
+    transform: scale(0.7);
+  }
+}
+
+// End
+
+.game__end {
+  width: 100%;
+  height: 100%;
+  background-color: $mainColor;
+  border-radius: 10px;
+  padding: 15px;
+  @extend %flex;
+  justify-content: start;
+  align-items: start;
+  flex-direction: column;
+}
+
+.end__users {
+  width: 100%;
+  flex-grow: 1;
+  position: relative;
+}
+
+.end__user {
+  position: absolute;
+  @extend %flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &:nth-child(1) {
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    margin-bottom: 15px;
+
+    img {
+      width: 150px;
+      height: 150px;
+    }
+
+    svg {
+      width: 150px;
+      height: 150px;
+
+      path, circle {
+        stroke: $bgWindowGifColor;
+        fill: transparent;
+      }
+    }
+
+    p {
+      font-size: 18px;
+    }
+  }
+
+  &:nth-child(2) {
+    top: 50%;
+    left: 0;
+    transform: translate(0, -50%);
+
+    img {
+      width: 125px;
+      height: 125px;
+    }
+
+    svg {
+      width: 125px;
+      height: 125px;
+
+      path, circle {
+        stroke: $bgWindowGifColor;
+        fill: transparent;
+      }
+    }
+
+    p {
+      font-size: 16px;
+    }
+  }
+
+  &:nth-child(3) {
+    top: 50%;
+    left: 100%;
+    transform: translate(-100%, -50%);
+
+    img {
+      width: 100px;
+      height: 100px;
+    }
+
+    svg {
+      width: 100px;
+      height: 100px;
+
+      path, circle {
+        stroke: $bgWindowGifColor;
+        fill: transparent;
+      }
+    }
+
+    p {
+      font-size: 14px;
+    }
+  }
+}
+
+.end__user-place {
+  font-size: 20px;
+  background-color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.end__user-image {
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+.end__user-name {
+  padding: 5px 10px;
+  background-color: white;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.end__button {
+  width: 100%;
+  height: fit-content;
+  @extend %flex;
+  align-items: end;
+  justify-content: center;
+}
+
+.end__button-leave {
+  font-size: 16px;
+  padding: 10px 50px;
+  width: fit-content;
+  color: $bgWindowGifColor;
+  background-color: white;
+}
+
+@media (max-width: 1200px) {
+  .end__user {
+    &:nth-child(1) {
+      img {
+        width: 100px;
+        height: 100px;
+      }
+
+      svg {
+        width: 100px;
+        height: 100px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+    }
+
+    &:nth-child(2) {
+      img {
+        width: 75px;
+        height: 75px;
+      }
+
+      svg {
+        width: 75px;
+        height: 75px;
+      }
+
+      p {
+        font-size: 14px;
+      }
+    }
+
+    &:nth-child(3) {
+      img {
+        width: 75px;
+        height: 75px;
+      }
+
+      svg {
+        width: 75px;
+        height: 75px;
+      }
+
+      p {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .end__user-place{
+    font-size: 18px;
+  }
 }

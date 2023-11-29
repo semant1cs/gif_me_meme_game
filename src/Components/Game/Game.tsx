@@ -14,6 +14,7 @@ import Lobby from "../Lobby/Lobby";
 import GameIdeaProposalStage from "./GameStages/Situation/GameIdeaProposalStage";
 import answerStore from "../../Store/GameStores/AnswerStore";
 import GameWaitingAfterSendReaction from "./GameStages/Reaction/GameWaitingAfterSendReaction";
+import reactionStore from "../../Store/GameStores/ReactionStore";
 
 const Game: React.FC = observer(() => {
 
@@ -21,7 +22,8 @@ const Game: React.FC = observer(() => {
         gameStore.getCurrentUserStage().then(() =>
             gameStore.setCurrentUserLobby()
                 .then(() => situationStore.getSituations()
-                    .then(() => answerStore.getAllLobbySituationAnswers())))
+                    .then(() => answerStore.getAllLobbySituationAnswers()
+                        .then(() => reactionStore.calculateUsersPoints()))))
         gameStore.setNullLocalVariables()
     }, [])
 
