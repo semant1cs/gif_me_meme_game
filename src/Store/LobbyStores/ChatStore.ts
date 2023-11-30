@@ -14,15 +14,15 @@ import {v4 as uuidv4} from "uuid";
 import {IUserInfo} from "../../Types/UserInfo.ts";
 
 class ChatStore {
-    userChatText: string = "";
-    usersInfo: IUserInfo[] = [];
+    userChatText: string = ""
+    userInfo: IUserInfo | undefined = undefined
 
     constructor() {
         makeAutoObservable(this)
     }
 
     setUserInfo(newUserInfo: IUserInfo) {
-        this.usersInfo.push(newUserInfo)
+        this.userInfo = newUserInfo
     }
 
     async sendChatMessage() {
@@ -30,10 +30,10 @@ class ChatStore {
             const auth = getAuth()
             const uid = uuidv4()
 
+            console.log(auth.currentUser?.uid)
+
             await addDoc(collection(authStore.dataBase, "usersChat"), {
                 uid: uid,
-                displayName: auth.currentUser?.displayName || authStore.userAuthNickName,
-                photoURL: auth.currentUser?.photoURL,
                 userId: auth.currentUser?.uid,
                 text: this.userChatText,
                 createdAt: serverTimestamp()

@@ -1,6 +1,6 @@
 import {makeAutoObservable} from "mobx";
 import {
-    serverTimestamp, getDoc, doc, setDoc, deleteDoc,
+    serverTimestamp, getDoc, doc, setDoc, deleteDoc, updateDoc,
 } from "firebase/firestore";
 import {v4 as uuidv4} from "uuid";
 import {ILobbyType} from "../../Types/LobbyType";
@@ -38,8 +38,9 @@ class LobbyStore {
             uploadBytes(userImage, img)
                 .then(() => getDownloadURL(userImage)
                     .then((url) => {
-                        if (user) {
+                        if (user && authStore.dataBase) {
                             updateProfile(user, {photoURL: url}).then()
+                            updateDoc(doc(authStore.dataBase, "users", user.uid), {photoURL: url}).then()
                             this.userImageLocal = url
                             this.changeSignOutModal(false)
                         }

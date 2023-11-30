@@ -5,4 +5,6 @@ export interface IMessageType {
     userId: string | undefined,
     text: string,
     createdAt: Timestamp,
+    photoURL: string | undefined,
+    displayName: string | undefined,
 }

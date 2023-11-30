@@ -47,10 +47,7 @@ const Lobby: React.FC = observer(() => {
                     {
                         lobbyStore.signOutModal
                             ? <ModalWindow body={<LobbySignOutModal/>} windowContentStyles="profile-modal-window"
-                                           onClose={() => {
-                                               lobbyStore.changeSignOutModal()
-                                               authStore.changeNickname(authStore.userAuthNickName)
-                                           }}/>
+                                           onClose={lobbyStore.changeSignOutModal}/>
                             : ""
                     }
                 </header>

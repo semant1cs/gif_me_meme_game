@@ -12,6 +12,11 @@ const LobbySignOutModal: React.FC = observer(() => {
     const auth = getAuth()
     const [isNicknameEditing, changeIsNicknameEditing] = useState<boolean>(false)
 
+    const handleOnChangeNickname = () => {
+        authStore.changeNickname(authStore.userAuthNickName)
+        changeIsNicknameEditing(false)
+    }
+
     const onKeypress = (e: KeyboardEvent) => e?.key === "Esc" || e.key === "Escape" ? lobbyStore.changeSignOutModal() : null;
     useEffect(() => {
         document.addEventListener('keyup', onKeypress);
@@ -26,12 +31,10 @@ const LobbySignOutModal: React.FC = observer(() => {
         <div className="profile-modal-window-content">
             <label className="lobby-header__image">
                 {lobbyStore.userImageLocal
-                    ?
-                    <img src={lobbyStore.userImageLocal}
-                         alt="userImage"
-                         className="profile-modal-window__image"/>
-                    :
-                    <UserIcon/>
+                    ? <img src={lobbyStore.userImageLocal}
+                           alt="userImage"
+                           className="profile-modal-window__image"/>
+                    : <UserIcon/>
                 }
                 <input onChange={(e) => lobbyStore.setUserImage(e.target.files ? e.target.files[0] : null)}
                        accept="image/*,image/jpeg,image/png"
@@ -39,13 +42,17 @@ const LobbySignOutModal: React.FC = observer(() => {
                        type="file"/>
             </label>
             <div className="profile-modal-window-nickname" onClick={() => changeIsNicknameEditing(!isNicknameEditing)}>
-                {isNicknameEditing
-                    ? auth.currentUser?.displayName || authStore.userAuthNickName || "userNickName"
-                    :
-                    <input defaultValue={auth.currentUser?.displayName || authStore.userAuthNickName || "userNickName"}
-                           onChange={(e) => authStore.changeUserAuthNickname(e.target.value)}
-                           autoFocus={true} className="profile-modal-window-nickname__input"
-                    />
+                {!isNicknameEditing
+                    ? auth.currentUser?.displayName || "Введите ник"
+                    : (<div className="change-nickname__input">
+                        <input
+                            defaultValue={auth.currentUser?.displayName || ""}
+                            onChange={(e) => authStore.changeUserAuthNickname(e.target.value)}
+                            autoFocus={true} className="profile-modal-window-nickname__input"
+                        />
+                        <MyButton btnStyle="profile-modal-window-nickname__button"
+                                  handleOnClick={() => handleOnChangeNickname()} btnText="Сохранить"/>
+                    </div>)
                 }
 
             </div>

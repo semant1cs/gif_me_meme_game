@@ -22,7 +22,9 @@ const LobbyChat: React.FC = observer(() => {
                         id: doc.data().uid,
                         userId: doc.data()?.userId,
                         text: doc.data().text,
-                        createdAt: doc.data().createdAt
+                        createdAt: doc.data().createdAt,
+                        photoURL: chatStore.userInfo?.photoURL,
+                        displayName: chatStore.userInfo?.displayName,
                     })
                 });
                 setMessages(fetchedMessages)
@@ -39,7 +41,7 @@ const LobbyChat: React.FC = observer(() => {
             {
                 messages
                     ?
-                    messages.map((msg, index) =>
+                    messages.map((msg) =>
                         msg && msg.createdAt?.seconds
                             ?
                             <div className="chats__message" key={msg?.id}>
@@ -47,7 +49,7 @@ const LobbyChat: React.FC = observer(() => {
                                 <div className="message__info">
                                     <div className="info__text">
                                              <span className="message__name">
-                                                {chatStore.usersInfo[index - 1]?.displayName}
+                                                {msg?.displayName}
                                              </span>
                                         <span className="message__time">
                                                 {
@@ -56,8 +58,8 @@ const LobbyChat: React.FC = observer(() => {
                                             </span>
                                     </div>
                                     {
-                                        chatStore.usersInfo[index - 1]?.photoURL
-                                            ? <img src={chatStore.usersInfo[index - 1]?.photoURL} alt="Аватар"/>
+                                        msg.photoURL
+                                            ? <img src={msg.photoURL} alt="Аватар"/>
                                             : <UserIcon/>
                                     }
                                 </div>

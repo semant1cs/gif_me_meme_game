@@ -1,5 +1,5 @@
 import {makeAutoObservable} from "mobx";
-import {doc, Firestore, setDoc} from "firebase/firestore";
+import {doc, Firestore, setDoc, updateDoc} from "firebase/firestore";
 import {
     browserSessionPersistence,
     createUserWithEmailAndPassword,
@@ -9,7 +9,7 @@ import {
     signOut, updateProfile
 } from "firebase/auth";
 import {IUserType} from "../Types/UserType";
-import { FirebaseStorage } from "firebase/storage";
+import {FirebaseStorage} from "firebase/storage";
 
 class UserStore {
     userAuthNickName: string = "";
@@ -26,6 +26,7 @@ class UserStore {
     setStorage(storage: FirebaseStorage) {
         this.storage = storage
     }
+
     setDataBase(db: Firestore) {
         this.dataBase = db;
     }
@@ -111,8 +112,10 @@ class UserStore {
     changeNickname(newNickname: string) {
         const auth = getAuth();
         const user = auth.currentUser
-        if (user)
+        if (user && this.dataBase) {
             updateProfile(user, {displayName: newNickname}).then()
+            updateDoc(doc(this.dataBase, "users", user.uid), {displayName: newNickname, nickname: newNickname}).then()
+        }
     }
 }
 
