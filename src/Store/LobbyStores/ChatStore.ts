@@ -30,8 +30,6 @@ class ChatStore {
             const auth = getAuth()
             const uid = uuidv4()
 
-            console.log(auth.currentUser?.uid)
-
             await addDoc(collection(authStore.dataBase, "usersChat"), {
                 uid: uid,
                 userId: auth.currentUser?.uid,
