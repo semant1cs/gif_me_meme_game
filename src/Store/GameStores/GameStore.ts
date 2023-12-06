@@ -6,6 +6,7 @@ import {ILobbyType} from "../../Types/LobbyType";
 import lobbyStore from "../LobbyStores/LobbyStore";
 import situationStore from "./SituationStore";
 import answerStore from "./AnswerStore";
+// import {v4 as uuidv4} from "uuid";
 
 class GameStore {
     currentUserStage: string = "";
@@ -94,6 +95,20 @@ class GameStore {
                 await lobbyStore.removePlayerFromParty(currentUserLobby, leavedPlayer)
         }
     }
+
+    // setRandomThemes() {
+    //     const themes = []
+    //     themes.forEach(async (theme) => {
+    //         if (authStore.dataBase) {
+    //             const themeId = uuidv4()
+    //             await setDoc(doc(authStore.dataBase, "randomThemes", themeId), {
+    //                 themeId: themeId,
+    //                 themeTitle: theme,
+    //             })
+    //         }
+    //     })
 }
 
-export default new GameStore()
+export default new
+
+GameStore()

@@ -19,8 +19,14 @@ const GameWaitingForPlayersStage: React.FC = observer(() => {
                 if (gameStore.currentUserLobby && QuerySnapshot.size !== gameStore.currentUserLobby.players.length)
                     setPlayerCount(QuerySnapshot.size)
                 else {
-                    situationStore.getSituations()
-                        .then(() => gameStore.setCurrentUserStage("SendAnswer"))
+                    if (gameStore.currentUserLobby?.currentGameRound === 1) {
+                        gameStore.setCurrentUserStage("AnswerInstruction")
+                            .then(() => situationStore.getSituations()
+                                .then(() => setTimeout(() => gameStore.setCurrentUserStage("SendAnswer"), 3000)))
+                    } else {
+                        situationStore.getSituations()
+                            .then(() => gameStore.setCurrentUserStage("SendAnswer"))
+                    }
                 }
             })
         }

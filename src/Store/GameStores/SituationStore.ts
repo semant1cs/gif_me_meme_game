@@ -3,7 +3,17 @@ import {getAuth} from "firebase/auth";
 import authStore from "../AuthStore";
 import {v4 as uuidv4} from "uuid";
 import {ISituationType} from "../../Types/SituationType";
-import {doc, getDocs, query, where, setDoc, collection, serverTimestamp, orderBy, deleteDoc} from "firebase/firestore";
+import {
+    doc,
+    getDocs,
+    query,
+    where,
+    setDoc,
+    collection,
+    serverTimestamp,
+    orderBy,
+    deleteDoc,
+} from "firebase/firestore";
 import gameStore from "./GameStore";
 
 class SituationStore {
@@ -17,10 +27,6 @@ class SituationStore {
 
     setSituationText(newText: string) {
         this.situationText = newText
-    }
-
-    getRandomTheme() {
-
     }
 
     async setCurrentRoundSituation() {
@@ -92,6 +98,18 @@ class SituationStore {
 
     setAllGameSituationsLocal(situations: ISituationType[] | null) {
         this.allGameSituations = situations
+    }
+
+    async getRandomTheme() {
+        if (authStore.dataBase) {
+            await getDocs(collection(authStore.dataBase, "randomThemes"))
+                .then((snap) => {
+                    const randomIndex = Math.floor(Math.random() * snap.docs.length)
+                    const randomTheme = snap.docs[randomIndex].data()?.themeTitle
+
+                    this.setSituationText(randomTheme)
+                })
+        }
     }
 }
 

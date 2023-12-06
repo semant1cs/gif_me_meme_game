@@ -21,8 +21,14 @@ const GameWaitingForPlayersStage: React.FC = observer(() => {
                 if (gameStore.currentUserLobby && QuerySnapshot.size !== gameStore.currentUserLobby.players.length)
                     setPlayerCount(QuerySnapshot.size)
                 else {
-                    answerStore.getAllLobbySituationAnswers()
-                        .then(() => gameStore.setCurrentUserStage("SendReaction"))
+                    if (gameStore.currentUserLobby?.currentGameRound === 1) {
+                        gameStore.setCurrentUserStage("ReactionInstruction")
+                            .then(() => answerStore.getAllLobbySituationAnswers()
+                                .then(() => setTimeout(() => gameStore.setCurrentUserStage("SendReaction"), 3000)))
+                    } else {
+                        answerStore.getAllLobbySituationAnswers()
+                            .then(() => gameStore.setCurrentUserStage("SendReaction"))
+                    }
                 }
             })
         }

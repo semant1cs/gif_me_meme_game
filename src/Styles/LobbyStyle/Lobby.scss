@@ -302,7 +302,7 @@
   height: 100%;
   flex: 2 1 65%;
   max-width: 65%;
-  padding: 30px;
+  padding: $smallPadding;
   border-radius: 10px;
   background-color: white;
   @extend %flex;
@@ -315,7 +315,7 @@
   width: 100%;
   @extend %flex;
   justify-content: space-between;
-  margin-bottom: 30px;
+  margin-bottom: $mediumMargin;
 
   h2 {
     font-size: 24px;
@@ -325,7 +325,7 @@
 }
 
 .lobbies__buttonDelete{
-  margin-right: 15px;
+  margin-right: $smallMargin;
 }
 
 .lobbies__button {
@@ -345,7 +345,7 @@
 
   &::-webkit-scrollbar-track {
     background: transparent;
-    margin-top: 10px;
+    margin-top: $smallestMargin;
   }
 
   &::-webkit-scrollbar-thumb {
@@ -360,7 +360,7 @@
 .lobbies__modal {
   width: 400px;
   height: fit-content;
-  padding: 15px;
+  padding: $smallestPadding;
 }
 
 .lobbies-modal__body {
@@ -375,14 +375,14 @@
 
 .lobbies-modal__title {
   font-size: 20px;
-  margin-bottom: 30px;
+  margin-bottom: $mediumMargin;
 }
 
 .lobbies-modal__input {
   border: 1px solid $borderGrey;
   padding: 4px 8px;
   font-size: 16px;
-  margin-bottom: 15px;
+  margin-bottom: $smallMargin;
   width: 100%;
 
   &::placeholder {
@@ -398,7 +398,7 @@
   @extend %flex;
   width: 100%;
   justify-content: space-between;
-  margin-bottom: 15px;
+  margin-bottom: $smallMargin;
 
   p {
 
@@ -428,7 +428,7 @@
   @extend %flex;
   width: 100%;
   justify-content: space-between;
-  margin-bottom: 15px;
+  margin-bottom: $smallMargin;
 
   p {
 
@@ -439,7 +439,7 @@
   @extend %flex;
   width: 100%;
   justify-content: space-between;
-  margin-bottom: 30px;
+  margin-bottom: $mediumMargin;
 }
 
 .lobbies-modal__create {

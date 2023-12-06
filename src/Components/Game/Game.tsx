@@ -15,6 +15,8 @@ import GameIdeaProposalStage from "./GameStages/Situation/GameIdeaProposalStage"
 import answerStore from "../../Store/GameStores/AnswerStore";
 import GameWaitingAfterSendReaction from "./GameStages/Reaction/GameWaitingAfterSendReaction";
 import reactionStore from "../../Store/GameStores/ReactionStore";
+import GameAnswerInstruction from "./GameStages/Answer/GameAnswerInstruction";
+import GameReactionInstruction from "./GameStages/Reaction/GameReactionInstruction";
 
 const Game: React.FC = observer(() => {
 
@@ -42,6 +44,10 @@ const Game: React.FC = observer(() => {
                 return (<GameWaitingAfterSendAnswer/>)
             case "WaitingForPlayers":
                 return (<GameWaitingForPlayersStage/>)
+            case "AnswerInstruction":
+                return (<GameAnswerInstruction/>)
+            case "ReactionInstruction":
+                return (<GameReactionInstruction/>)
             case "GameEnd":
                 return (<GameEnd/>)
             default:

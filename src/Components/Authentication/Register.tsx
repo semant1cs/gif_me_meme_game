@@ -39,11 +39,11 @@ const Register: React.FC = observer(() => {
                             </span>
                         </div>
                     </div>
-                    <div className="auth__bottom">
-                        <MyButton btnText="Назад" btnStyle="auth__create"
-                                  handleOnClick={() => navigate("/auth")}/>
+                    <div className="auth__bottom auth__bottom-register">
                         <MyButton btnText="Создать" btnStyle="auth__login"
                                   handleOnClick={() => handleOnCreate()}/>
+                        <MyButton btnText="Назад" btnStyle="auth__create"
+                                  handleOnClick={() => navigate("/auth")}/>
                     </div>
                 </div>
             </div>
