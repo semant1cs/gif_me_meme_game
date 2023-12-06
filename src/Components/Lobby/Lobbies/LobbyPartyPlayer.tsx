@@ -5,6 +5,7 @@ import {IUserType} from "../../../Types/UserType";
 import {ILobbyType} from "../../../Types/LobbyType.ts";
 import lobbyStore from "../../../Store/LobbyStores/LobbyStore.ts";
 import {getAuth} from "firebase/auth";
+import authStore from "../../../Store/AuthStore";
 
 type LobbyUserProps = {
     player: IUserType,
@@ -37,7 +38,7 @@ const LobbyPartyPlayer: React.FC<LobbyUserProps> = observer(({player, lobbyInfo}
                     </div>
             }
             <p className="player__name">
-                {player.nickname}
+                {player.nickname || authStore.userAuthNickName}
             </p>
         </div>
     );

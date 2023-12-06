@@ -21,8 +21,8 @@ const GameWaitingAfterSendReaction: React.FC = () => {
             return onSnapshot(q, (QuerySnapshot) => {
                 const lobbyPlayersCount: number | undefined = gameStore.currentUserLobby?.players.length
 
-                if (lobbyPlayersCount && Math.round(QuerySnapshot.size / lobbyPlayersCount) !== lobbyPlayersCount) {
-                    setPlayerCount(Math.round(QuerySnapshot.size / lobbyPlayersCount))
+                if (lobbyPlayersCount && Math.floor(QuerySnapshot.size / lobbyPlayersCount) !== lobbyPlayersCount) {
+                    setPlayerCount(Math.floor(QuerySnapshot.size / lobbyPlayersCount))
                 } else {
                     if (gameStore.currentUserLobby && lobbyPlayersCount &&
                         gameStore.currentUserLobby.currentGameRound < lobbyPlayersCount) {

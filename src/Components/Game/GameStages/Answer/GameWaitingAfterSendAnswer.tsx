@@ -24,7 +24,7 @@ const GameWaitingForPlayersStage: React.FC = observer(() => {
                     if (gameStore.currentUserLobby?.currentGameRound === 1) {
                         gameStore.setCurrentUserStage("ReactionInstruction")
                             .then(() => answerStore.getAllLobbySituationAnswers()
-                                .then(() => setTimeout(() => gameStore.setCurrentUserStage("SendReaction"), 3000)))
+                                .then(() => setTimeout(() => gameStore.setCurrentUserStage("SendReaction"), 5000)))
                     } else {
                         answerStore.getAllLobbySituationAnswers()
                             .then(() => gameStore.setCurrentUserStage("SendReaction"))

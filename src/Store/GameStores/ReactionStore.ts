@@ -76,11 +76,13 @@ class ReactionStore {
                             photoURL: p.photoURL,
                             score: 0
                         }))
+                        console.log(scores)
 
                         snap.docs.forEach(document => {
                             const userIndex = scores.findIndex(u => u.userId === document.data()?.answerUserId)
                             scores[userIndex].score += document.data()?.reactionPoints
                         })
+                        console.log(scores)
 
                         this.setUsersScores(scores.sort((u1, u2) => u2.score - u1.score))
                     }
