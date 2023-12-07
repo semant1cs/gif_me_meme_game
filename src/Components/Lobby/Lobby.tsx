@@ -8,6 +8,7 @@ import LobbyLobbies from "./Lobbies/LobbyLobbies";
 import {getAuth} from "firebase/auth";
 import lobbyStore from "../../Store/LobbyStores/LobbyStore";
 import LobbySignOutModal from "./Lobbies/LobbySignOutModal.tsx";
+import ModalWindow from "../../UI/ModalWindow.tsx";
 
 const Lobby: React.FC = observer(() => {
     const auth = getAuth()
@@ -29,7 +30,7 @@ const Lobby: React.FC = observer(() => {
                     </ul>
                     <div className="header__user" onClick={(e) => e.stopPropagation()}>
                         <span>
-                            {auth.currentUser?.displayName || authStore.userAuthNickName || "userNickName"}
+                            {authStore.userAuthNickName || auth.currentUser?.displayName || "userNickName"}
                         </span>
                         <div onClick={() => lobbyStore.changeSignOutModal()}>
                             {
@@ -45,7 +46,8 @@ const Lobby: React.FC = observer(() => {
                     </div>
                     {
                         lobbyStore.signOutModal
-                            ? <LobbySignOutModal/>
+                            ? <ModalWindow body={<LobbySignOutModal/>} windowContentStyles="profile-modal-window"
+                                           onClose={lobbyStore.changeSignOutModal}/>
                             : ""
                     }
                 </header>
