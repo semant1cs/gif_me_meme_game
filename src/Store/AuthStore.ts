@@ -60,7 +60,7 @@ class UserStore {
     async register() {
         const auth = getAuth();
 
-        createUserWithEmailAndPassword(auth, this.userAuthEmail, this.userAuthPassword)
+        await createUserWithEmailAndPassword(auth, this.userAuthEmail, this.userAuthPassword)
             .then(() => {
                 const user = auth.currentUser
                 if (user)

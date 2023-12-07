@@ -5,6 +5,7 @@ import {IUserType} from "../../../Types/UserType";
 import {ILobbyType} from "../../../Types/LobbyType.ts";
 import lobbyStore from "../../../Store/LobbyStores/LobbyStore.ts";
 import {getAuth} from "firebase/auth";
+import authStore from "../../../Store/AuthStore";
 
 type LobbyUserProps = {
     player: IUserType,
@@ -29,15 +30,16 @@ const LobbyPartyPlayer: React.FC<LobbyUserProps> = observer(({player, lobbyInfo}
             {
                 player.photoURL
                     ?
-                    <img className={`player_avatar ${isUser ? "party__playerLeave" : ""}`}
-                         src={player.photoURL} alt="playerAvatar"/>
+                    <div className={`player_avatar ${isUser ? "party__playerLeave" : ""}`}>
+                        <img src={player.photoURL} alt="playerAvatar"/>
+                    </div>
                     :
                     <div className={`player_avatar ${isUser ? "party__playerLeave" : ""}`}>
                         <UserIcon/>
                     </div>
             }
             <p className="player__name">
-                {player.nickname}
+                {player.nickname || authStore.userAuthNickName}
             </p>
         </div>
     );

@@ -10,23 +10,30 @@ import GameSendAnswersStage from "./GameStages/Answer/GameSendAnswersStage";
 import GameSendReactionStage from "./GameStages/Reaction/GameSendReactionStage";
 import GameWaitingAfterSendAnswer from "./GameStages/Answer/GameWaitingAfterSendAnswer";
 import GameEnd from "./GameStages/GameEnd";
-import Lobby from "../Lobby/Lobby";
 import GameIdeaProposalStage from "./GameStages/Situation/GameIdeaProposalStage";
 import answerStore from "../../Store/GameStores/AnswerStore";
 import GameWaitingAfterSendReaction from "./GameStages/Reaction/GameWaitingAfterSendReaction";
+import reactionStore from "../../Store/GameStores/ReactionStore";
+import GameAnswerInstruction from "./GameStages/Answer/GameAnswerInstruction";
+import GameReactionInstruction from "./GameStages/Reaction/GameReactionInstruction";
 
 const Game: React.FC = observer(() => {
 
     useEffect(() => {
-        gameStore.getCurrentUserStage().then(() =>
-            gameStore.setCurrentUserLobby()
+        gameStore.getCurrentUserStage()
+            .then(() => gameStore.setCurrentUserLobby()
                 .then(() => situationStore.getSituations()
-                    .then(() => answerStore.getAllLobbySituationAnswers())))
+                    .then(() => answerStore.getAllLobbySituationAnswers()
+                        .then(() => reactionStore.calculateUsersPoints()
+                        )
+                    )
+                )
+            )
+
         gameStore.setNullLocalVariables()
     }, [])
 
-    function getCurrentStage(stage: string): JSX.Element {
-
+    function getCurrentStage(stage: string): JSX.Element | null {
         switch (stage) {
             case "IdeaPropose":
                 return (<GameIdeaProposalStage/>)
@@ -40,10 +47,14 @@ const Game: React.FC = observer(() => {
                 return (<GameWaitingAfterSendAnswer/>)
             case "WaitingForPlayers":
                 return (<GameWaitingForPlayersStage/>)
+            case "AnswerInstruction":
+                return (<GameAnswerInstruction/>)
+            case "ReactionInstruction":
+                return (<GameReactionInstruction/>)
             case "GameEnd":
                 return (<GameEnd/>)
             default:
-                return (<Lobby/>)
+                return (null)
         }
     }
 

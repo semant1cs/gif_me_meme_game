@@ -51,10 +51,13 @@ const Auth: React.FC = observer(() => {
                         </div>
                     </div>
                     <div className="auth__bottom">
-                        <MyButton btnText="Создать аккаунт" btnStyle="auth__create"
-                                  handleOnClick={() => navigate("/register")}/>
                         <MyButton btnText="Войти" btnStyle="auth__login"
                                   handleOnClick={() => handleOnCreate()}/>
+                        <p>
+                            или
+                        </p>
+                        <MyButton btnText="Создать аккаунт" btnStyle="auth__create"
+                                  handleOnClick={() => navigate("/register")}/>
                     </div>
                 </div>
             </div>

@@ -12,11 +12,11 @@ const WindowChooseGif: React.FC = observer(() => {
     const debounce = useDebounce(textSearcher, 500)
 
     useEffect(() => {
-        getGifs(debounce, 10)
+        getGifs(debounce, 50)
     }, [debounce])
 
     return (
-        <div className="window">
+        <div className={`window ${!answerStore.canChooseGif || answerStore.userSelectedGif ? "window__gif" : ""}`}>
             {
                 answerStore.canChooseGif
                     ?

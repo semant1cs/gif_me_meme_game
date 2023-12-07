@@ -6,7 +6,7 @@
   @extend %flex;
   justify-content: space-between;
   width: 100%;
-  padding: 15px 30px 0 30px;
+  padding: $smallestPadding $smallPadding 0 $smallPadding;
 }
 
 // PLAYERS
@@ -17,15 +17,15 @@
   left: 30px;
   transform: translate(0, -50%);
   background-color: $mainColor;
-  padding: 15px;
+  padding: $smallestPadding;
   border-radius: 10px;
-  margin-bottom: 15px;
+  margin-bottom: $smallMargin;
 }
 
 .players__list {
   background-color: white;
   border-radius: 10px;
-  padding: 15px;
+  padding: $smallestPadding;
   max-width: 100px;
 }
 
@@ -33,7 +33,7 @@
   font-size: 14px;
   text-align: center;
   word-break: break-word;
-  margin-bottom: 15px;
+  margin-bottom: $smallMargin;
 }
 
 .players__player {
@@ -42,9 +42,8 @@
   width: 75px;
   color: $bgWindowGifColor;
 
-
   &:not(:last-child) {
-    margin-bottom: 15px;
+    margin-bottom: $smallMargin;
   }
 }
 
@@ -110,36 +109,40 @@
 
 .window {
   width: 100%;
-  height: 100%;
+  height: fit-content;
+  padding: $smallestPadding;
   @extend %flex;
+}
+
+.window__gif{
+  padding: 0 !important;
+  height: 100% !important;
 }
 
 .window__block {
   width: 100%;
-  height: 100%;
-  padding: 15px;
+  height: fit-content;
+  position: relative;
 }
 
 .window__search {
   width: 100%;
   height: 35px;
   @extend %flex;
-  margin-bottom: 15px;
+  margin-bottom: $smallMargin;
 }
 
 .window__search-input {
-  flex-grow: 1;
+  @include bigButton;
+  width: 400px;
   height: 100%;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  padding: 10px 15px;
-  color: $bgColor;
-  font-size: 16px;
 }
 
 .window__search-search {
   cursor: pointer;
-  padding: 0 15px 0 15px;
+  padding: 0 $smallestPadding 0 $smallestPadding;
   background-color: white;
   height: 100%;
   @extend %flex;
@@ -157,11 +160,11 @@
 }
 
 .window__items-item {
-  margin-bottom: 15px;
+  margin-bottom: $smallMargin;
   user-select: none;
 
   &:not(:last-child) {
-    margin-right: 15px;
+    margin-right: $smallMargin;
   }
 }
 
@@ -217,6 +220,11 @@
     background-color: white;
     position: absolute;
   }
+}
+
+.window__observer{
+  height: 30px;
+  background-color: transparent;
 }
 
 // Reactions

@@ -8,6 +8,7 @@ import authStore from "../../../Store/AuthStore";
 import {collection, onSnapshot, query, where} from "firebase/firestore";
 import {IUserType} from "../../../Types/UserType";
 import "../../../Styles/GameStyle/GameUI.scss";
+import {getAuth} from "firebase/auth";
 
 type GamePlayersProps = {
     currentUserLobby: ILobbyType | null
@@ -16,6 +17,7 @@ type GamePlayersProps = {
 const GamePlayers: React.FC<GamePlayersProps> = ({currentUserLobby}: GamePlayersProps) => {
     const navigate = useNavigate()
     const [players, setPlayers] = useState<IUserType[] | null>();
+    const auth = getAuth()
 
     useEffect(() => {
         if (authStore.dataBase && currentUserLobby) {
@@ -53,9 +55,13 @@ const GamePlayers: React.FC<GamePlayersProps> = ({currentUserLobby}: GamePlayers
                                             <UserIcon/>
                                         </div>
                                 }
-                                <p className="player__name">
-                                    {player.nickname}
-                                </p>
+                                {
+                                    auth.currentUser?.uid === player.id
+                                        ?
+                                        <p className="player__name">{player.nickname}(Вы)</p>
+                                        :
+                                        <p className="player__name">{player.nickname}</p>
+                                }
                             </li>
                         )
                         :

@@ -15,7 +15,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 50%;
+  width: 1000px;
   height: 70%;
 }
 
@@ -233,9 +233,433 @@
 
 .reactions__reactions {
   @extend %flex;
+}
 
+.reactions__timer{
+  position: absolute;
+  z-index: 10000000;
+  left: 15px;
+  bottom: 15px;
 }
 
 .reactions__reaction {
   cursor: pointer;
+  position: relative;
+  transition: all 0.15s ease-in-out;
+
+  &:hover {
+    z-index: 100000000;
+    transform: scale(0.85);
+  }
+
+  &:active {
+    z-index: 100000000;
+    transform: scale(0.75);
+  }
+
+  &::before,
+  &::after {
+    position: absolute;
+    content: "";
+    width: 150%;
+    left: 50%;
+    height: 100%;
+    transform: translateX(-50%);
+    z-index: 1000000000000;
+    background-repeat: no-repeat;
+  }
+}
+
+.reaction__animate {
+  &::before {
+    top: -70%;
+    z-index: 1000000000000;
+    background-image: radial-gradient(circle, #e3c71b 50%, transparent 50%),
+    radial-gradient(circle, transparent 50%, #efcc1c 50%, transparent 50%),
+    radial-gradient(circle, #e1df0a 50%, transparent 50%),
+    radial-gradient(circle, #c9c601 50%, transparent 50%),
+    radial-gradient(circle, transparent 10%, #e8cb00 15%, transparent 50%),
+    radial-gradient(circle, #efc109 50%, transparent 50%),
+    radial-gradient(circle, #e8df1a 50%, transparent 50%),
+    radial-gradient(circle, #f5d607 50%, transparent 50%),
+    radial-gradient(circle, #eae008 50%, transparent 50%);
+    background-size: 30% 30%, 35% 35%, 20% 20%, 25% 25%, 23% 23%, 20% 20%, 25% 25%,
+    30% 30%, 30% 30%;
+    animation: greenTopBubbles ease-in-out 0.6s forwards infinite;
+  }
+
+  &::after {
+    z-index: 1000000000000;
+    bottom: -70%;
+    background-image: radial-gradient(circle, #e0cd08 50%, transparent 50%),
+    radial-gradient(circle, #e3df15 50%, transparent 50%),
+    radial-gradient(circle, transparent 10%, #eedb16 15%, transparent 50%),
+    radial-gradient(circle, #f6d605 50%, transparent 50%),
+    radial-gradient(circle, #efdd12 50%, transparent 50%),
+    radial-gradient(circle, #ecc60c 50%, transparent 50%),
+    radial-gradient(circle, #d9cf09 50%, transparent 50%);
+    background-size: 25% 25%, 25% 25%, 28% 28%, 25% 25%, 25% 25%, 25% 25%, 30% 30%;
+    animation: greenBottomBubbles ease-in-out 0.6s forwards infinite;
+  }
+
+}
+
+@keyframes greenTopBubbles {
+  0% {
+    background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%,
+    40% 90%, 55% 90%, 70% 90%;
+  }
+  50% {
+    background-position: 0% 80%, 0% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%,
+    50% 50%, 65% 20%, 90% 30%;
+  }
+  100% {
+    background-position: 0% 70%, 0% 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%,
+    50% 40%, 65% 10%, 90% 20%;
+    background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+  }
+}
+
+@keyframes greenBottomBubbles {
+  0% {
+    background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%,
+    70% -10%, 70% 0%;
+  }
+  50% {
+    background-position: 0% 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%,
+    105% 0%;
+  }
+  100% {
+    background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%,
+    110% 10%;
+    background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+  }
+}
+
+
+// End
+
+.game__end {
+  width: 100%;
+  height: 100%;
+  background-color: $mainColor;
+  border-radius: 10px;
+  padding: 15px;
+  @extend %flex;
+  justify-content: start;
+  align-items: start;
+  flex-direction: column;
+}
+
+.end__users {
+  width: 100%;
+  flex-grow: 1;
+  position: relative;
+}
+
+.end__user {
+  position: absolute;
+  @extend %flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &:nth-child(1) {
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    margin-bottom: 15px;
+
+    img {
+      width: 150px;
+      height: 150px;
+    }
+
+    svg {
+      width: 150px;
+      height: 150px;
+
+      path, circle {
+        stroke: $bgWindowGifColor;
+        fill: transparent;
+      }
+    }
+
+    p {
+      font-size: 18px;
+    }
+  }
+
+  &:nth-child(2) {
+    top: 50%;
+    left: 0;
+    transform: translate(0, -50%);
+
+    img {
+      width: 125px;
+      height: 125px;
+    }
+
+    svg {
+      width: 125px;
+      height: 125px;
+
+      path, circle {
+        stroke: $bgWindowGifColor;
+        fill: transparent;
+      }
+    }
+
+    p {
+      font-size: 16px;
+    }
+  }
+
+  &:nth-child(3) {
+    top: 50%;
+    left: 100%;
+    transform: translate(-100%, -50%);
+
+    img {
+      width: 100px;
+      height: 100px;
+    }
+
+    svg {
+      width: 100px;
+      height: 100px;
+
+      path, circle {
+        stroke: $bgWindowGifColor;
+        fill: transparent;
+      }
+    }
+
+    p {
+      font-size: 14px;
+    }
+  }
+}
+
+.end__user-place {
+  font-size: 20px;
+  background-color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.end__user-image {
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+.end__user-name {
+  padding: 5px 10px;
+  background-color: white;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.end__button {
+  width: 100%;
+  height: fit-content;
+  @extend %flex;
+  align-items: end;
+  justify-content: center;
+}
+
+.end__button-leave {
+  font-size: 16px;
+  padding: 10px 50px;
+  width: fit-content;
+  color: $bgWindowGifColor;
+  background-color: white;
+}
+
+
+// Instructions
+
+
+.game__instruction {
+  width: 100%;
+  height: 100%;
+  padding: $smallPadding;
+  background-color: $mainColor;
+  border-radius: 10px;
+  @extend %flex;
+  flex-direction: column;
+}
+
+.instruction__title {
+  @include bigTitle;
+  text-align: center;
+  margin-bottom: $bigMargin*2;
+}
+
+.instruction__text {
+  @include bigDescription;
+  font-size: 20px;
+  width: 85%;
+  text-align: center;
+
+  &:not(:last-child) {
+    margin-bottom: $mediumMargin;
+  }
+}
+
+.instruction__timer {
+  @extend %flex;
+  flex-grow: 1;
+  width: 100%;
+  align-items: end;
+  justify-content: start;
+}
+
+
+// Media
+
+
+@media (max-width: 1660px) {
+  .game__centerBlock {
+    width: 700px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .end__user {
+    &:nth-child(1) {
+      img {
+        width: 100px;
+        height: 100px;
+      }
+
+      svg {
+        width: 100px;
+        height: 100px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+    }
+
+    &:nth-child(2) {
+      img {
+        width: 75px;
+        height: 75px;
+      }
+
+      svg {
+        width: 75px;
+        height: 75px;
+      }
+
+      p {
+        font-size: 14px;
+      }
+    }
+
+    &:nth-child(3) {
+      img {
+        width: 75px;
+        height: 75px;
+      }
+
+      svg {
+        width: 75px;
+        height: 75px;
+      }
+
+      p {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .end__user-place {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 1080px) {
+  .game__centerBlock {
+    width: 50%;
+  }
+
+  .end__user {
+    &:nth-child(1) {
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, 0);
+      margin-bottom: 15px;
+    }
+
+    &:nth-child(2) {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      margin-bottom: 15px;
+    }
+
+    &:nth-child(3) {
+      top: 95%;
+      left: 50%;
+      transform: translate(-50%, -95%);
+    }
+  }
+
+  .reactions__reaction {
+    width: 75px;
+  }
+}
+
+@media (max-width: 768px) {
+  .game__centerBlock {
+    width: 40%;
+  }
+
+  .end__user {
+    &:nth-child(1) {
+      img {
+        width: 75px;
+        height: 75px;
+      }
+
+      svg {
+        width: 75px;
+        height: 75px;
+      }
+    }
+
+    &:nth-child(2) {
+      img {
+        width: 50px;
+        height: 50px;
+      }
+
+      svg {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    &:nth-child(3) {
+      img {
+        width: 50px;
+        height: 50px;
+      }
+
+      svg {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  }
+
+  .reactions__reaction {
+    width: 50px;
+  }
 }

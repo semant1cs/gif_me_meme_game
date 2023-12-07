@@ -16,6 +16,7 @@ const MyInput: React.FC<MyInputProps> = observer(
     ({style, placeholder, type, handleOnChange, min, max, value}: MyInputProps) => {
         return (
             <input className={style} onChange={e => handleOnChange(e)} type={type} placeholder={placeholder}
+                   autoComplete="on"
                    min={min} max={max} value={value}/>
         );
     })

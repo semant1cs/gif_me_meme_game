@@ -9,3 +9,76 @@ $chosenGifColor: #5959ff;
   align-items: center;
   justify-content: center;
 }
+
+$bigPadding: 60px;
+$mediumPadding: 45px;
+$smallPadding: 30px;
+$smallestPadding: 15px;
+
+$bigMargin: 50px;
+$mediumMargin: 25px;
+$smallMargin: 15px;
+$smallestMargin: 10px;
+
+@mixin bigButton{
+  user-select: none;
+  word-wrap: break-word;
+  word-break: break-word;
+  font-size: 16px;
+  background-color: white;
+  color: $bgColor;
+  padding: 10px $smallestPadding;
+}
+
+@mixin mediumButton{
+  user-select: none;
+  word-wrap: break-word;
+  word-break: break-word;
+  font-size: 14px;
+  background-color: white;
+  color: $bgColor;
+  padding: 10px $smallestPadding;
+}
+
+@mixin bigTitle{
+  user-select: none;
+  word-wrap: break-word;
+  word-break: break-word;
+  font-size: 24px;
+  font-weight: 700;
+  width: 100%;
+  color: #ffffff;
+}
+
+
+@mixin bigDescription{
+  user-select: none;
+  word-wrap: break-word;
+  word-break: break-word;
+  font-size: 18px;
+  font-weight: 400;
+  width: 100%;
+  color: #ffffff;
+}
+
+
+@mixin mediumTitle{
+  user-select: none;
+  word-wrap: break-word;
+  word-break: break-word;
+  font-size: 20px;
+  font-weight: 700;
+  width: 100%;
+  color: #ffffff;
+}
+
+
+@mixin mediumDescription{
+  user-select: none;
+  word-wrap: break-word;
+  word-break: break-word;
+  font-size: 16px;
+  font-weight: 400;
+  width: 100%;
+  color: #ffffff;
+}
