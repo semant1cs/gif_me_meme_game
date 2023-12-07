@@ -476,7 +476,7 @@
 }
 
 .party__playerLeave {
-  svg {
+  img, svg {
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 
@@ -524,11 +524,16 @@
 }
 
 .player_avatar {
-  border-radius: 50%;
   width: 75px;
   height: 75px;
-  object-fit: cover;
-  margin-bottom: 10px;
+  margin-bottom: $smallestMargin;
+  border-radius: 50%;
+
+  img{
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+  }
 
   svg{
     width: 75px;

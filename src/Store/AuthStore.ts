@@ -9,7 +9,7 @@ import {
     signOut, updateProfile
 } from "firebase/auth";
 import {IUserType} from "../Types/UserType";
-import { FirebaseStorage } from "firebase/storage";
+import {FirebaseStorage} from "firebase/storage";
 
 class UserStore {
     userAuthNickName: string = "";
@@ -26,6 +26,7 @@ class UserStore {
     setStorage(storage: FirebaseStorage) {
         this.storage = storage
     }
+
     setDataBase(db: Firestore) {
         this.dataBase = db;
     }
@@ -59,7 +60,7 @@ class UserStore {
     async register() {
         const auth = getAuth();
 
-        createUserWithEmailAndPassword(auth, this.userAuthEmail, this.userAuthPassword)
+        await createUserWithEmailAndPassword(auth, this.userAuthEmail, this.userAuthPassword)
             .then(() => {
                 const user = auth.currentUser
                 if (user)

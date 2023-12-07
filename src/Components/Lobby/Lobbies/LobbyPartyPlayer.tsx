@@ -30,8 +30,9 @@ const LobbyPartyPlayer: React.FC<LobbyUserProps> = observer(({player, lobbyInfo}
             {
                 player.photoURL
                     ?
-                    <img className={`player_avatar ${isUser ? "party__playerLeave" : ""}`}
-                         src={player.photoURL} alt="playerAvatar"/>
+                    <div className={`player_avatar ${isUser ? "party__playerLeave" : ""}`}>
+                        <img src={player.photoURL} alt="playerAvatar"/>
+                    </div>
                     :
                     <div className={`player_avatar ${isUser ? "party__playerLeave" : ""}`}>
                         <UserIcon/>
