@@ -1,13 +1,5 @@
 import {makeAutoObservable} from "mobx";
-import {
-    addDoc,
-    collection,
-    doc,
-    DocumentData,
-    getDoc, getDocs,
-    QueryDocumentSnapshot,
-    serverTimestamp
-} from "firebase/firestore";
+import {addDoc, collection, DocumentData, getDocs, QueryDocumentSnapshot, serverTimestamp} from "firebase/firestore";
 import {getAuth} from "firebase/auth";
 import authStore from "../AuthStore";
 import {v4 as uuidv4} from "uuid";
