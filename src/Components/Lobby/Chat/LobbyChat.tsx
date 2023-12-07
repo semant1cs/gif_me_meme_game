@@ -5,6 +5,7 @@ import chatStore from "../../../Store/LobbyStores/ChatStore";
 import {IMessageType} from "../../../Types/MessageType.ts";
 import authStore from "../../../Store/AuthStore";
 import {collection, limit, onSnapshot, orderBy, query} from "firebase/firestore";
+import {IUserInfo} from "../../../Types/UserInfo.ts";
 
 const LobbyChat: React.FC = observer(() => {
     const [messages, setMessages] = useState<IMessageType[]>([])
@@ -14,18 +15,23 @@ const LobbyChat: React.FC = observer(() => {
             const q = query(collection(authStore.dataBase, "usersChat"), orderBy("createdAt"), limit(100))
 
             return onSnapshot(q, (QuerySnapshot) => {
-
                 const fetchedMessages: IMessageType[] = [];
                 QuerySnapshot.forEach((doc) => {
-                    fetchedMessages.push({
-                        id: doc.data().uid,
-                        displayName: doc.data().displayName,
-                        photoURL: doc.data().photoURL,
-                        text: doc.data().text,
-                        createdAt: doc.data().createdAt
-                    });
+                    chatStore.getUserInfoById(doc.data().userId).then((data: IUserInfo | undefined) => {
+                        fetchedMessages.push({
+                            id: doc.data().uid,
+                            userId: doc.data()?.userId,
+                            text: doc.data().text,
+                            createdAt: doc.data().createdAt,
+                            photoURL: data?.photoURL,
+                            displayName: data?.displayName,
+                        })
+                        if (fetchedMessages.length !== 0) {
+                            setMessages(fetchedMessages)
+                        }
+                    })
                 });
-                setMessages(fetchedMessages)
+
             })
         }
     }, [])
@@ -39,7 +45,7 @@ const LobbyChat: React.FC = observer(() => {
             {
                 messages
                     ?
-                    messages.map(msg =>
+                    messages.map((msg) =>
                         msg && msg.createdAt?.seconds
                             ?
                             <div className="chats__message" key={msg?.id}>
@@ -56,8 +62,8 @@ const LobbyChat: React.FC = observer(() => {
                                             </span>
                                     </div>
                                     {
-                                        msg?.photoURL
-                                            ? <img src={msg?.photoURL} alt="Аватар"/>
+                                        msg.photoURL
+                                            ? <img src={msg.photoURL} alt="Аватар"/>
                                             : <UserIcon/>
                                     }
                                 </div>
