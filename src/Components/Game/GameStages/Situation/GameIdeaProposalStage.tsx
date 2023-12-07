@@ -16,7 +16,7 @@ const GameIdeaProposalStage: React.FC = observer(() => {
                         handleOnChange={(e) => situationStore.setSituationText(e.target.value)}
                         style="idea__textarea"/>
             <div className="idea__down">
-                <MyTimer seconds={20}
+                <MyTimer seconds={40}
                          handleOnTimerEnd={() => situationStore.getRandomTheme()
                              .then(() => situationStore.sendSituation())}/>
                 <div className="idea__buttons">
