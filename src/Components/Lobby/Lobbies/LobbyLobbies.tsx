@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {observer} from "mobx-react-lite";
 import MyButton from "../../../UI/MyButton";
 import lobbyStore from "../../../Store/LobbyStores/LobbyStore";
@@ -9,12 +9,23 @@ import LobbyModalBody from "./LobbyModalBody";
 import authStore from "../../../Store/AuthStore";
 import {collection, onSnapshot, orderBy, query} from "firebase/firestore";
 import {ILobbyType} from "../../../Types/LobbyType";
-import gameStore from "../../../Store/GameStores/GameStore";
 import {getAuth} from "firebase/auth";
+import gameStore from "../../../Store/GameStores/GameStore.ts";
 
 const LobbyLobbies: React.FC = observer(() => {
     const navigate = useNavigate()
     const [currentLobbies, setCurrentLobbies] = useState<ILobbyType[]>([])
+
+    const handleOnLobbyExistsUsers = useCallback(() => {
+        let isEnabled = false
+        lobbyStore.getCurrentUserLobby().then(lobby => {
+            if (lobby?.players) {
+                isEnabled = lobby.players.length > 1
+                return isEnabled
+            }
+        })
+        return true
+    }, [])
 
     useEffect(() => {
         lobbyStore.getUserLobbyInfo().then()
@@ -74,7 +85,12 @@ const LobbyLobbies: React.FC = observer(() => {
                             ?
                             <MyButton btnText="Начать игру"
                                       btnStyle="lobbies__button"
-                                      handleOnClick={() => gameStore.startGame().then()}/>
+                                      handleOnClick={() => {
+                                          gameStore.startGame().then()
+
+                                      }}
+                                      disabled={() => handleOnLobbyExistsUsers()}
+                            />
                             : ""
                     }
                     {
@@ -91,7 +107,7 @@ const LobbyLobbies: React.FC = observer(() => {
                 {
                     currentLobbies
                         ? currentLobbies.map((lobby, index) =>
-                        !lobby.isLobbyInGame ? <LobbyParty lobbyInfo={lobby} key={index}/> : "")
+                            !lobby.isLobbyInGame ? <LobbyParty lobbyInfo={lobby} key={index}/> : "")
                         : ""
                 }
             </div>

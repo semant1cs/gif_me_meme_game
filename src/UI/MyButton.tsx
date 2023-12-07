@@ -6,12 +6,13 @@ type MyButtonProps = {
     btnStyle: string,
     btnText: string,
     handleOnClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+    disabled?: boolean
 }
 
-const MyButton: React.FC<MyButtonProps> = observer(({btnStyle, btnText, handleOnClick}: MyButtonProps) => {
+const MyButton: React.FC<MyButtonProps> = observer(({btnStyle, btnText, handleOnClick, disabled}: MyButtonProps) => {
 
     return (
-        <button className={btnStyle} onClick={(e) => handleOnClick(e)}>
+        <button className={btnStyle} onClick={(e) => handleOnClick(e)} disabled={disabled}>
             <span>
                 {btnText}
             </span>
