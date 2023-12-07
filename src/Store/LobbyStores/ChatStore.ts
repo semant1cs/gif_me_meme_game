@@ -4,7 +4,7 @@ import {
     collection,
     doc,
     DocumentData,
-    getDoc,
+    getDoc, getDocs,
     QueryDocumentSnapshot,
     serverTimestamp
 } from "firebase/firestore";
@@ -57,16 +57,24 @@ class ChatStore {
     }
 
     async getUserInfoById(userId: string) {
+        let user = undefined
         if (authStore.dataBase) {
-            await getDoc(doc(authStore.dataBase, "users", userId)).then(r => {
-                    this.setUserInfo({
-                        id: userId,
-                        photoURL: r.data()?.photoURL,
-                        displayName: r.data()?.nickname
-                    })
+            await getDocs(collection(authStore.dataBase, "users")).then(snap => {
+                    if (snap.docs.length > 0) {
+                        snap.docs.forEach(doc => {
+                            if (doc.data().id === userId) {
+                                user = {
+                                    id: userId,
+                                    photoURL: doc.data()?.photoURL,
+                                    displayName: doc.data()?.nickname
+                                }
+                            }
+                        })
+                    }
                 }
             )
         }
+        return user
     }
 }
 

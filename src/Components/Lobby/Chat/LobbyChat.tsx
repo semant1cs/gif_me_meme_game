@@ -5,6 +5,7 @@ import chatStore from "../../../Store/LobbyStores/ChatStore";
 import {IMessageType} from "../../../Types/MessageType.ts";
 import authStore from "../../../Store/AuthStore";
 import {collection, limit, onSnapshot, orderBy, query} from "firebase/firestore";
+import {IUserInfo} from "../../../Types/UserInfo.ts";
 
 const LobbyChat: React.FC = observer(() => {
     const [messages, setMessages] = useState<IMessageType[]>([])
@@ -14,20 +15,23 @@ const LobbyChat: React.FC = observer(() => {
             const q = query(collection(authStore.dataBase, "usersChat"), orderBy("createdAt"), limit(100))
 
             return onSnapshot(q, (QuerySnapshot) => {
-
                 const fetchedMessages: IMessageType[] = [];
                 QuerySnapshot.forEach((doc) => {
-                    chatStore.getUserInfoById(doc.data().userId).then()
-                    fetchedMessages.push({
-                        id: doc.data().uid,
-                        userId: doc.data()?.userId,
-                        text: doc.data().text,
-                        createdAt: doc.data().createdAt,
-                        photoURL: chatStore.userInfo?.photoURL,
-                        displayName: chatStore.userInfo?.displayName,
+                    chatStore.getUserInfoById(doc.data().userId).then((data: IUserInfo | undefined) => {
+                        fetchedMessages.push({
+                            id: doc.data().uid,
+                            userId: doc.data()?.userId,
+                            text: doc.data().text,
+                            createdAt: doc.data().createdAt,
+                            photoURL: data?.photoURL,
+                            displayName: data?.displayName,
+                        })
+                        if (fetchedMessages.length !== 0) {
+                            setMessages(fetchedMessages)
+                        }
                     })
                 });
-                setMessages(fetchedMessages)
+
             })
         }
     }, [])
