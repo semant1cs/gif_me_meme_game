@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {observer} from "mobx-react-lite";
 import MyButton from "../../../UI/MyButton";
 import lobbyStore from "../../../Store/LobbyStores/LobbyStore";
@@ -15,17 +15,18 @@ import gameStore from "../../../Store/GameStores/GameStore.ts";
 const LobbyLobbies: React.FC = observer(() => {
     const navigate = useNavigate()
     const [currentLobbies, setCurrentLobbies] = useState<ILobbyType[]>([])
+    // const [isStartButtonEnabled, setIsStartButtonEnabled] = useState(false)
 
-    const handleOnLobbyExistsUsers = useCallback(() => {
-        let isEnabled = false
-        lobbyStore.getCurrentUserLobby().then(lobby => {
-            if (lobby?.players) {
-                isEnabled = lobby.players.length > 1
-                return isEnabled
-            }
-        })
-        return true
-    }, [])
+    // const handleOnLobbyExistsUsers = useCallback(() => {
+    //     let isEnabled = false
+    //     lobbyStore.getCurrentUserLobby().then(lobby => {
+    //         if (lobby?.players) {
+    //             isEnabled = lobby.players.length > 1
+    //             return isEnabled
+    //         }
+    //     })
+    //     return true
+    // }, [])
 
     useEffect(() => {
         lobbyStore.getUserLobbyInfo().then()
@@ -66,6 +67,10 @@ const LobbyLobbies: React.FC = observer(() => {
         }
     }, [])
 
+    // useEffect(() => {
+    //     setIsStartButtonEnabled(handleOnLobbyExistsUsers())
+    // }, []);
+
     return (
         <section className="lobby__lobbies">
             {
@@ -89,7 +94,7 @@ const LobbyLobbies: React.FC = observer(() => {
                                           gameStore.startGame().then()
 
                                       }}
-                                      disabled={() => handleOnLobbyExistsUsers()}
+                                      disabled={false}
                             />
                             : ""
                     }
