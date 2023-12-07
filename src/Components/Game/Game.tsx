@@ -10,7 +10,6 @@ import GameSendAnswersStage from "./GameStages/Answer/GameSendAnswersStage";
 import GameSendReactionStage from "./GameStages/Reaction/GameSendReactionStage";
 import GameWaitingAfterSendAnswer from "./GameStages/Answer/GameWaitingAfterSendAnswer";
 import GameEnd from "./GameStages/GameEnd";
-import Lobby from "../Lobby/Lobby";
 import GameIdeaProposalStage from "./GameStages/Situation/GameIdeaProposalStage";
 import answerStore from "../../Store/GameStores/AnswerStore";
 import GameWaitingAfterSendReaction from "./GameStages/Reaction/GameWaitingAfterSendReaction";
@@ -21,16 +20,20 @@ import GameReactionInstruction from "./GameStages/Reaction/GameReactionInstructi
 const Game: React.FC = observer(() => {
 
     useEffect(() => {
-        gameStore.getCurrentUserStage().then(() =>
-            gameStore.setCurrentUserLobby()
+        gameStore.getCurrentUserStage()
+            .then(() => gameStore.setCurrentUserLobby()
                 .then(() => situationStore.getSituations()
                     .then(() => answerStore.getAllLobbySituationAnswers()
-                        .then(() => reactionStore.calculateUsersPoints()))))
+                        .then(() => reactionStore.calculateUsersPoints()
+                        )
+                    )
+                )
+            )
+
         gameStore.setNullLocalVariables()
     }, [])
 
-    function getCurrentStage(stage: string): JSX.Element {
-
+    function getCurrentStage(stage: string): JSX.Element | null {
         switch (stage) {
             case "IdeaPropose":
                 return (<GameIdeaProposalStage/>)
@@ -51,7 +54,7 @@ const Game: React.FC = observer(() => {
             case "GameEnd":
                 return (<GameEnd/>)
             default:
-                return (<Lobby/>)
+                return (null)
         }
     }
 

@@ -16,7 +16,7 @@ const WindowChooseGif: React.FC = observer(() => {
     }, [debounce])
 
     return (
-        <div className="window">
+        <div className={`window ${!answerStore.canChooseGif || answerStore.userSelectedGif ? "window__gif" : ""}`}>
             {
                 answerStore.canChooseGif
                     ?

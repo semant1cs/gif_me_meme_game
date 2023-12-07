@@ -109,24 +109,27 @@
 
 .window {
   width: 100%;
-  height: 100%;
+  height: fit-content;
+  padding: $smallestPadding;
   @extend %flex;
+}
+
+.window__gif{
+  padding: 0 !important;
+  height: 100% !important;
 }
 
 .window__block {
   width: 100%;
-  height: 100%;
-  padding: $bigPadding $smallestPadding $smallestPadding;
+  height: fit-content;
   position: relative;
 }
 
 .window__search {
-  position: fixed;
   width: 100%;
   height: 35px;
   @extend %flex;
-  margin-bottom: $smallestMargin;
-  top: 111px;
+  margin-bottom: $smallMargin;
 }
 
 .window__search-input {

@@ -27,7 +27,8 @@ const GameSendAnswersStage: React.FC = observer(() => {
                 <WindowChooseGif/>
             </div>
             <div className="answers__bottom">
-                <MyTimer seconds={60}/>
+                <MyTimer seconds={30}
+                         handleOnTimerEnd={() => answerStore.sendAnswer()}/>
                 {
                     answerStore.userSelectedGif
                         ?
@@ -41,7 +42,7 @@ const GameSendAnswersStage: React.FC = observer(() => {
                         ?
                         <MyButton btnText=""
                                   btnStyle="answers__button"
-                                  handleOnClick={() => answerStore.sendAnswer().then()}/>
+                                  handleOnClick={() => answerStore.sendAnswer()}/>
                         : ""
                 }
             </div>
