@@ -13,9 +13,6 @@ import {FirebaseStorage} from "firebase/storage";
 
 class UserStore {
     userAuthNickName: string = "";
-    userAuthEmail: string = "";
-    userAuthPassword: string = "";
-    userAuthShowPassword: boolean = false;
     dataBase: Firestore | null = null;
     storage: FirebaseStorage | null = null;
 
@@ -95,18 +92,6 @@ class UserStore {
 
     changeUserAuthNickname(nickname: string) {
         this.userAuthNickName = nickname
-    }
-
-    changeUserAuthEmail(email: string) {
-        this.userAuthEmail = email
-    }
-
-    changeUserAuthPassword(password: string) {
-        this.userAuthPassword = password
-    }
-
-    changeUserAuthShowPassword() {
-        this.userAuthShowPassword = !this.userAuthShowPassword
     }
 
     changeNickname(newNickname: string) {
