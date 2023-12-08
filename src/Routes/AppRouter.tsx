@@ -1,6 +1,6 @@
 import React from 'react';
 import {Routes, Route, Navigate, useLocation} from "react-router-dom";
-import Auth from "../Components/Authentication/Auth";
+import AuthenticationPage from "../Components/Authentication/AuthenticationPage.tsx";
 import Register from "../Components/Authentication/Register";
 import WelcomePage from "../Components/WelcomePage/WelcomePage";
 import {IRouteType} from "../Types/RouteType.ts";
@@ -17,7 +17,7 @@ const AppRouter: React.FC = () => {
         },
         {
             path: "/login",
-            element: <Auth/>
+            element: <AuthenticationPage/>
         },
         {
             path: "/register",

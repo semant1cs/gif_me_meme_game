@@ -57,14 +57,14 @@ class UserStore {
             })
     }
 
-    async register() {
+    async register(userNickname: string, userAuthEmail: string, userAuthPassword: string) {
         const auth = getAuth();
 
-        await createUserWithEmailAndPassword(auth, this.userAuthEmail, this.userAuthPassword)
+        await createUserWithEmailAndPassword(auth, userAuthEmail, userAuthPassword)
             .then(() => {
                 const user = auth.currentUser
                 if (user)
-                    updateProfile(user, {displayName: this.userAuthNickName}).then()
+                    updateProfile(user, {displayName: userNickname}).then()
             })
             .then(() => this.addNewUserToDB())
             .catch((error) => {
