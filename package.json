@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "npm link gulp && vite",
     "build": "tsc && vite build",
     "lint": "eslint gif_me_meme_game --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",

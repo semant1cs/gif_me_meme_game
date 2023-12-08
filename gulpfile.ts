@@ -1,6 +1,6 @@
-function defaultTask(cb) {
+function defaultTask() {
     // какое-то действие
-    cb();
+    console.log('gulp запущен');
 }
 
 exports.default = defaultTask
