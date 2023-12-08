@@ -19,6 +19,8 @@ const Auth: React.FC = observer(() => {
     const handleOnClickLoginButton = useCallback((userAuthEmail: string, userAuthPassword: string) => {
         if (userAuthEmail && userAuthPassword)
             authStore.signIn(userAuthEmail, userAuthPassword).then(() => navigate("/lobby"))
+        else if (!userAuthEmail) alert("Введите имя пользователя")
+        else if (!userAuthPassword) alert("Введите пароль")
     }, [])
 
     const handleOnChangeEmail = useCallback((e: React.FormEvent<HTMLInputElement>) => {
