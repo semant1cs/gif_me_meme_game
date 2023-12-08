@@ -1,7 +1,6 @@
 import React from 'react';
-import {Routes, Route, Navigate, useLocation} from "react-router-dom";
+import {Navigate, Route, Routes, useLocation} from "react-router-dom";
 import AuthenticationPage from "../Components/Authentication/AuthenticationPage.tsx";
-import Register from "../Components/Authentication/Register";
 import WelcomePage from "../Components/WelcomePage/WelcomePage";
 import {IRouteType} from "../Types/RouteType.ts";
 import {getAuth} from "firebase/auth";
@@ -18,10 +17,6 @@ const AppRouter: React.FC = () => {
         {
             path: "/login",
             element: <AuthenticationPage/>
-        },
-        {
-            path: "/register",
-            element: <Register/>,
         }
     ]
 

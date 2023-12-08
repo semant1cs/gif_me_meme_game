@@ -91,7 +91,7 @@ const AuthenticationPage: React.FC = observer(() => {
         <main className="auth">
             <div className="auth__container container">
                 <div className="auth__main">
-                    {getCurrentStage("register")}
+                    {getCurrentStage("login")}
                 </div>
             </div>
         </main>
