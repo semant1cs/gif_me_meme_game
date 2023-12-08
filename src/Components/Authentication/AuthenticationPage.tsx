@@ -15,7 +15,7 @@ const AuthenticationPage: React.FC = observer(() => {
     const [userAuthEmail, setUserAuthEmail] = useState("")
     const [userAuthPassword, setUserAuthPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
-    const [stageAuthentication, setStageAuthentication] = useState("login")
+    // const [stageAuthentication, setStageAuthentication] = useState("login")
 
 
     const handleOnClickLoginButton = useCallback((userAuthEmail: string, userAuthPassword: string) => {
