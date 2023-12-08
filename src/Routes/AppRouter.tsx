@@ -17,7 +17,7 @@ const AppRouter: React.FC = () => {
         {
             path: "/login",
             element: <AuthenticationPage/>
-        }
+        },
     ]
 
     const privateRoutes: IRouteType[] = [

@@ -15,7 +15,7 @@ const AuthenticationPage: React.FC = observer(() => {
     const [userAuthEmail, setUserAuthEmail] = useState("")
     const [userAuthPassword, setUserAuthPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
-    // const [stageAuthentication, setStageAuthentication] = useState("login")
+    const [stageAuthentication, setStageAuthentication] = useState("login")
 
 
     const handleOnClickLoginButton = useCallback((userAuthEmail: string, userAuthPassword: string) => {
@@ -46,6 +46,10 @@ const AuthenticationPage: React.FC = observer(() => {
         setShowPassword(!showPassword)
     }, [showPassword])
 
+    const setStageAuthenticationHandler = useCallback((stage: string) => {
+        setStageAuthentication(stage)
+    }, [])
+
     useEffect(() => {
         // Автовход в сессию
         onAuthStateChanged(auth, (user) => {
@@ -67,6 +71,7 @@ const AuthenticationPage: React.FC = observer(() => {
                         showPassword={showPassword}
                         handleOnChangeShowPassword={handleOnChangeShowPassword}
                         handleOnClickLoginButton={handleOnClickLoginButton}
+                        changeStageAuthenticationHandler={setStageAuthenticationHandler}
                     />
                 )
             case "register":
@@ -81,6 +86,7 @@ const AuthenticationPage: React.FC = observer(() => {
                         showPassword={showPassword}
                         handleOnChangeShowPassword={handleOnChangeShowPassword}
                         handleOnClickRegisterButton={handleOnRegister}
+                        changeStageAuthenticationHandler={setStageAuthenticationHandler}
                     />
                 )
         }
@@ -88,13 +94,10 @@ const AuthenticationPage: React.FC = observer(() => {
 
 
     return (
-        <main className="auth">
-            <div className="auth__container container">
-                <div className="auth__main">
-                    {getCurrentStage("login")}
-                </div>
-            </div>
-        </main>
+        <div>
+            {getCurrentStage(stageAuthentication)}
+        </div>
+
     )
 })
 
