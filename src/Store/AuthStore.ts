@@ -43,12 +43,12 @@ class UserStore {
         });
     }
 
-    async signIn() {
+    async signIn(userAuthEmail: string, userAuthPassword: string) {
         const auth = getAuth();
 
         setPersistence(auth, browserSessionPersistence)
             .then(() => {
-                return signInWithEmailAndPassword(auth, this.userAuthEmail, this.userAuthPassword)
+                return signInWithEmailAndPassword(auth, userAuthEmail, userAuthPassword)
                     .catch((error) => {
                         const errorCode = error.code;
                         const errorMessage = error.message;
