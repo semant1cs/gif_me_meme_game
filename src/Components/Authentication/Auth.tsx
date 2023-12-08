@@ -34,35 +34,34 @@ const Auth: React.FC<IAuthProps> =
             <main className="auth">
                 <div className="auth__container container">
                     <div className="auth__main">
-                        <div>
-                            <h2>
-                                Авторизуйтесь, чтобы начать играть
-                            </h2>
-                            <div className="auth__inputs">
-                                <MyInput style="auth__email" placeholder="email" type="email"
-                                         handleOnChange={handleOnChangeEmail}
-                                         value={userAuthEmail}
+
+                        <h2>
+                            Авторизуйтесь, чтобы начать играть
+                        </h2>
+                        <div className="auth__inputs">
+                            <MyInput style="auth__email" placeholder="email" type="email"
+                                     handleOnChange={handleOnChangeEmail}
+                                     value={userAuthEmail}
+                            />
+                            <div className="auth__passwordBlock">
+                                <MyInput style="auth__password" placeholder="пароль"
+                                         type={showPassword ? "text" : "password"}
+                                         handleOnChange={handleOnChangePassword}
+                                         value={userAuthPassword}
                                 />
-                                <div className="auth__passwordBlock">
-                                    <MyInput style="auth__password" placeholder="пароль"
-                                             type={showPassword ? "text" : "password"}
-                                             handleOnChange={handleOnChangePassword}
-                                             value={userAuthPassword}
-                                    />
-                                    <span onClick={handleOnChangeShowPassword}>
+                                <span onClick={handleOnChangeShowPassword}>
                                 <ShowPasswordIcon/>
                             </span>
-                                </div>
                             </div>
-                            <div className="auth__bottom">
-                                <MyButton btnText="Войти" btnStyle="auth__login"
-                                          handleOnClick={() => handleOnClickLoginButton(userAuthEmail, userAuthPassword)}/>
-                                <p>
-                                    или
-                                </p>
-                                <MyButton btnText="Создать аккаунт" btnStyle="auth__create"
-                                          handleOnClick={onHandleChangeStageAuthentication}/>
-                            </div>
+                        </div>
+                        <div className="auth__bottom">
+                            <MyButton btnText="Войти" btnStyle="auth__login"
+                                      handleOnClick={() => handleOnClickLoginButton(userAuthEmail, userAuthPassword)}/>
+                            <p>
+                                или
+                            </p>
+                            <MyButton btnText="Создать аккаунт" btnStyle="auth__create"
+                                      handleOnClick={onHandleChangeStageAuthentication}/>
                         </div>
                     </div>
                 </div>
