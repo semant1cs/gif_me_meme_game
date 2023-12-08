@@ -15,7 +15,6 @@
     "axios": "^1.5.1",
     "firebase": "^10.4.0",
     "gsap": "^3.12.2",
-    "gulp": "^4.0.2",
     "lazy": "^1.0.11",
     "mobx": "^6.10.2",
     "mobx-react-lite": "^4.0.5",
@@ -37,6 +36,7 @@
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
+    
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
   }
